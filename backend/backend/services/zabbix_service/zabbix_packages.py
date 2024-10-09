@@ -1,3 +1,8 @@
+"""
+When you are not sure flip a coin,
+    when the coin is in the air you realize which option you actually hoping for.
+"""
+
 import logging
 
 from pyzabbix import ZabbixAPI, ZabbixAPIException
