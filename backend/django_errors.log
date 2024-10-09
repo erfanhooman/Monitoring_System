@@ -1,0 +1,59 @@
+INFO 2024-10-09 07:26:38,883 zabbix_packages item with host id not found: item:vfs.fs.size[/,free], host_id10084
+ERROR 2024-10-09 07:26:38,883 zabbix_packages item with host id not found item:vfs.fs.size[/,free] : host_id:10084
+INFO 2024-10-09 07:30:58,113 zabbix_packages item with host id not found: item:vfs.fs.size[/,pfree], host_id10084
+ERROR 2024-10-09 07:30:58,113 zabbix_packages item with host id not found item:vfs.fs.size[/,pfree] : host_id:10084
+INFO 2024-10-09 07:31:41,175 zabbix_packages item with host id not found: item:net.if.in[eth0], host_id10084
+ERROR 2024-10-09 07:31:41,175 zabbix_packages item with host id not found item:net.if.in[eth0] : host_id:10084
+INFO 2024-10-09 07:32:31,688 zabbix_packages item with host id not found: item:net.if.in[nekoray-tun], host_id10084
+ERROR 2024-10-09 07:32:31,688 zabbix_packages item with host id not found item:net.if.in[nekoray-tun] : host_id:10084
+WARNING 2024-10-09 07:40:57,642 zabbix_packages Zabbix login failed: ('Error -32500: Application error., Incorrect user name or password or account is temporarily blocked.', -32500)
+WARNING 2024-10-09 07:47:42,687 zabbix_packages Zabbix login failed: ('Error -32602: Invalid params., Incorrect user name or password or account is temporarily blocked.', -32602)
+WARNING 2024-10-09 07:48:04,494 zabbix_packages Zabbix login failed: ('Error -32602: Invalid params., Incorrect user name or password or account is temporarily blocked.', -32602)
+ERROR 2024-10-09 07:48:19,626 zabbix_packages Invalid URL 'http:///zabbix/api_jsonrpc.php': No host supplied
+ERROR 2024-10-09 07:48:52,624 zabbix_packages Invalid URL 'http:///zabbix/api_jsonrpc.php': No host supplied
+ERROR 2024-10-09 07:49:32,520 zabbix_packages Invalid URL 'http:///zabbix/api_jsonrpc.php': No host supplied
+ERROR 2024-10-09 07:50:08,368 zabbix_packages Invalid URL 'http:///zabbix/api_jsonrpc.php': No host supplied
+ERROR 2024-10-09 07:51:03,321 zabbix_packages Invalid URL 'http:///zabbix/api_jsonrpc.php': No host supplied
+ERROR 2024-10-09 07:52:25,621 zabbix_packages HTTPConnectionPool(host='abc', port=80): Max retries exceeded with url: /zabbix/api_jsonrpc.php (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x7f2bede52f90>: Failed to resolve 'abc' ([Errno -2] Name or service not known)"))
+ERROR 2024-10-09 07:53:46,121 zabbix_packages HTTPConnectionPool(host='abc', port=80): Max retries exceeded with url: /zabbix/api_jsonrpc.php (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x7f6b78b31f10>: Failed to resolve 'abc' ([Errno -2] Name or service not known)"))
+ERROR 2024-10-09 07:54:38,621 zabbix_packages HTTPConnectionPool(host='abc', port=80): Max retries exceeded with url: /zabbix/api_jsonrpc.php (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x7f6bcace3800>: Failed to resolve 'abc' ([Errno -2] Name or service not known)"))
+ERROR 2024-10-09 07:55:25,121 zabbix_packages HTTPConnectionPool(host='abc', port=80): Max retries exceeded with url: /zabbix/api_jsonrpc.php (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x7fe13e3318b0>: Failed to resolve 'abc' ([Errno -2] Name or service not known)"))
+ERROR 2024-10-09 07:58:16,121 zabbix_packages HTTPConnectionPool(host='abc', port=80): Max retries exceeded with url: /zabbix/api_jsonrpc.php (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x7f5a9c9381d0>: Failed to resolve 'abc' ([Errno -2] Name or service not known)"))
+ERROR 2024-10-09 08:05:46,621 zabbix_packages HTTPConnectionPool(host='abc', port=80): Max retries exceeded with url: /zabbix/api_jsonrpc.php (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x7fabc91a17c0>: Failed to resolve 'abc' ([Errno -2] Name or service not known)"))
+ERROR 2024-10-09 08:06:27,621 zabbix_packages HTTPConnectionPool(host='abc', port=80): Max retries exceeded with url: /zabbix/api_jsonrpc.php (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x7f524595d0a0>: Failed to resolve 'abc' ([Errno -2] Name or service not known)"))
+ERROR 2024-10-09 08:06:34,121 zabbix_packages HTTPConnectionPool(host='abc', port=80): Max retries exceeded with url: /zabbix/api_jsonrpc.php (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x7f5245ad2120>: Failed to resolve 'abc' ([Errno -2] Name or service not known)"))
+INFO 2024-10-09 08:08:10,871 zabbix_packages Failed to connect to Zabbix
+INFO 2024-10-09 08:09:57,371 zabbix_packages Failed to connect using this url: http://ABC/zabbix/api_jsonrpc.php
+INFO 2024-10-09 08:10:08,121 zabbix_packages Failed to connect using this url: http://ABC/zabbix/api_jsonrpc.php
+INFO 2024-10-09 08:10:21,621 zabbix_packages Failed to connect using this url: http://ABC/zabbix/api_jsonrpc.php
+INFO 2024-10-09 08:11:00,371 zabbix_packages Failed to connect using this url: http://ABC/zabbix/api_jsonrpc.php
+WARNING 2024-10-09 08:11:08,622 zabbix_packages Zabbix login failed: ('Error -32602: Invalid params., Incorrect user name or password or account is temporarily blocked.', -32602)
+ERROR 2024-10-09 08:12:37,306 zabbix_packages name 'hot' is not defined
+INFO 2024-10-09 08:14:11,351 zabbix_packages item with host id not found: item:system.cpu.load[al,avg15], host_id10084
+ERROR 2024-10-09 08:14:11,352 zabbix_packages item with host id not found item:system.cpu.load[al,avg15] : host_id:10084
+INFO 2024-10-09 08:15:26,857 zabbix_packages item with host id not found: item:vm.emory.size[available], host_id10084
+ERROR 2024-10-09 08:15:26,857 zabbix_packages item with host id not found item:vm.emory.size[available] : host_id:10084
+INFO 2024-10-09 08:15:43,612 zabbix_packages item with host id not found: item:vm.emory.size[available], host_id10084
+ERROR 2024-10-09 08:15:43,612 zabbix_packages item with host id not found item:vm.emory.size[available] : host_id:10084
+ERROR 2024-10-09 08:16:37,927 zabbix_packages item with host id not found item:vm.emory.size[available] : host_id:10084
+INFO 2024-10-09 08:18:39,447 zabbix_packages Host name don't find: Test
+ERROR 2024-10-09 08:18:39,447 zabbix_packages Host name don't find:Test
+INFO 2024-10-09 08:19:07,045 zabbix_packages Host name don't find: Test
+INFO 2024-10-09 08:19:24,707 zabbix_packages Host name don't find: Test
+ERROR 2024-10-09 08:19:24,707 zabbix_packages Host name don't find:Test
+INFO 2024-10-09 08:20:13,042 zabbix_packages Host name don't find: Test
+ERROR 2024-10-09 08:20:13,042 zabbix_packages Host name don't find:Test
+INFO 2024-10-09 08:20:21,382 zabbix_packages Host name don't find: Test
+ERROR 2024-10-09 08:20:21,382 zabbix_packages Host name don't find:Test
+INFO 2024-10-09 08:20:28,539 zabbix_packages Host name don't find: Test
+ERROR 2024-10-09 08:20:28,539 zabbix_packages Host name don't find:Test
+INFO 2024-10-09 08:20:43,376 zabbix_packages Host name don't find: Test
+ERROR 2024-10-09 08:20:43,376 zabbix_packages Host name don't find:Test
+INFO 2024-10-09 08:20:49,977 zabbix_packages Host name don't find: Test
+ERROR 2024-10-09 08:20:49,977 zabbix_packages Host name don't find:Test
+ERROR 2024-10-09 08:23:04,215 zabbix_packages Host name don't find:Test
+ERROR 2024-10-09 08:23:10,744 zabbix_packages Host name don't find:Test
+INFO 2024-10-09 08:24:10,990 zabbix_packages Host name don't find: Test
+INFO 2024-10-09 08:24:21,092 zabbix_packages Host name don't find: Test
+INFO 2024-10-09 08:24:30,482 zabbix_packages Host name don't find: Test
+INFO 2024-10-09 08:24:34,582 zabbix_packages Host name don't find: Test
