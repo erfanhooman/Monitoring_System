@@ -1,11 +1,62 @@
 {
-    "net.if.in": {
+  "net.if.in": {
     "name": "Bits received",
     "description": "refers to the number of bits received on the network interface"
   },
-    "net.if.out": {
+  "net.if.out": {
     "name": "Bits sent",
     "description": "refers to the number of bits sent (outgoing traffic) on the network interface"
+  },
+  "net.if.in.dropped": {
+    "name": "Inbound packets discarded",
+    "description": "Refers to the number of inbound packets that have been discarded on the network interface.",
+    "value": {
+      "normal": 1,
+      "warning": 10
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Investigate the cause of the dropped packets, Check for network congestion, buffer sizes, or misconfigured settings, Analyze traffic patterns to identify potential bottlenecks.",
+      "critical": "Immediately diagnose and resolve the issue, Check for overloaded interfaces or high traffic volumes, Consider adjusting network configurations (e.g., increasing buffer sizes), Review the network infrastructure (e.g., switches, routers) for potential failures or misconfigurations."
+    }
+  },
+  "net.if.in.errors": {
+    "name": "Inbound packets errors",
+    "description": "Refers to the number of inbound packets that have encountered errors on the network interface.",
+    "value": {
+      "normal": 1,
+      "warning": 2
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Investigate the source of the errors, Check the physical layer for issue, Look for network congestion or misconfigured devices that could cause errors, Review logs for any related errors or anomalies",
+      "critical": "Take immediate action to diagnose the issue, Check for hardware failures, Assess network configurations and make necessary adjustments, If using a VPN or tunneling, ensure that the configuration is correct and that there are no bandwidth or latency issues affecting performance, Consider switching to different network paths or hardware if persistent problems occur."
+    }
+  },
+  "net.if.out.dropped": {
+    "name": "Outbound packets discarded",
+    "description": "Refers to the number of outbound packets that have been discarded on the network interface.",
+    "value": {
+      "normal": 1,
+      "warning": 2
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Investigate the cause of the discarded packets, Check for network congestion or overloaded interfaces, Look into the configuration of the network interface and devices.",
+      "critical": "Diagnose the issue immediately, Assess hardware performance and check for potential failures, Review and adjust buffer sizes, if applicable, to handle traffic more effectively, Check for network configuration errors that might contribute to packet loss, Consider implementing QoS (Quality of Service) policies to prioritize important traffic."
+    }
+  },
+  "net.if.out.errors": {
+    "name": "Outbound packets errors",
+    "description": "Refers to the number of Outbound packets that have encountered errors on the network interface.",
+    "value": {
+      "normal": 1,
+      "warning": 2
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Investigate the source of the errors, Check the physical layer for issue, Look for network congestion or misconfigured devices that could cause errors, Review logs for any related errors or anomalies",
+      "critical": "Take immediate action to diagnose the issue, Check for hardware failures, Assess network configurations and make necessary adjustments, If using a VPN or tunneling, ensure that the configuration is correct and that there are no bandwidth or latency issues affecting performance, Consider switching to different network paths or hardware if persistent problems occur."
+    }
   }
-
 }

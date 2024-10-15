@@ -122,14 +122,16 @@ class SystemDetailView(APIView):
             if item.split(".")[1] in ['dev']:
                 item_config = '.'.join(item.split('[')[:-1])
             elif item.split(".")[1] in ['if']:
-                parts = item.split('[')
-                prefix = parts[0]
-                inner_content = parts[1].rstrip(']').split(',')
-                item_config = f"{prefix}[{inner_content[1].strip()}]"
+                base_item = item.split("[")[0]
+                inner_content = item[item.index("[") + 1:item.index("]")]
+                inner_parts = inner_content.split(",")
+
+                if len(inner_parts) == 1:
+                    item_config = base_item
+                else:
+                    item_config = base_item + "." + inner_parts[1].strip()
             else:
                 item_config = item
-
-            print(item_config, 1111111)
 
             data[config[item_config]['name']] = {
                 'description': config[item_config]['description'],
@@ -141,12 +143,20 @@ class SystemDetailView(APIView):
         for item, item_info in metric_data.items():
             last_value = float(item_info[0]['lastvalue'])
 
-            if item.split(".")[1] == 'dev':
+            if item.split(".")[1] in ['dev']:
                 item_config = '.'.join(item.split('[')[:-1])
+            elif item.split(".")[1] in ['if']:
+                base_item = item.split("[")[0]
+                inner_content = item[item.index("[") + 1:item.index("]")]
+                inner_parts = inner_content.split(",")
+
+                if len(inner_parts) == 1:
+                    item_config = base_item
+                else:
+                    item_config = base_item + "." + inner_parts[1].strip()
             else:
                 item_config = item
 
-            print(item_config, 1111111)
             item_status = self.get_status(item_config, last_value, config[item_config]['value']['normal'],
                                           config[item_config]['value']['warning'])
 
@@ -351,6 +361,13 @@ class DiskDetailView(SystemDetailView):
 
 
 class NetworkInterfaceDetailView(SystemDetailView):
+    STATUS_FUNCTIONS = {
+        'net.if.in.dropped': sc.main_status,
+        'net.if.in.errors': sc.main_status,
+        'net.if.out.dropped': sc.main_status,
+        'net.if.out.errors': sc.main_status,
+    }
+
     config_file = 'networkinterface_config.json'
 
     def get_interfaces(self):
@@ -366,9 +383,13 @@ class NetworkInterfaceDetailView(SystemDetailView):
             for interface in interfaces:
                 general_items = [
                     f'net.if.in["{interface}"]',
-                    f'net.if.out["{interface}"]'
+                    f'net.if.out["{interface}"]',
                 ]
                 metric_items = [
+                    f'net.if.in["{interface}",dropped]',
+                    f'net.if.in["{interface}",errors]',
+                    f'net.if.out["{interface}",dropped]',
+                    f'net.if.out["{interface}",errors]',
                 ]
 
                 interface_data = self.get_data(general_items, metric_items, config)
