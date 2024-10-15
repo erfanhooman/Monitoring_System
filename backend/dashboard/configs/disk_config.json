@@ -1,0 +1,89 @@
+{
+  "vfs.dev.queue_size": {
+    "name": "Average queue size",
+    "description": "Represents the number of I/O requests that are waiting to be processed by the device",
+    "value": {
+      "normal": 1,
+      "warning": 5
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Check if certain applications are causing increased I/O, Consider optimizing database queries or application logic that may be generating high I/O.",
+      "critical": "Identify processes consuming excessive I/O, Distribute workloads across multiple storage devices if possible, consider upgrading to faster NVMe drives or increasing storage capacity."
+    }
+  },
+  "vfs.dev.read.await": {
+    "name": "Read request avg wait time",
+    "description": "Represents the average wait time for read operations on devices, It measures how long I/O operations are waiting in the queue before being processed by the storage device.",
+    "value": {
+      "normal": 10,
+      "warning": 50
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Check if the workload is temporarily high. If so, monitor for potential spikes, Analyze and optimize applications that access the storage, Investigate other system resources (CPU, memory) to ensure they're not causing indirect delays, If the workload is consistently high, consider scaling up the storage or adding more devices.",
+      "critical": "Check for any ongoing operations that might be causing delays, Look at CPU, memory, and network usage. High usage can affect I/O performance, Ensure that the storage device is properly configured and has the latest firmware, If issues persist, evaluate the need for faster storage solutions"
+    }
+  },
+  "vfs.dev.read.time.rate": {
+    "name": "Disk read rate (ms)",
+    "description": "Represents the rate at which read operations are performed on the devices, It typically measures the amount of time spent on read I/O operations over a given interval, often reported in milliseconds.",
+    "value": {
+      "normal": 10,
+      "warning": 50
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Determine if there are temporary spikes in workload, Review and optimize applications that perform high read operations, Look at CPU and memory usage; high resource utilization can affect read times, If multiple applications are using the same storage, try to distribute the load.",
+      "critical": "Identify processes causing delays and check for any heavy read operations, Ensure that CPU, memory, and network aren't bottlenecking the performance, Ensure the NVMe device is properly configured and has the latest firmware, If issues persist, consider upgrading to faster drives or expanding storage solutions, Look for signs of potential hardware failure or problems with the storage device."
+    }
+  },
+  "vfs.dev.write.await": {
+    "name": "Write request avg wait time",
+    "description": "Represents the average wait time for write operations on devices, It measures how long I/O operations are waiting in the queue before being processed by the storage device.",
+    "value": {
+      "normal": 10,
+      "warning": 50
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Check if the workload is temporarily high. If so, monitor for potential spikes, Analyze and optimize applications that access the storage, Investigate other system resources (CPU, memory) to ensure they're not causing indirect delays, If the workload is consistently high, consider scaling up the storage or adding more devices.",
+      "critical": "Check for any ongoing operations that might be causing delays, Look at CPU, memory, and network usage. High usage can affect I/O performance, Ensure that the storage device is properly configured and has the latest firmware, If issues persist, evaluate the need for faster storage solutions"
+    }
+  },
+  "vfs.dev.write.time.rate": {
+    "name": "Disk write rate (ms)",
+    "description": "Represents the rate at which write operations are performed on the devices, It typically measures the amount of time spent on write I/O operations over a given interval, often reported in milliseconds.",
+    "value": {
+      "normal": 10,
+      "warning": 50
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Determine if there are temporary spikes in workload, Review and optimize applications that perform high read operations, Look at CPU and memory usage; high resource utilization can affect read times, If multiple applications are using the same storage, try to distribute the load.",
+      "critical": "Identify processes causing delays and check for any heavy read operations, Ensure that CPU, memory, and network aren't bottlenecking the performance, Ensure the NVMe device is properly configured and has the latest firmware, If issues persist, consider upgrading to faster drives or expanding storage solutions, Look for signs of potential hardware failure or problems with the storage device."
+    }
+  },
+  "vfs.dev.util": {
+    "name": "Disk utilization",
+    "description": "Represents the disk utilization percentage of the drive",
+    "value": {
+      "normal": 70,
+      "warning": 90
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Investigate the processes causing high disk usage, Optimizing applications that are I/O intensive, Adding more disk resources, Redistributing workloads to balance disk usage.",
+      "critical": "Immediate action is required, Identify and terminate any processes that are causing excessive disk I/O if they are non-essential, Consider upgrading to a larger or faster disk, Analyze if any logs or temporary files are consuming excessive space and clean them up, Check for hardware issues that might be causing slow response times."
+    }
+  },
+
+  "vfs.dev.read.rate": {
+    "name": "Disk read rate (w/s)",
+    "description": "measures the speed at which data is being read from the device"
+  },
+  "vfs.dev.write.rate": {
+    "name": "Disk write rate (w/s)",
+    "description": "measures the speed at which data is being write from the device"
+  }
+}

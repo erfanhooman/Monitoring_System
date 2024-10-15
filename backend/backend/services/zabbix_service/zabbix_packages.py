@@ -61,8 +61,7 @@ class ZabbixPackage(ZabbixAPIBase):
         try:
             data = self.zabbix.item.get(hostids=host_id, filter={"key_": f"{item}"})
             if not data:
-                # logger.info(f"{mt[424]}: item:{item}, host_id{host_id}")
-                raise ValueError(f"{mt[424]} item:{item} : host_id:{host_id}")  # Item for this host id not found
+                logger.info(f"{mt[424]}: item:{item}, host_id{host_id}")
             return data
         except ZabbixAPIException as e:
             logger.warning(f"{mt[425]}: {str(e)}")
@@ -71,13 +70,12 @@ class ZabbixPackage(ZabbixAPIBase):
             logger.error(f"{str(e)}")
             raise ConnectionError(f"{mt[503]}")  # internal get item error
 
-    def get_item_history(self, item_id, history=0, limit=25):
+    def get_item_history(self, item_id, history=0, limit=10):
         try:
             item = self.zabbix.history.get(itemids=item_id, history=history, limit=limit, sortfield="clock",
                                            sortorder="DESC")
             if not item:
                 logger.info(f"{mt[426]}: item:{item_id}")
-                raise ValueError(f"{mt[426]} : {item_id}")  # there is no history error
             return item
         except ZabbixAPIException as e:
             logger.warning(f"{mt[427]}: {str(e)}")

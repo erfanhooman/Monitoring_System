@@ -57,3 +57,405 @@ INFO 2024-10-09 08:24:10,990 zabbix_packages Host name don't find: Test
 INFO 2024-10-09 08:24:21,092 zabbix_packages Host name don't find: Test
 INFO 2024-10-09 08:24:30,482 zabbix_packages Host name don't find: Test
 INFO 2024-10-09 08:24:34,582 zabbix_packages Host name don't find: Test
+ERROR 2024-10-09 09:21:43,583 zabbix_packages item with host id not found item:system.cpu.load[all,avg10] : host_id:10084
+INFO 2024-10-12 20:40:56,345 zabbix_packages no history for the item: item:42243
+ERROR 2024-10-12 20:40:56,346 zabbix_packages no history for the item : 42243
+INFO 2024-10-12 20:41:28,216 zabbix_packages no history for the item: item:42243
+ERROR 2024-10-12 20:41:28,216 zabbix_packages no history for the item : 42243
+INFO 2024-10-12 20:41:54,294 zabbix_packages no history for the item: item:42243
+ERROR 2024-10-12 20:41:54,294 zabbix_packages no history for the item : 42243
+INFO 2024-10-12 20:42:10,662 zabbix_packages no history for the item: item:42243
+ERROR 2024-10-12 20:42:10,662 zabbix_packages no history for the item : 42243
+INFO 2024-10-12 20:42:26,386 zabbix_packages no history for the item: item:42243
+ERROR 2024-10-12 20:42:26,386 zabbix_packages no history for the item : 42243
+INFO 2024-10-12 20:42:58,925 zabbix_packages no history for the item: item:42243
+ERROR 2024-10-12 20:42:58,925 zabbix_packages no history for the item : 42243
+INFO 2024-10-12 20:43:25,499 zabbix_packages no history for the item: item:42243
+ERROR 2024-10-12 20:43:25,499 zabbix_packages no history for the item : 42243
+INFO 2024-10-13 10:06:27,180 zabbix_packages no history for the item: item:42243
+ERROR 2024-10-13 10:06:27,181 zabbix_packages no history for the item : 42243
+INFO 2024-10-13 10:07:00,754 zabbix_packages no history for the item: item:42243
+ERROR 2024-10-13 10:07:00,754 zabbix_packages no history for the item : 42243
+INFO 2024-10-13 10:07:20,388 zabbix_packages no history for the item: item:42243
+ERROR 2024-10-13 10:07:20,388 zabbix_packages no history for the item : 42243
+INFO 2024-10-13 10:07:41,955 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 10:07:52,269 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 10:07:52,415 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 10:09:17,242 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 10:09:17,359 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 10:09:24,531 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 10:09:24,656 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 10:09:30,806 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 10:09:30,919 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 10:21:11,968 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 10:21:12,113 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 10:26:17,672 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 10:26:17,834 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 10:27:38,465 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 10:27:38,605 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 10:30:26,080 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 10:30:26,229 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 11:58:29,289 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 11:58:29,376 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 12:06:56,028 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 12:06:56,119 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 12:11:55,216 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 12:11:55,303 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 12:14:06,768 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 12:14:06,859 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 12:38:39,730 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 12:38:39,818 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 12:38:39,907 zabbix_packages no history for the item: item:42228
+INFO 2024-10-13 12:38:40,008 zabbix_packages no history for the item: item:42238
+INFO 2024-10-13 12:39:21,813 zabbix_packages no history for the item: item:42243
+INFO 2024-10-13 12:39:21,899 zabbix_packages no history for the item: item:42245
+INFO 2024-10-13 12:39:21,988 zabbix_packages no history for the item: item:42228
+INFO 2024-10-13 12:39:22,078 zabbix_packages no history for the item: item:42238
+ERROR 2024-10-13 13:03:15,086 zabbix_packages item with host id not found item:vfs.fs.size[/,pused : host_id:10084
+INFO 2024-10-13 13:04:08,941 zabbix_packages item with host id not found: item:vfs.fs.size[/,pused, host_id10084
+INFO 2024-10-13 13:04:09,028 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:04:09,115 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:04:56,041 zabbix_packages item with host id not found: item:vfs.fs.size[/,pused, host_id10084
+INFO 2024-10-13 13:04:56,132 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:04:56,219 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:05:22,150 zabbix_packages item with host id not found: item:vfs.fs.size[/,pused, host_id10084
+INFO 2024-10-13 13:05:22,236 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:05:22,326 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:06:15,907 zabbix_packages item with host id not found: item:vfs.fs.size[/,pused, host_id10084
+INFO 2024-10-13 13:06:15,997 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:06:16,085 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:07:00,005 zabbix_packages item with host id not found: item:vfs.fs.size[/,pused, host_id10084
+INFO 2024-10-13 13:07:00,093 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:07:00,184 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:08:04,185 zabbix_packages item with host id not found: item:vfs.fs.size[/,pused, host_id10084
+INFO 2024-10-13 13:08:04,278 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:08:04,364 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:08:52,491 zabbix_packages item with host id not found: item:vfs.fs.size[/,pused, host_id10084
+INFO 2024-10-13 13:08:52,580 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:08:52,667 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:08:58,808 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:08:58,896 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:09:45,564 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:09:45,658 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:10:11,072 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:10:11,160 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:11:00,794 zabbix_packages item with host id not found: item:vfs.fs.size[/,pused, host_id10084
+INFO 2024-10-13 13:11:00,882 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:11:00,973 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:11:07,577 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:11:07,665 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:11:21,206 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:11:21,296 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:13:38,170 zabbix_packages item with host id not found: item:['vfs.fs.inode[/,pfree]', 'vfs.fs.size[/,pused]'], host_id10084
+INFO 2024-10-13 13:13:57,911 zabbix_packages item with host id not found: item:['vfs.fs.inode[/,pfree]', 'vfs.fs.size[/,pused]'], host_id10084
+INFO 2024-10-13 13:14:10,222 zabbix_packages item with host id not found: item:['vfs.fs.inode[/,pfree]', 'vfs.fs.size[/,pused]'], host_id10084
+INFO 2024-10-13 13:14:16,732 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:14:16,819 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:14:30,976 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:14:31,062 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:14:41,426 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:14:41,513 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:14:48,727 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:14:48,816 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:26:35,102 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:26:35,122 zabbix_packages item with host id not found: item:vfs.fs.size[/,pused]vfs.fs.inode[/boot,pfree], host_id10084
+INFO 2024-10-13 13:26:35,222 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:27:17,845 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:27:17,866 zabbix_packages item with host id not found: item:vfs.fs.size[/,pused]vfs.fs.inode[/boot,pfree], host_id10084
+INFO 2024-10-13 13:27:17,966 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:27:22,662 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:27:22,683 zabbix_packages item with host id not found: item:vfs.fs.size[/,pused]vfs.fs.inode[/boot,pfree], host_id10084
+INFO 2024-10-13 13:27:22,780 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:27:28,207 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:27:28,318 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:27:35,010 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:27:35,094 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:27:41,748 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:27:41,854 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:27:47,756 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:27:47,841 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:28:06,489 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:28:06,589 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:28:44,610 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:28:44,726 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:28:50,833 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:28:50,926 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:29:22,488 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:29:22,593 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:29:54,791 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:29:54,898 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:30:58,066 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:30:58,171 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:31:04,025 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:31:04,112 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:31:28,642 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,used], host_id10084
+INFO 2024-10-13 13:31:28,746 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:31:38,372 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:31:38,459 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:31:43,180 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:31:43,286 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:31:49,490 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:31:49,582 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:32:29,580 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:32:29,685 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:33:48,013 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:33:48,117 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:34:13,676 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:34:13,780 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:34:34,998 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:34:35,106 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:34:48,479 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:34:48,591 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:35:06,017 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:35:06,130 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:55:06,291 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:55:06,397 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:55:37,042 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:55:37,150 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:55:54,277 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:55:54,387 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:56:18,616 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:56:18,724 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:56:53,009 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:56:53,116 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:57:18,333 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:57:18,441 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:57:31,860 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:57:31,976 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:57:49,631 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:57:49,739 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:58:08,649 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:58:08,759 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:58:52,329 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:58:52,440 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:58:59,516 zabbix_packages item with host id not found: item:vfs.fs.size[/,used]vfs.fs.size[/boot,total], host_id10084
+INFO 2024-10-13 13:58:59,625 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:59:31,044 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 13:59:31,144 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 13:59:31,245 zabbix_packages no history for the item: item:46857
+INFO 2024-10-13 14:00:31,268 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 14:00:31,354 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 14:00:31,444 zabbix_packages no history for the item: item:46857
+INFO 2024-10-13 14:00:31,532 zabbix_packages no history for the item: item:46860
+INFO 2024-10-13 14:00:47,106 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 14:00:47,198 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 14:00:47,290 zabbix_packages no history for the item: item:46857
+INFO 2024-10-13 14:00:47,379 zabbix_packages no history for the item: item:46860
+INFO 2024-10-13 14:03:00,383 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 14:03:00,471 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 14:03:00,558 zabbix_packages no history for the item: item:46857
+INFO 2024-10-13 14:03:00,645 zabbix_packages no history for the item: item:46860
+INFO 2024-10-13 14:07:09,462 zabbix_packages item with host id not found: item:vfs.fs.size[/boot,used]vfs.fs.size[/home,total], host_id10084
+INFO 2024-10-13 14:07:09,501 zabbix_packages item with host id not found: item:vfs.fs.size[/boot,pused]vfs.fs.inode[/home,pfree], host_id10084
+INFO 2024-10-13 14:07:09,600 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 14:07:09,686 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 14:07:09,775 zabbix_packages no history for the item: item:46857
+INFO 2024-10-13 14:07:33,650 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 14:07:33,736 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 14:07:33,822 zabbix_packages no history for the item: item:46857
+INFO 2024-10-13 14:07:33,910 zabbix_packages no history for the item: item:46860
+INFO 2024-10-13 14:07:33,995 zabbix_packages no history for the item: item:46858
+INFO 2024-10-13 14:07:34,084 zabbix_packages no history for the item: item:46861
+INFO 2024-10-13 14:08:17,892 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 14:08:17,977 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 14:08:18,063 zabbix_packages no history for the item: item:46857
+INFO 2024-10-13 14:08:18,149 zabbix_packages no history for the item: item:46860
+INFO 2024-10-13 14:08:18,235 zabbix_packages no history for the item: item:46858
+INFO 2024-10-13 14:08:18,321 zabbix_packages no history for the item: item:46861
+INFO 2024-10-13 14:34:21,293 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 14:34:21,384 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 14:34:21,471 zabbix_packages no history for the item: item:46857
+INFO 2024-10-13 14:34:21,557 zabbix_packages no history for the item: item:46860
+INFO 2024-10-13 14:34:21,648 zabbix_packages no history for the item: item:46858
+INFO 2024-10-13 14:34:21,737 zabbix_packages no history for the item: item:46861
+INFO 2024-10-13 14:34:28,162 zabbix_packages no history for the item: item:46856
+INFO 2024-10-13 14:34:28,255 zabbix_packages no history for the item: item:46859
+INFO 2024-10-13 14:34:28,342 zabbix_packages no history for the item: item:46857
+INFO 2024-10-13 14:34:28,427 zabbix_packages no history for the item: item:46860
+INFO 2024-10-13 14:34:28,513 zabbix_packages no history for the item: item:46858
+INFO 2024-10-13 14:34:28,603 zabbix_packages no history for the item: item:46861
+INFO 2024-10-13 14:34:38,031 zabbix_packages no history for the item: item:42231
+INFO 2024-10-13 14:34:38,126 zabbix_packages no history for the item: item:42234
+INFO 2024-10-13 14:34:38,219 zabbix_packages no history for the item: item:42233
+INFO 2024-10-13 14:34:38,309 zabbix_packages no history for the item: item:42240
+INFO 2024-10-13 14:34:38,395 zabbix_packages no history for the item: item:42255
+INFO 2024-10-13 14:34:38,481 zabbix_packages no history for the item: item:42232
+INFO 2024-10-13 14:34:38,568 zabbix_packages no history for the item: item:42241
+INFO 2024-10-13 14:34:38,653 zabbix_packages no history for the item: item:42253
+INFO 2024-10-13 14:34:38,737 zabbix_packages no history for the item: item:42254
+INFO 2024-10-13 14:34:38,822 zabbix_packages no history for the item: item:42235
+INFO 2024-10-13 14:34:38,909 zabbix_packages no history for the item: item:42251
+INFO 2024-10-13 14:34:38,997 zabbix_packages no history for the item: item:42252
+INFO 2024-10-13 14:34:39,083 zabbix_packages no history for the item: item:42242
+INFO 2024-10-13 14:39:00,191 zabbix_packages no history for the item: item:42231
+INFO 2024-10-13 14:39:00,280 zabbix_packages no history for the item: item:42234
+INFO 2024-10-13 14:39:00,370 zabbix_packages no history for the item: item:42233
+INFO 2024-10-13 14:39:00,456 zabbix_packages no history for the item: item:42240
+INFO 2024-10-13 14:39:00,546 zabbix_packages no history for the item: item:42255
+INFO 2024-10-13 14:39:00,635 zabbix_packages no history for the item: item:42232
+INFO 2024-10-13 14:39:00,722 zabbix_packages no history for the item: item:42241
+INFO 2024-10-13 14:39:00,810 zabbix_packages no history for the item: item:42253
+INFO 2024-10-13 14:39:00,898 zabbix_packages no history for the item: item:42254
+INFO 2024-10-13 14:39:00,984 zabbix_packages no history for the item: item:42235
+INFO 2024-10-13 14:39:01,070 zabbix_packages no history for the item: item:42251
+INFO 2024-10-13 14:39:01,154 zabbix_packages no history for the item: item:42252
+INFO 2024-10-13 14:39:01,239 zabbix_packages no history for the item: item:42242
+INFO 2024-10-13 14:39:28,710 zabbix_packages no history for the item: item:42231
+INFO 2024-10-13 14:39:28,796 zabbix_packages no history for the item: item:42234
+INFO 2024-10-13 14:39:28,885 zabbix_packages no history for the item: item:42233
+INFO 2024-10-13 14:39:28,972 zabbix_packages no history for the item: item:42240
+INFO 2024-10-13 14:39:29,058 zabbix_packages no history for the item: item:42255
+INFO 2024-10-13 14:39:29,145 zabbix_packages no history for the item: item:42232
+INFO 2024-10-13 14:39:29,232 zabbix_packages no history for the item: item:42241
+INFO 2024-10-13 14:39:29,321 zabbix_packages no history for the item: item:42253
+INFO 2024-10-13 14:39:29,406 zabbix_packages no history for the item: item:42254
+INFO 2024-10-13 14:39:29,494 zabbix_packages no history for the item: item:42235
+INFO 2024-10-13 14:39:29,581 zabbix_packages no history for the item: item:42251
+INFO 2024-10-13 14:39:29,669 zabbix_packages no history for the item: item:42252
+INFO 2024-10-13 14:39:29,759 zabbix_packages no history for the item: item:42242
+INFO 2024-10-13 14:39:57,030 zabbix_packages no history for the item: item:42260
+INFO 2024-10-13 14:40:08,735 zabbix_packages no history for the item: item:42231
+INFO 2024-10-13 14:40:08,823 zabbix_packages no history for the item: item:42234
+INFO 2024-10-13 14:40:08,912 zabbix_packages no history for the item: item:42233
+INFO 2024-10-13 14:40:08,997 zabbix_packages no history for the item: item:42240
+INFO 2024-10-13 14:40:09,090 zabbix_packages no history for the item: item:42255
+INFO 2024-10-13 14:40:09,178 zabbix_packages no history for the item: item:42232
+INFO 2024-10-13 14:40:09,267 zabbix_packages no history for the item: item:42241
+INFO 2024-10-13 14:40:09,353 zabbix_packages no history for the item: item:42253
+INFO 2024-10-13 14:40:09,438 zabbix_packages no history for the item: item:42254
+INFO 2024-10-13 14:40:09,524 zabbix_packages no history for the item: item:42235
+INFO 2024-10-13 14:40:09,610 zabbix_packages no history for the item: item:42251
+INFO 2024-10-13 14:40:09,696 zabbix_packages no history for the item: item:42252
+INFO 2024-10-13 14:40:09,783 zabbix_packages no history for the item: item:42242
+INFO 2024-10-13 14:40:38,466 zabbix_packages no history for the item: item:42231
+INFO 2024-10-13 14:40:38,553 zabbix_packages no history for the item: item:42234
+INFO 2024-10-13 14:40:38,644 zabbix_packages no history for the item: item:42233
+INFO 2024-10-13 14:40:38,732 zabbix_packages no history for the item: item:42240
+INFO 2024-10-13 14:40:38,818 zabbix_packages no history for the item: item:42255
+INFO 2024-10-13 14:40:38,903 zabbix_packages no history for the item: item:42232
+INFO 2024-10-13 14:40:38,992 zabbix_packages no history for the item: item:42241
+INFO 2024-10-13 14:40:39,079 zabbix_packages no history for the item: item:42253
+INFO 2024-10-13 14:40:39,165 zabbix_packages no history for the item: item:42254
+INFO 2024-10-13 14:40:39,300 zabbix_packages no history for the item: item:42235
+INFO 2024-10-13 14:40:39,396 zabbix_packages no history for the item: item:42251
+INFO 2024-10-13 14:40:39,482 zabbix_packages no history for the item: item:42252
+INFO 2024-10-13 14:40:39,565 zabbix_packages no history for the item: item:42242
+INFO 2024-10-13 14:41:20,695 zabbix_packages no history for the item: item:42231
+INFO 2024-10-13 14:41:20,782 zabbix_packages no history for the item: item:42234
+INFO 2024-10-13 14:41:20,871 zabbix_packages no history for the item: item:42233
+INFO 2024-10-13 14:41:20,960 zabbix_packages no history for the item: item:42240
+INFO 2024-10-13 14:41:21,048 zabbix_packages no history for the item: item:42255
+INFO 2024-10-13 14:41:21,132 zabbix_packages no history for the item: item:42232
+INFO 2024-10-13 14:41:21,218 zabbix_packages no history for the item: item:42241
+INFO 2024-10-13 14:41:21,304 zabbix_packages no history for the item: item:42253
+INFO 2024-10-13 14:41:21,392 zabbix_packages no history for the item: item:42254
+INFO 2024-10-13 14:41:21,540 zabbix_packages no history for the item: item:42235
+INFO 2024-10-13 14:41:21,630 zabbix_packages no history for the item: item:42251
+INFO 2024-10-13 14:41:21,718 zabbix_packages no history for the item: item:42252
+INFO 2024-10-13 14:41:21,806 zabbix_packages no history for the item: item:42242
+INFO 2024-10-13 14:41:38,200 zabbix_packages no history for the item: item:42231
+INFO 2024-10-13 14:41:38,286 zabbix_packages no history for the item: item:42234
+INFO 2024-10-13 14:41:38,374 zabbix_packages no history for the item: item:42233
+INFO 2024-10-13 14:41:38,462 zabbix_packages no history for the item: item:42240
+INFO 2024-10-13 14:41:38,548 zabbix_packages no history for the item: item:42255
+INFO 2024-10-13 14:41:38,635 zabbix_packages no history for the item: item:42232
+INFO 2024-10-13 14:41:38,725 zabbix_packages no history for the item: item:42241
+INFO 2024-10-13 14:41:38,814 zabbix_packages no history for the item: item:42253
+INFO 2024-10-13 14:41:38,904 zabbix_packages no history for the item: item:42254
+INFO 2024-10-13 14:41:39,063 zabbix_packages no history for the item: item:42235
+INFO 2024-10-13 14:41:39,152 zabbix_packages no history for the item: item:42251
+INFO 2024-10-13 14:41:39,238 zabbix_packages no history for the item: item:42252
+INFO 2024-10-13 14:41:39,329 zabbix_packages no history for the item: item:42242
+INFO 2024-10-13 14:42:20,299 zabbix_packages no history for the item: item:42231
+INFO 2024-10-13 14:42:20,387 zabbix_packages no history for the item: item:42234
+INFO 2024-10-13 14:42:20,476 zabbix_packages no history for the item: item:42233
+INFO 2024-10-13 14:42:20,565 zabbix_packages no history for the item: item:42240
+INFO 2024-10-13 14:42:20,651 zabbix_packages no history for the item: item:42255
+INFO 2024-10-13 14:42:20,737 zabbix_packages no history for the item: item:42232
+INFO 2024-10-13 14:42:20,822 zabbix_packages no history for the item: item:42241
+INFO 2024-10-13 14:42:20,909 zabbix_packages no history for the item: item:42253
+INFO 2024-10-13 14:42:20,995 zabbix_packages no history for the item: item:42254
+INFO 2024-10-13 14:42:21,082 zabbix_packages no history for the item: item:42235
+INFO 2024-10-13 14:42:21,168 zabbix_packages no history for the item: item:42251
+INFO 2024-10-13 14:42:21,253 zabbix_packages no history for the item: item:42252
+INFO 2024-10-13 14:42:21,340 zabbix_packages no history for the item: item:42242
+INFO 2024-10-13 14:43:27,199 zabbix_packages no history for the item: item:42231
+INFO 2024-10-13 14:43:27,285 zabbix_packages no history for the item: item:42234
+INFO 2024-10-13 14:43:27,376 zabbix_packages no history for the item: item:42233
+INFO 2024-10-13 14:43:27,466 zabbix_packages no history for the item: item:42240
+INFO 2024-10-13 14:43:27,555 zabbix_packages no history for the item: item:42255
+INFO 2024-10-13 14:43:27,641 zabbix_packages no history for the item: item:42232
+INFO 2024-10-13 14:43:27,726 zabbix_packages no history for the item: item:42241
+INFO 2024-10-13 14:43:27,811 zabbix_packages no history for the item: item:42253
+INFO 2024-10-13 14:43:27,896 zabbix_packages no history for the item: item:42254
+INFO 2024-10-13 14:43:27,981 zabbix_packages no history for the item: item:42235
+INFO 2024-10-13 14:43:28,067 zabbix_packages no history for the item: item:42251
+INFO 2024-10-13 14:43:28,158 zabbix_packages no history for the item: item:42252
+INFO 2024-10-13 14:43:28,254 zabbix_packages no history for the item: item:42242
+INFO 2024-10-13 14:43:45,879 zabbix_packages no history for the item: item:42231
+INFO 2024-10-13 14:43:45,967 zabbix_packages no history for the item: item:42234
+INFO 2024-10-13 14:43:46,052 zabbix_packages no history for the item: item:42233
+INFO 2024-10-13 14:43:46,141 zabbix_packages no history for the item: item:42240
+INFO 2024-10-13 14:43:46,231 zabbix_packages no history for the item: item:42255
+INFO 2024-10-13 14:43:46,317 zabbix_packages no history for the item: item:42232
+INFO 2024-10-13 14:43:46,402 zabbix_packages no history for the item: item:42241
+INFO 2024-10-13 14:43:46,488 zabbix_packages no history for the item: item:42253
+INFO 2024-10-13 14:43:46,574 zabbix_packages no history for the item: item:42254
+INFO 2024-10-13 14:43:46,662 zabbix_packages no history for the item: item:42235
+INFO 2024-10-13 14:43:46,749 zabbix_packages no history for the item: item:42251
+INFO 2024-10-13 14:43:46,838 zabbix_packages no history for the item: item:42252
+INFO 2024-10-13 14:43:46,924 zabbix_packages no history for the item: item:42242
+INFO 2024-10-13 14:44:42,809 zabbix_packages no history for the item: item:42231
+INFO 2024-10-13 14:44:42,899 zabbix_packages no history for the item: item:42234
+INFO 2024-10-13 14:44:42,988 zabbix_packages no history for the item: item:42233
+INFO 2024-10-13 14:44:43,077 zabbix_packages no history for the item: item:42240
+INFO 2024-10-13 14:44:43,165 zabbix_packages no history for the item: item:42255
+INFO 2024-10-13 14:44:43,251 zabbix_packages no history for the item: item:42232
+INFO 2024-10-13 14:44:43,339 zabbix_packages no history for the item: item:42241
+INFO 2024-10-13 14:44:43,425 zabbix_packages no history for the item: item:42253
+INFO 2024-10-13 14:44:43,511 zabbix_packages no history for the item: item:42254
+INFO 2024-10-13 14:44:43,600 zabbix_packages no history for the item: item:42235
+INFO 2024-10-13 14:44:43,689 zabbix_packages no history for the item: item:42251
+INFO 2024-10-13 14:44:43,777 zabbix_packages no history for the item: item:42252
+INFO 2024-10-13 14:44:43,863 zabbix_packages no history for the item: item:42242
+INFO 2024-10-13 15:22:17,016 zabbix_packages item with host id not found: item:vfs.dev.queue_size[zram0], host_id10084
+INFO 2024-10-13 15:22:29,395 zabbix_packages item with host id not found: item:vfs.dev.queue_size[zram0], host_id10084
+INFO 2024-10-13 15:22:39,589 zabbix_packages item with host id not found: item:vfs.dev.queue_size[zram0], host_id10084
+INFO 2024-10-13 15:23:03,834 zabbix_packages item with host id not found: item:vfs.dev.queue_size[zram0], host_id10084
+INFO 2024-10-13 16:46:05,558 zabbix_packages item with host id not found: item:vfs.dev.queue_size[zram0], host_id10084
+INFO 2024-10-13 16:49:40,630 zabbix_packages item with host id not found: item:vfs.dev.queue_size[zram0], host_id10084
+INFO 2024-10-13 16:50:05,091 zabbix_packages item with host id not found: item:vfs.dev.queue_size[zram0], host_id10084
+INFO 2024-10-13 16:52:25,215 zabbix_packages item with host id not found: item:vfs.dev.queue_size[zram0], host_id10084
+INFO 2024-10-14 12:53:08,020 zabbix_packages item with host id not found: item:vfs.dev.queue_size[zram0], host_id10084
+INFO 2024-10-14 13:29:56,946 zabbix_packages item with host id not found: item:vfs.dev.queue_size, host_id10084
+INFO 2024-10-14 13:32:08,258 zabbix_packages item with host id not found: item:vfs.dev.queue_size, host_id10084
+INFO 2024-10-14 13:32:30,870 zabbix_packages item with host id not found: item:vfs.dev.queue_size, host_id10084
+INFO 2024-10-14 13:32:54,717 zabbix_packages item with host id not found: item:vfs.dev.queue_size, host_id10084
+INFO 2024-10-14 13:33:42,355 zabbix_packages item with host id not found: item:vfs.dev.queue_size, host_id10084
+INFO 2024-10-14 13:34:20,816 zabbix_packages item with host id not found: item:vfs.dev.queue_size, host_id10084
+INFO 2024-10-14 13:35:00,082 zabbix_packages item with host id not found: item:vfs.dev.queue_size, host_id10084
+INFO 2024-10-14 13:35:45,883 zabbix_packages item with host id not found: item:vfs.dev.queue_size, host_id10084
+INFO 2024-10-14 13:37:58,000 zabbix_packages item with host id not found: item:vfs.dev.queue_size, host_id10084
+INFO 2024-10-14 14:07:20,898 zabbix_packages no history for the item: item:42260
+INFO 2024-10-14 14:21:25,726 zabbix_packages no history for the item: item:42260
+INFO 2024-10-14 16:35:16,088 zabbix_packages no history for the item: item:42260
+INFO 2024-10-14 16:57:23,389 zabbix_packages no history for the item: item:46856
+INFO 2024-10-14 16:57:23,477 zabbix_packages no history for the item: item:46859
+INFO 2024-10-14 16:57:23,567 zabbix_packages no history for the item: item:46857
+INFO 2024-10-14 16:57:23,659 zabbix_packages no history for the item: item:46860
+INFO 2024-10-14 16:57:23,745 zabbix_packages no history for the item: item:46858
+INFO 2024-10-14 16:57:23,831 zabbix_packages no history for the item: item:46861
+INFO 2024-10-14 17:26:57,700 zabbix_packages item with host id not found: item:net.if.in, host_id10084
+INFO 2024-10-14 17:26:57,714 zabbix_packages item with host id not found: item:net.if.out, host_id10084
+INFO 2024-10-14 17:27:31,737 zabbix_packages item with host id not found: item:net.if.in, host_id10084
+INFO 2024-10-14 17:27:31,745 zabbix_packages item with host id not found: item:net.if.out, host_id10084
+INFO 2024-10-14 17:27:46,531 zabbix_packages item with host id not found: item:net.if.in, host_id10084
+INFO 2024-10-14 17:27:46,538 zabbix_packages item with host id not found: item:net.if.out, host_id10084
+INFO 2024-10-14 17:30:43,230 zabbix_packages no history for the item: item:46827
+INFO 2024-10-14 17:30:43,377 zabbix_packages no history for the item: item:46833
+INFO 2024-10-14 17:33:45,832 zabbix_packages no history for the item: item:46827
+INFO 2024-10-14 17:33:45,979 zabbix_packages no history for the item: item:46833
+INFO 2024-10-14 17:33:48,596 zabbix_packages no history for the item: item:46827
+INFO 2024-10-14 17:33:48,742 zabbix_packages no history for the item: item:46833
+INFO 2024-10-14 17:33:50,448 zabbix_packages no history for the item: item:46827
+INFO 2024-10-14 17:33:50,576 zabbix_packages no history for the item: item:46833
