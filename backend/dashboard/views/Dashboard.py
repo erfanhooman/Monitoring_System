@@ -2,27 +2,26 @@
 you don't find what you looking for,
     when you're looking.
 """
-import time
 import json
 import os
+import time
 
 from django.conf import settings
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 from backend.messages import mt
 from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
 from backend.utils import create_response
-from backend.messages import mt
-from ..models import UserSystem
+from settings.models import UserSystem
 from ..utils import statuses_calculator as sc
 from ..utils.utils import humanize_bytes
 
 
 class DashboardView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
         operation_summary="Get system metrics like CPU, RAM, Disk, and Network",
@@ -76,18 +75,16 @@ class DashboardView(APIView):
     )
     def get(self, request):
         try:
-            # user = request.user
-            # user_system = UserSystem.objects.filter(user=user)
-            # if not user_system:
-            #     return create_response(success=False, message=mt[403])
+            user = request.user
+            user_system = UserSystem.objects.get(user=user)
+            if not user_system:
+                return create_response(success=False, message=mt[403])
 
-            # zabbix_helper = ZabbixHelper(zabbix_base_url=user_system.zabbix_base_url,
-            #                              zabbix_user=user_system.zabbix_username,
-            #                              zabbix_password=user_system.zabbix_password,
-            #                              zabbix_host_name=user_system.zabbix_host_name
-            #                              )
-
-            zabbix_helper = ZabbixHelper()
+            zabbix_helper = ZabbixHelper(url=user_system.zabbix_server_url,
+                                         user=user_system.zabbix_username,
+                                         password=user_system.zabbix_password,
+                                         host_name=user_system.zabbix_host_name
+                                         )
 
             # Fetch General Metric
             cpu = zabbix_helper.get_item_data('system.cpu.load[all,avg15]')
@@ -171,13 +168,17 @@ class SystemDetailView(APIView):
             formatted_history.append(formatted_entry)
         return formatted_history
 
-    def get_data(self, general_items, metric_items, config):
-        zabbix_helper = ZabbixHelper()
+    def get_data(self, general_items, metric_items, config, user_system):
+        zabbix_helper = ZabbixHelper(url=user_system.zabbix_server_url,
+                                     user=user_system.zabbix_username,
+                                     password=user_system.zabbix_password,
+                                     host_name=user_system.zabbix_host_name
+                                     )
 
         general_data = {item: zabbix_helper.get_item_data(item) for item in general_items}
         metric_data = {item: zabbix_helper.get_item_data(item) for item in metric_items}
 
-        data = {}
+        data = []
 
         # Process general items
         for item, item_info in general_data.items():
@@ -201,11 +202,12 @@ class SystemDetailView(APIView):
             else:
                 item_config = item
 
-            data[config[item_config]['name']] = {
+            data.append({
+                'name': config[item_config]['name'],
                 'description': config[item_config]['description'],
                 'value': value,
                 'history': self.fetch_and_format_history(item, item_config, config, metric_items),
-            }
+            })
 
         # Process metric items
         for item, item_info in metric_data.items():
@@ -228,13 +230,14 @@ class SystemDetailView(APIView):
             item_status = self.get_status(item_config, last_value, config[item_config]['value']['normal'],
                                           config[item_config]['value']['warning'])
 
-            data[config[item_config]['name']] = {
+            data.append({
+                'name': config[item_config]['name'],
                 'description': config[item_config]['description'],
-                'last_value': last_value,
+                'value': last_value,
                 'status': item_status,
                 'recommendation': config[item_config]['recommendations'][item_status],
                 'history': self.fetch_and_format_history(item, item_config, config, metric_items),
-            }
+            })
 
         return data
 
@@ -256,7 +259,7 @@ class SystemDetailView(APIView):
                             },
                             "Metric Item Name": {
                                 "description": "Metric Item Description",
-                                "last_value": 1.476074,
+                                "value": 1.476074,
                                 "status": "normal",
                                 "recommendation": "",
                                 "history": [
@@ -288,9 +291,13 @@ class SystemDetailView(APIView):
         }
     )
     def get(self, request):
+        user = request.user
+        user_system = UserSystem.objects.get(user=user)
+        if not user_system:
+            return create_response(success=False, message=mt[403])
         try:
             config = self.load_config(self.config_file)
-            data = self.get_data(self.general_items, self.metric_items, config)
+            data = self.get_data(self.general_items, self.metric_items, config, user_system)
             return create_response(success=True, data=data, message=mt[200])
         except ValueError as e:
             return create_response(success=False, message=str(e))
@@ -429,7 +436,6 @@ class GeneralDetailView(SystemDetailView):
         'system.users.num',
         'proc.num',
         'proc.num[,,run]',
-        'system.sw.packages',
         'kernel.maxfiles',
         'kernel.maxproc',
         'vfs.file.cksum[/etc/passwd,sha256]'

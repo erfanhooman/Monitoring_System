@@ -1,20 +1,21 @@
 mt = {
     200: "success",
+    201: "user created, successfully",
 
     400: "ZabbixHelper Initialization Error",
     401: "Error fetching item data for",
     402: "Error fetching item history for",
     403: "No system associated with this user",
-
+    404: "Bad Request",
     420: "Failed to connect to Zabbix",
-    421: "Zabbix login failed",
+    421: "Zabbix login failed, edit zabbix username and password on settings",
     422: "Host name don't find",
-    423: "failed to get Host",
+    423: "failed to get Host, check zabbix host name on settings",
     424: "item with host id not found",
     425: "Failed to retrieve item",
     426: "no history for the item",
     427: "Failed to retrieve item history",
-    428: "Failed to connect using this url",
+    428: "Failed to connect using this url, check zabbix server on settings",
 
     500: "A not expected internal error occurred, check log file for more info",
     501: "An internal error occurred during login, check log file for more info",

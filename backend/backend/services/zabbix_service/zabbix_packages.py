@@ -12,7 +12,7 @@ from django.conf import settings
 from .base import ZabbixAPIBase
 from backend.messages import mt
 
-ZABBIX_URL = f'http://{settings.ZABBIX_SERVER}/zabbix/api_jsonrpc.php'
+ZABBIX_URL = settings.ZABBIX_SERVER
 ZABBIX_USER = settings.ZABBIX_USER
 ZABBIX_PASSWORD = settings.ZABBIX_PASSWORD
 ZABBIX_HOST_NAME = settings.ZABBIX_HOST_NAME
@@ -37,7 +37,7 @@ class ZabbixPackage(ZabbixAPIBase):
             raise PermissionError(f"{mt[421]}")
         except RequestsConnectionError as e:  # Wrong Url Error
             logger.info(f"{mt[428]}: {self.url}")
-            raise ConnectionError(f"{mt[428]}:{self.url}")
+            raise ConnectionError(f"{mt[428]}")
         except Exception as e:
             logger.error(f"{str(e)}")
             raise ConnectionError(f"{mt[501]}")  # Internal Login error
@@ -51,9 +51,9 @@ class ZabbixPackage(ZabbixAPIBase):
             return host[0]['hostid']
         except ZabbixAPIException as e:
             logger.info(f"{mt[423]}: {str(e)}")
-            raise LookupError(f"{mt[423]}: {host_name}")  # host problem error
+            raise LookupError(f"{mt[423]}")  # host problem error
         except ValueError as e:
-            raise ValueError(f"{mt[423]}: {host_name}")
+            raise ValueError(f"{mt[423]}")
         except Exception as e:
             logger.error(f"{str(e)}")
             raise ConnectionError(f"{mt[502]}")  # internal get_host error
@@ -94,11 +94,12 @@ class ZabbixPackage(ZabbixAPIBase):
 
 
 class ZabbixHelper:
-    def __init__(self):
+    def __init__(self, url=ZABBIX_URL, user=ZABBIX_USER, password=ZABBIX_PASSWORD, host_name=ZABBIX_HOST_NAME):
         try:
-            self.zabbix = ZabbixPackage(ZABBIX_URL)
-            self.zabbix.login(ZABBIX_USER, ZABBIX_PASSWORD)
-            self.host_id = self.zabbix.get_host_id(ZABBIX_HOST_NAME)
+            print("url",url, "user", user, "password", password, "host_name", host_name)
+            self.zabbix = ZabbixPackage(f'http://{url}/zabbix/api_jsonrpc.php')
+            self.zabbix.login(user, password)
+            self.host_id = self.zabbix.get_host_id(host_name)
         except (PermissionError, ValueError, LookupError, ConnectionError) as e:
             raise ValueError(f"{str(e)}")
 
