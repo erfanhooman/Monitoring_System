@@ -11,7 +11,7 @@
       "warning": 1.5
     },
     "recommendations": {
-      "normal": "No action is necessary",
+      "normal": "",
       "warning": "CPU load is high, consider closing unnecessary processes.",
       "critical": "CPU load is critical, investigate running processes immediately, Identify and terminate non-essential processes or applications."
     }

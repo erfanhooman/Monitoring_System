@@ -19,6 +19,7 @@ ZABBIX_HOST_NAME = settings.ZABBIX_HOST_NAME
 
 logger = logging.getLogger("ms")
 
+
 class ZabbixPackage(ZabbixAPIBase):
     def __init__(self, url):
         self.url = url
@@ -31,7 +32,7 @@ class ZabbixPackage(ZabbixAPIBase):
     def login(self, username, password):
         try:
             self.zabbix.login(username, password)
-        except ZabbixAPIException as e: # login error
+        except ZabbixAPIException as e:  # login error
             logger.warning(f"{mt[421]}: {str(e)}")
             raise PermissionError(f"{mt[421]}")
         except RequestsConnectionError as e:  # Wrong Url Error
@@ -68,7 +69,7 @@ class ZabbixPackage(ZabbixAPIBase):
             raise LookupError(f"{mt[425]}: '{item}'")  # failed to retrieve item error
         except Exception as e:
             logger.error(f"{str(e)}")
-            raise ConnectionError(f"{mt[503]}")  # internal get item error
+            raise ConnectionError(f"{mt[503]}: '{item}'")  # internal get item error
 
     def get_item_history(self, item_id, history=0, limit=10):
         try:

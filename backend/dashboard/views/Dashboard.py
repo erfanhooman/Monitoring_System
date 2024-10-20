@@ -8,25 +8,92 @@ import os
 
 from django.conf import settings
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
+from backend.messages import mt
 from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
 from backend.utils import create_response
 from backend.messages import mt
+from ..models import UserSystem
 from ..utils import statuses_calculator as sc
 from ..utils.utils import humanize_bytes
 
 
-# TODO: handle the error of when we have problem in the config file
 class DashboardView(APIView):
+    # permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_summary="Get system metrics like CPU, RAM, Disk, and Network",
+        operation_description="Fetches metrics data for CPU, RAM, Disk, and Network interfaces from Zabbix.",
+        responses={
+            200: openapi.Response(
+                description="System metrics response",
+                examples={
+                    "application/json": {
+                        "success": True,
+                        "message": "success",
+                        "data": {
+                            "CPU": {
+                                "description": "Average CPU load over the last 15 minutes",
+                                "last_value": "1.898438",
+                                "pre_value": "1.971191",
+                                "lastclock": "2024-10-19 19:56:19"
+                            },
+                            "RAM": {
+                                "description": "Available RAM in bytes",
+                                "last_value": "1295781888",
+                                "pre_value": "1513422848",
+                                "lastclock": "2024-10-19 19:57:03"
+                            },
+                            "Disk": {
+                                "description": "Total disk size in bytes for the root (/) partition",
+                                "last_value": "83955703808",
+                                "pre_value": "83955703808",
+                                "lastclock": "2024-10-19 19:56:56"
+                            },
+                            "Network": {
+                                "description": "Incoming traffic on the network interface",
+                                "last_value": "0",
+                                "pre_value": "0",
+                                "lastclock": "1970-01-01 00:00:00"
+                            }
+                        }
+                    }
+                }
+            ),
+            500: openapi.Response(
+                description="Internal Server Error",
+                examples={
+                    "application/json": {
+                        "success": False,
+                        "message": "The Reason of the Error",
+                    }
+                }
+            )
+        }
+    )
     def get(self, request):
         try:
+            # user = request.user
+            # user_system = UserSystem.objects.filter(user=user)
+            # if not user_system:
+            #     return create_response(success=False, message=mt[403])
+
+            # zabbix_helper = ZabbixHelper(zabbix_base_url=user_system.zabbix_base_url,
+            #                              zabbix_user=user_system.zabbix_username,
+            #                              zabbix_password=user_system.zabbix_password,
+            #                              zabbix_host_name=user_system.zabbix_host_name
+            #                              )
+
             zabbix_helper = ZabbixHelper()
 
             # Fetch General Metric
             cpu = zabbix_helper.get_item_data('system.cpu.load[all,avg15]')
             ram = zabbix_helper.get_item_data('vm.memory.size[available]')
             disk = zabbix_helper.get_item_data('vfs.fs.size[/,total]')
-            # network = zabbix_helper.get_item_data('net.if.in["nekoray-tun"]')
+            network = zabbix_helper.get_item_data('net.if.in["nekoray-tun"]')  # TODO: don't hardcode it
 
             data = {
                 'CPU': {
@@ -47,14 +114,14 @@ class DashboardView(APIView):
                     'pre_value': disk[0].get('prevvalue', None),
                     'lastclock': time.strftime('%Y-%m-%d %H:%M:%S',
                                                time.localtime(int(disk[0].get('lastclock', None)))),
+                },
+                'Network': {
+                    'description': 'Incoming traffic on the network interface',
+                    'last_value': network[0].get('lastvalue', None),
+                    'pre_value': network[0].get('prevvalue', None),
+                    'lastclock': time.strftime('%Y-%m-%d %H:%M:%S',
+                                               time.localtime(int(network[0].get('lastclock', None)))),
                 }
-                # 'Network': {
-                #     'description': 'Incoming traffic on the network interface',
-                #     'last_value': network[0].get('lastvalue', None),
-                #     'pre_value': network[0].get('prevvalue', None),
-                #     'lastclock': time.strftime('%Y-%m-%d %H:%M:%S',
-                #                                time.localtime(int(network[0].get('lastclock', None)))),
-                # }
             }
             return create_response(success=True, data=data, message=mt[200])
         except ValueError as e:
@@ -62,8 +129,9 @@ class DashboardView(APIView):
 
 
 class SystemDetailView(APIView):
-    STATUS_FUNCTIONS = {}
+    permission_classes = [IsAuthenticated]
 
+    STATUS_FUNCTIONS = {}
     bytes_data = []
     config_file = ''
     general_items = []
@@ -170,6 +238,55 @@ class SystemDetailView(APIView):
 
         return data
 
+    @swagger_auto_schema(
+        operation_summary="Get detailed system metric",
+        operation_description="Fetches a detailed view of specific system metrics (e.g., CPU, RAM, Disk, Network) from Zabbix, including their status, history, and recommendations.",
+        responses={
+            200: openapi.Response(
+                description="System metric detailed response",
+                examples={
+                    "application/json": {
+                        "success": True,
+                        "message": "success",
+                        "data": {
+                            "General Item Name": {
+                                "description": "General item Description",
+                                "value": "000",
+                                "history": []
+                            },
+                            "Metric Item Name": {
+                                "description": "Metric Item Description",
+                                "last_value": 1.476074,
+                                "status": "normal",
+                                "recommendation": "",
+                                "history": [
+                                    {
+                                        "clock": "2024-10-19 20:08:19",
+                                        "value": "1.476074",
+                                        "status": "normal"
+                                    },
+                                    {
+                                        "clock": "2024-10-19 20:07:19",
+                                        "value": "1.526367",
+                                        "status": "normal"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            ),
+            500: openapi.Response(
+                description="Internal Server Error",
+                examples={
+                    "application/json": {
+                        "success": False,
+                        "message": "The Reason of the Error",
+                    }
+                }
+            )
+        }
+    )
     def get(self, request):
         try:
             config = self.load_config(self.config_file)
@@ -180,6 +297,8 @@ class SystemDetailView(APIView):
 
 
 class CPUDetailView(SystemDetailView):
+    permission_classes = [IsAuthenticated]
+
     STATUS_FUNCTIONS = {
         'system.cpu.load[all,avg15]': sc.status_per_core,
         'system.cpu.load[all,avg5]': sc.status_per_core,
@@ -222,6 +341,8 @@ class CPUDetailView(SystemDetailView):
 
 
 class RamDetailView(SystemDetailView):
+    permission_classes = [IsAuthenticated]
+
     STATUS_FUNCTIONS = {
         'vm.memory.size[pavailable]': sc.main_status_reverse,
         'vm.memory.utilization': sc.main_status,
@@ -249,6 +370,8 @@ class RamDetailView(SystemDetailView):
 
 
 class FileSystemDetailView(SystemDetailView):
+    permission_classes = [IsAuthenticated]
+
     STATUS_FUNCTIONS = {
         "vfs.fs.inode[/,pfree]": sc.main_status_reverse,
         "vfs.fs.size[/,pused]": sc.main_status,
@@ -292,6 +415,8 @@ class FileSystemDetailView(SystemDetailView):
 
 
 class GeneralDetailView(SystemDetailView):
+    permission_classes = [IsAuthenticated]
+
     config_file = 'general_config.json'
 
     general_items = [
@@ -317,6 +442,8 @@ class GeneralDetailView(SystemDetailView):
 
 
 class DiskDetailView(SystemDetailView):
+    permission_classes = [IsAuthenticated]
+
     STATUS_FUNCTIONS = {
         'vfs.dev.queue_size': sc.main_status,
         'vfs.dev.read.await': sc.main_status,
@@ -361,6 +488,8 @@ class DiskDetailView(SystemDetailView):
 
 
 class NetworkInterfaceDetailView(SystemDetailView):
+    permission_classes = [IsAuthenticated]
+
     STATUS_FUNCTIONS = {
         'net.if.in.dropped': sc.main_status,
         'net.if.in.errors': sc.main_status,
