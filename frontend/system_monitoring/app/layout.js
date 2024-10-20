@@ -1,5 +1,5 @@
 import "./globals.css";
-import SideBar from "@/app/components/SideBar";
+import SideBar from "@/app/components/sideBar/SideBar";
 
 export default function RootLayout({children}) {
 
@@ -7,7 +7,7 @@ export default function RootLayout({children}) {
         <html lang="en">
             <body className="flex">
                 <SideBar />
-                <main className="basis-4/5">{children}</main>
+                <main className="basis-4/5 p-5">{children}</main>
             </body>
         </html>
     );
