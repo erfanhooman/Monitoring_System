@@ -1,2 +1,26 @@
-.idea
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env
+.env/
+
+# SQLite database
 db.sqlite3
+
+# Logs
+*.log
+
+# Django static files
+/static/
+/media/
+
+# Python Egg metadata
+*.egg-info/
+
+.idea
+.idea/
