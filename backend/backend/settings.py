@@ -1,12 +1,12 @@
 from pathlib import Path
 import os
-import environ
+# import environ
 
-env = environ.Env()
+# env = environ.Env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-environ.Env.read_env(Path(BASE_DIR) / '.env')
+# environ.Env.read_env(Path(BASE_DIR) / '.env')
 
 SECRET_KEY = 'django-insecure-sm&f#0gpxz_jad^voe2z9pg*)_6f_^+kqj78qb1kv40&zr9^i7'
 
@@ -16,10 +16,15 @@ ALLOWED_HOSTS = []
 
 # ZABBIX Detail
 
-ZABBIX_SERVER = env('ZABBIX_SERVER', default='localhost')
-ZABBIX_USER = env('ZABBIX_USER', default='Admin')
-ZABBIX_PASSWORD = env('ZABBIX_PASSWORD', default='zabbix')
-ZABBIX_HOST_NAME = env('ZABBIX_HOST_NAME', default='Zabbix server')
+ZABBIX_SERVER = 'localhost'
+ZABBIX_USER = 'Admin'
+ZABBIX_PASSWORD = 'zabbix'
+ZABBIX_HOST_NAME = 'Zabbix server'
+# ZABBIX_SERVER = env('ZABBIX_SERVER', default='localhost')
+# ZABBIX_USER = env('ZABBIX_USER', default='Admin')
+# ZABBIX_PASSWORD = env('ZABBIX_PASSWORD', default='zabbix')
+# ZABBIX_HOST_NAME = env('ZABBIX_HOST_NAME', default='Zabbix server')
+
 
 # Application definition
 

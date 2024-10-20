@@ -2,3 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.hidden-description {
+    display: none;
+    transition: opacity 0.3s ease;
+}
+
+.hover-title:hover + .hidden-description {
+    display: block;
+    opacity: 1;
+}
