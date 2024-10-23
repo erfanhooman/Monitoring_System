@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_ENV: "production"
+    volumes:
+      - ./backend:/app
+    command: >
+      gunicorn --bind 0.0.0.0:8000 Monitoring_System.wsgi:application
+
+  frontend:
+    build:
+      context: ./system_monitoring
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: "production"
+    volumes:
+      - ./frontend:/app
+    command: [ "npm", "run", "dev" ]
+    depends_on:
+      - backend
