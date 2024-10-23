@@ -1,14 +1,14 @@
 "use client"
 import Link from "next/link";
-import Home from "@/app/components/svg/HomeSvg";
-import CpuSvg from "@/app/components/svg/CpuSvg";
+import Home from "@/app/Components/svg/HomeSvg";
+import CpuSvg from "@/app/Components/svg/CpuSvg";
 import {useState} from "react";
-import RamSvg from "@/app/components/svg/RamSvg";
-import FsSvg from "@/app/components/svg/FsSvg";
-import DiskSvg from "@/app/components/svg/DiskSvg";
-import NetworkSvg from "@/app/components/svg/NetworkSvg";
-import GeneralSvg from "@/app/components/svg/GeneralSvg";
-import SettingSvg from "@/app/components/svg/SettingSvg";
+import RamSvg from "@/app/Components/svg/RamSvg";
+import FsSvg from "@/app/Components/svg/FsSvg";
+import DiskSvg from "@/app/Components/svg/DiskSvg";
+import NetworkSvg from "@/app/Components/svg/NetworkSvg";
+import GeneralSvg from "@/app/Components/svg/GeneralSvg";
+import SettingSvg from "@/app/Components/svg/SettingSvg";
 
 export default function SideBar() {
     const address = window.location.href.split('/')

@@ -1,5 +1,8 @@
+import Modal from "@/app/Components/modal/Modal";
+
 export default function SettingPage() {
     return (
-        <div></div>
+        <div className="relative">
+        </div>
     );
 }
