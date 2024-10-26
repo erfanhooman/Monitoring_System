@@ -63,8 +63,7 @@ class SignupView(APIView):
                                data=serializer.errors)
 
 
-
-class LoginView(APIView):
+class LoginUserView(APIView):
     permission_classes = [AllowAny]
 
     @swagger_auto_schema(
@@ -102,7 +101,6 @@ class LoginView(APIView):
             username = serializer.validated_data['username']
             password = serializer.validated_data['password']
             user = authenticate(username=username, password=password)
-            print(user, 11111)
             if user:
                 data = {
                     "refresh": str(RefreshToken.for_user(user)),
