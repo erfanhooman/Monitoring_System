@@ -18,6 +18,7 @@ mt = {
     428: "Failed to connect using this url, check zabbix server on settings",
     429: "Failed to Retrieving Network Interfaces",
     430: "User Not Found",
+    431: "Invalid credentials",
 
     500: "A not expected internal error occurred, check log file for more info",
     501: "An internal error occurred during login, check log file for more info",

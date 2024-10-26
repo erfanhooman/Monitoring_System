@@ -121,7 +121,7 @@ class DashboardView(APIView):
                                                time.localtime(int(network[0].get('lastclock', None)))),
                 }
             }
-            return create_response(success=True, data=data, status=status.HTTP_200_OK, message=mt[200])
+            return create_response(success=True, status=status.HTTP_200_OK, data=data, message=mt[200])
         except ValueError as e:
             return create_response(success=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e))
 
@@ -489,9 +489,9 @@ class DiskDetailView(SystemDetailView):
                 disk_data = self.get_data(general_items, metric_items, config)
                 data[disk] = disk_data
 
-            return create_response(success=True, data=data, message=mt[200])
+            return create_response(success=True, status=status.HTTP_200_OK, data=data, message=mt[200])
         except ValueError as e:
-            return create_response(success=False, message=str(e))
+            return create_response(success=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e))
 
 
 class NetworkInterfaceDetailView(SystemDetailView):
@@ -531,6 +531,6 @@ class NetworkInterfaceDetailView(SystemDetailView):
                 interface_data = self.get_data(general_items, metric_items, config)
                 data[interface] = interface_data
 
-            return create_response(success=True, data=data, message=mt[200])
+            return create_response(success=True, status=status.HTTP_200_OK, data=data, message=mt[200])
         except ValueError as e:
-            return create_response(success=False, message=str(e))
+            return create_response(success=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e))
