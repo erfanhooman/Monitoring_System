@@ -1,13 +1,11 @@
 import "./globals.css";
-import SideBar from "@/app/Components/sideBar/SideBar";
+import LoginForm from "@/app/Components/form/LoginForm";
 
-export default function RootLayout({children}) {
-
+export default function RootLayout() {
     return (
         <html lang="en">
-            <body className="flex relative">
-                <SideBar />
-                <main className="basis-4/5 p-5 relative">{children}</main>
+            <body className="flex justify-center items-center h-dvh">
+                <LoginForm />
             </body>
         </html>
     );

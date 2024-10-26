@@ -1,10 +1,36 @@
 import axios from "axios";
 
-const route = process.env.NEXT_PUBLIC_API_URL; // Accessible on both client and server
+const route = process.env.NEXT_PUBLIC_API_URL;
 
 const url = axios.create({
     baseURL: route,
 })
+//
+// url.interceptors.response.use((response) => {
+//     return response;
+// }, (res) => {
+//     if (res.response.status === 401) {
+//         const origin = new URL(location.href).origin;
+//
+//         if (origin + '/' === window.location.href)
+//             return;
+//
+//         localStorage.removeItem("token");
+//         window.location.href = origin + '/';
+//     }
+//
+//     return Promise.reject(res);
+// })
+// if (localStorage.getItem("token")) {
+//
+//     url.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("token");
+//
+// }
+
+export function Login(value) {
+    return url.post('/auth/login/', value)
+
+}
 
 export function DashboardApi() {
     return url.get('/dashboard/');
