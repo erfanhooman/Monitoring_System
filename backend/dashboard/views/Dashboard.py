@@ -6,15 +6,16 @@ import json
 import os
 import time
 
-from django.conf import settings
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-
 from backend.messages import mt
 from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
 from backend.utils import create_response
+from django.conf import settings
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
 from settings.models import UserSystem
 from ..utils import statuses_calculator as sc
 from ..utils.utils import humanize_bytes
@@ -78,7 +79,7 @@ class DashboardView(APIView):
             user = request.user
             user_system = UserSystem.objects.get(user=user)
             if not user_system:
-                return create_response(success=False, message=mt[403])
+                return create_response(success=False, status=status.HTTP_401_UNAUTHORIZED, message=mt[403])
 
             zabbix_helper = ZabbixHelper(url=user_system.zabbix_server_url,
                                          user=user_system.zabbix_username,
@@ -120,9 +121,9 @@ class DashboardView(APIView):
                                                time.localtime(int(network[0].get('lastclock', None)))),
                 }
             }
-            return create_response(success=True, data=data, message=mt[200])
+            return create_response(success=True, data=data, status=status.HTTP_200_OK, message=mt[200])
         except ValueError as e:
-            return create_response(success=False, message=str(e))
+            return create_response(success=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e))
 
 
 class SystemDetailView(APIView):
@@ -294,13 +295,13 @@ class SystemDetailView(APIView):
         user = request.user
         user_system = UserSystem.objects.get(user=user)
         if not user_system:
-            return create_response(success=False, message=mt[403])
+            return create_response(success=False, status=status.HTTP_401_UNAUTHORIZED, message=mt[403])
         try:
             config = self.load_config(self.config_file)
             data = self.get_data(self.general_items, self.metric_items, config, user_system)
-            return create_response(success=True, data=data, message=mt[200])
+            return create_response(success=True, data=data, status=status.HTTP_200_OK, message=mt[200])
         except ValueError as e:
-            return create_response(success=False, message=str(e))
+            return create_response(success=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e))
 
 
 class CPUDetailView(SystemDetailView):

@@ -1,9 +1,9 @@
 # from rest_framework.response import Response
 from django.http import JsonResponse
-from rest_framework import status
 
 
-def create_response(success: bool,
+
+def create_response(success: bool, status,
                     data: dict = None, message: str = ''):
     """
     Create a JSON response with the given parameters.
@@ -20,8 +20,4 @@ def create_response(success: bool,
         'message': message,
         'data': data,
     }
-    if success:
-        st = status.HTTP_200_OK
-    else:
-        st = status.HTTP_500_INTERNAL_SERVER_ERROR
-    return JsonResponse(response, status=st)
+    return JsonResponse(response, status=status)

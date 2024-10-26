@@ -1,13 +1,15 @@
+from backend.messages import mt
+from backend.utils import create_response
 from django.contrib.auth import authenticate
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.permissions import AllowAny
+from rest_framework import status
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
-from backend.messages import mt
-from backend.utils import create_response
-from .serializers import SignupSerializer, LoginSerializer
+from .models import UserSystem
+from .serializers import SignupSerializer, LoginSerializer, UpdateZabbixSettingsSerializer
 
 
 class SignupView(APIView):
@@ -54,8 +56,9 @@ class SignupView(APIView):
         serializer = SignupSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return create_response(success=True, message=mt[201], data=serializer.validated_data)
-        return create_response(success=False, message=mt[404],
+            return create_response(success=True, status=status.HTTP_201_CREATED, message=mt[201],
+                                   data=serializer.validated_data)
+        return create_response(success=False, status=status.HTTP_400_BAD_REQUEST, message=mt[404],
                                data=serializer.errors)
 
         # TODO: bad request fix the create response
@@ -103,6 +106,25 @@ class LoginView(APIView):
                     "refresh": str(RefreshToken.for_user(user)),
                     "access": str(AccessToken.for_user(user))
                 }
-                return create_response(data=data, success=True)
-            return create_response(data={"error": "Invalid credentials"}, success=False)
-        return create_response(data=serializer.errors, success=False)
+                return create_response(data=data, status=status.HTTP_201_CREATED, success=True)
+            return create_response(success=False, status=status.HTTP_401_UNAUTHORIZED, message="Invalid credentials")
+        return create_response(data=serializer.errors, status=status.HTTP_401_UNAUTHORIZED, success=False)
+
+
+class UpdateZabbixSettingsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        user_system = UserSystem.objects.filter(user=user).first()
+
+        if not user_system:
+            return create_response(success=False, message=mt[430])
+
+        serializer = UpdateZabbixSettingsSerializer(user_system, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return create_response(success=True, message=mt[200], data=serializer.validated_data)
+
+        return create_response(success=False, message=mt[404], data=serializer.errors)

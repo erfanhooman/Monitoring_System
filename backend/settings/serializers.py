@@ -61,3 +61,42 @@ class UserMetricsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSystem
         fields = ['zabbix_server_url', 'zabbix_host_name']
+
+
+class UpdateZabbixSettingsSerializer(serializers.ModelSerializer):
+    zabbix_username = serializers.CharField(max_length=255, required=False)
+    zabbix_password = serializers.CharField(max_length=255, write_only=True, required=False)
+    zabbix_server_url = serializers.CharField(max_length=255, required=False)
+    zabbix_host_name = serializers.CharField(max_length=255, required=False)
+
+    class Meta:
+        model = UserSystem
+        fields = ['zabbix_username', 'zabbix_password', 'zabbix_server_url', 'zabbix_host_name']
+        extra_kwargs = {'zabbix_password': {'required': False}}
+
+    def validate(self, data):
+        # Validate Zabbix credentials
+        if 'zabbix_server_url' in data and 'zabbix_username' in data and 'zabbix_password' in data:
+            try:
+                ZabbixHelper(
+                    url=data['zabbix_server_url'],
+                    user=data['zabbix_username'],
+                    password=data['zabbix_password'],
+                    host_name=data.get('zabbix_host_name', '')
+                )
+            except ValueError as e:
+                raise serializers.ValidationError({"zabbix_credentials": str(e)})
+
+        return data
+
+    def update(self, instance, validated_data):
+        instance.zabbix_username = validated_data.get('zabbix_username', instance.zabbix_username)
+        instance.zabbix_server_url = validated_data.get('zabbix_server_url', instance.zabbix_server_url)
+        instance.zabbix_host_name = validated_data.get('zabbix_host_name', instance.zabbix_host_name)
+
+        # Only update the password if it's provided
+        if 'zabbix_password' in validated_data:
+            instance.zabbix_password = validated_data['zabbix_password']
+
+        instance.save()
+        return instance
