@@ -108,7 +108,7 @@ class LoginView(APIView):
                     "refresh": str(RefreshToken.for_user(user)),
                     "access": str(AccessToken.for_user(user))
                 }
-                return create_response(success=True, status=status.HTTP_201_CREATED, data=data)
+                return create_response(success=True, status=status.HTTP_200_OK, data=data)
             return create_response(success=False, status=status.HTTP_401_UNAUTHORIZED, message=mt[431])
         return create_response(status=status.HTTP_401_UNAUTHORIZED, success=False, data=serializer.errors)
 

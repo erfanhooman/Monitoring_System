@@ -1,4 +1,8 @@
-# from rest_framework.response import Response
+"""
+Before You embark on a journey of revenge, die two grave
+    -Kong Qiu
+"""
+
 from django.http import JsonResponse
 
 

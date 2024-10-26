@@ -91,7 +91,6 @@ class DashboardView(APIView):
             cpu = zabbix_helper.get_item_data('system.cpu.load[all,avg15]')
             ram = zabbix_helper.get_item_data('vm.memory.size[available]')
             disk = zabbix_helper.get_item_data('vfs.fs.size[/,total]')
-            network = zabbix_helper.get_item_data('net.if.in["nekoray-tun"]')  # TODO: don't hardcode it
 
             data = {
                 'CPU': {
@@ -462,16 +461,38 @@ class DiskDetailView(SystemDetailView):
 
     config_file = 'disk_config.json'
 
-    def get_disks(self):
-        """Dynamically detect available disks"""
-        return ["nvme0n1"]
+    def get_disks(self, user_system):
+        """Dynamically detect available disk partitions using Zabbix API"""
+        zabbix_helper = ZabbixHelper(url=user_system.zabbix_server_url,
+                                     user=user_system.zabbix_username,
+                                     password=user_system.zabbix_password,
+                                     host_name=user_system.zabbix_host_name
+                                     )
+        host_id = zabbix_helper.host_id
+
+        items = zabbix_helper.zabbix.zabbix.item.get(hostids=host_id, output=["key_"])
+
+        disks = []
+        for item in items:
+            if item['key_'].startswith("vfs.dev."):
+                disk_name = item['key_'].split('[')[1].rstrip(']')  # Get the name inside brackets
+                if disk_name not in disks:
+                    disks.append(disk_name)
+
+        return disks
 
     def get(self, request):
         try:
+            user = request.user
+            user_system = UserSystem.objects.filter(user=user).first()
+            if not user_system:
+                return create_response(success=False, message=mt[403])
+
+
             config = self.load_config(self.config_file)
             data = {}
 
-            disks = self.get_disks()
+            disks = self.get_disks(user_system)
             for disk in disks:
                 general_items = [
                     f'vfs.dev.read.rate[{disk}]',
@@ -486,7 +507,7 @@ class DiskDetailView(SystemDetailView):
                     f'vfs.dev.util[{disk}]'
                 ]
 
-                disk_data = self.get_data(general_items, metric_items, config)
+                disk_data = self.get_data(general_items, metric_items, config, user_system)
                 data[disk] = disk_data
 
             return create_response(success=True, status=status.HTTP_200_OK, data=data, message=mt[200])
@@ -506,16 +527,38 @@ class NetworkInterfaceDetailView(SystemDetailView):
 
     config_file = 'networkinterface_config.json'
 
-    def get_interfaces(self):
+    def get_interfaces(self, user_system):
         """Dynamically detect available network interfaces"""
-        return ["wlp0s20f3"]
+        zabbix_helper = ZabbixHelper(url=user_system.zabbix_server_url,
+                                     user=user_system.zabbix_username,
+                                     password=user_system.zabbix_password,
+                                     host_name=user_system.zabbix_host_name
+                                     )
+        host_id = zabbix_helper.host_id
+
+        items = zabbix_helper.zabbix.zabbix.item.get(hostids=host_id, output=["key_"])
+
+        interfaces = []
+        for item in items:
+            if item['key_'].startswith("net.if."):
+                interface_name = item['key_'].split('"')[1] if '"' in item['key_'] else \
+                    item['key_'].split('[')[1].split(']')[0]
+                if interface_name not in interfaces:
+                    interfaces.append(interface_name)
+
+        return interfaces
 
     def get(self, request):
         try:
+            user = request.user
+            user_system = UserSystem.objects.filter(user=user).first()
+            if not user_system:
+                return create_response(success=False, message=mt[403])
+
             config = self.load_config(self.config_file)
             data = {}
 
-            interfaces = self.get_interfaces()
+            interfaces = self.get_interfaces(user_system)
             for interface in interfaces:
                 general_items = [
                     f'net.if.in["{interface}"]',
@@ -528,7 +571,7 @@ class NetworkInterfaceDetailView(SystemDetailView):
                     f'net.if.out["{interface}",errors]',
                 ]
 
-                interface_data = self.get_data(general_items, metric_items, config)
+                interface_data = self.get_data(general_items, metric_items, config, user_system)
                 data[interface] = interface_data
 
             return create_response(success=True, status=status.HTTP_200_OK, data=data, message=mt[200])
