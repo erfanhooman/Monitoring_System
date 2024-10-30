@@ -6,9 +6,6 @@ import json
 import os
 import time
 
-from backend.messages import mt
-from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
-from backend.utils import create_response
 from django.conf import settings
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -16,13 +13,17 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
+from backend.messages import mt
+from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
+from backend.utils import create_response
 from settings.models import UserSystem
+from settings.permissions import HasViewPermission
 from ..utils import statuses_calculator as sc
 from ..utils.utils import humanize_bytes
 
 
 class DashboardView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [HasViewPermission]
 
     @swagger_auto_schema(
         operation_summary="Get system metrics like CPU, RAM, Disk, and Network",
@@ -76,16 +77,15 @@ class DashboardView(APIView):
     )
     def get(self, request):
         try:
-            user = request.user
-            user_system = UserSystem.objects.get(user=user)
-            if not user_system:
-                return create_response(success=False, status=status.HTTP_401_UNAUTHORIZED, message=mt[403])
+            user_system = request.user.usersystem
+            zabbix_details = user_system.zabbix_details
 
-            zabbix_helper = ZabbixHelper(url=user_system.zabbix_server_url,
-                                         user=user_system.zabbix_username,
-                                         password=user_system.zabbix_password,
-                                         host_name=user_system.zabbix_host_name
-                                         )
+            zabbix_helper = ZabbixHelper(
+                url=zabbix_details['url'],
+                user=zabbix_details['username'],
+                password=zabbix_details['password'],
+                host_name=zabbix_details['host_name']
+            )
 
             # Fetch General Metric
             cpu = zabbix_helper.get_item_data('system.cpu.load[all,avg15]')
@@ -111,13 +111,6 @@ class DashboardView(APIView):
                     'pre_value': disk[0].get('prevvalue', None),
                     'lastclock': time.strftime('%Y-%m-%d %H:%M:%S',
                                                time.localtime(int(disk[0].get('lastclock', None)))),
-                },
-                'Network': {
-                    'description': 'Incoming traffic on the network interface',
-                    'last_value': network[0].get('lastvalue', None),
-                    'pre_value': network[0].get('prevvalue', None),
-                    'lastclock': time.strftime('%Y-%m-%d %H:%M:%S',
-                                               time.localtime(int(network[0].get('lastclock', None)))),
                 }
             }
             return create_response(success=True, status=status.HTTP_200_OK, data=data, message=mt[200])

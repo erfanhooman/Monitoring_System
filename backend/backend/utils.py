@@ -8,7 +8,7 @@ from django.http import JsonResponse
 
 
 def create_response(success: bool, status,
-                    data: dict = None, message: str = ''):
+                    data = None, message: str = ''):
     """
     Create a JSON response with the given parameters.
     Args:
