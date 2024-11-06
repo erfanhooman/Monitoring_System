@@ -57,7 +57,7 @@ class UserSystemSerializer(serializers.ModelSerializer):
         model = UserSystem
         fields = [
             'user', 'id', 'zabbix_server_url', 'zabbix_username',
-            'zabbix_password', 'zabbix_host_name', 'user_type'
+            'zabbix_password', 'zabbix_host_name', 'user_type', 'active'
         ]
 
     def validate(self, data):

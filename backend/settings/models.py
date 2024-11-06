@@ -22,7 +22,7 @@ class UserSystem(models.Model):
     zabbix_username = models.CharField(max_length=255, null=True, blank=True)
     zabbix_password = models.CharField(max_length=255, null=True, blank=True)
     zabbix_host_name = models.CharField(max_length=255, null=True, blank=True)
-
+    active = models.BooleanField(default=True)
     user_type = models.CharField(
         max_length=20,
         choices=UserType.choices,
