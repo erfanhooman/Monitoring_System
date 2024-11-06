@@ -7,37 +7,30 @@
     -Paulo Caelho
 """
 
+from rest_framework import exceptions as ex
 from rest_framework import permissions
 
-from .models import UserType, UserPermission
+from backend.messages import mt
 
+
+class IsAuthenticated(permissions.IsAuthenticated):
+    def has_permission(self, request, view):
+        if request.user and request.user.is_authenticated:
+            return True
+        raise ex.AuthenticationFailed(mt[433])
+
+
+class IsDetailAvailable(permissions.BasePermission):
+    def has_permission(self, request, view):
+        user_system = request.user.usersystem
+
+        if not user_system.is_detail_available:
+            raise ex.PermissionDenied(mt[432])
+        return True
 
 class IsSuperAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
         try:
             return request.user.is_superuser
-        except:
-            return False
-
-
-class IsAdmin(permissions.BasePermission):
-    def has_permission(self, request, view):
-        try:
-            return request.user.usersystem.user_type == UserType.ADMIN
-        except:
-            return False
-
-
-class HasViewPermission(permissions.BasePermission):
-    def has_permission(self, request, view):
-        try:
-            user_system = request.user.usersystem
-            if user_system.user_type == UserType.ADMIN:
-                return True
-
-            return UserPermission.objects.filter(
-                user=user_system,
-                endpoint__path=request.path
-            ).exists()
         except:
             return False

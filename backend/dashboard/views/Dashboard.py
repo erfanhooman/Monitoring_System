@@ -10,20 +10,19 @@ from django.conf import settings
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from backend.messages import mt
 from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
 from backend.utils import create_response
 from settings.models import UserSystem
-from settings.permissions import HasViewPermission
+from settings.permissions import IsDetailAvailable, IsAuthenticated
 from ..utils import statuses_calculator as sc
 from ..utils.utils import humanize_bytes
 
 
 class DashboardView(APIView):
-    permission_classes = [HasViewPermission]
+    permission_classes = [IsAuthenticated, IsDetailAvailable]
 
     @swagger_auto_schema(
         operation_summary="Get system metrics like CPU, RAM, Disk, and Network",
@@ -119,7 +118,7 @@ class DashboardView(APIView):
 
 
 class SystemDetailView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsDetailAvailable]
 
     STATUS_FUNCTIONS = {}
     bytes_data = []
@@ -297,7 +296,7 @@ class SystemDetailView(APIView):
 
 
 class CPUDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         'system.cpu.load[all,avg15]': sc.status_per_core,
@@ -341,7 +340,7 @@ class CPUDetailView(SystemDetailView):
 
 
 class RamDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         'vm.memory.size[pavailable]': sc.main_status_reverse,
@@ -370,7 +369,7 @@ class RamDetailView(SystemDetailView):
 
 
 class FileSystemDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         "vfs.fs.inode[/,pfree]": sc.main_status_reverse,
@@ -415,7 +414,7 @@ class FileSystemDetailView(SystemDetailView):
 
 
 class GeneralDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsDetailAvailable]
 
     config_file = 'general_config.json'
 
@@ -441,7 +440,7 @@ class GeneralDetailView(SystemDetailView):
 
 
 class DiskDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         'vfs.dev.queue_size': sc.main_status,
@@ -479,7 +478,7 @@ class DiskDetailView(SystemDetailView):
             user = request.user
             user_system = UserSystem.objects.filter(user=user).first()
             if not user_system:
-                return create_response(success=False, message=mt[403])
+                return create_response(success=False, message=mt[403], status=status.HTTP_401_UNAUTHORIZED)
 
 
             config = self.load_config(self.config_file)
@@ -509,7 +508,7 @@ class DiskDetailView(SystemDetailView):
 
 
 class NetworkInterfaceDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         'net.if.in.dropped': sc.main_status,
@@ -546,7 +545,7 @@ class NetworkInterfaceDetailView(SystemDetailView):
             user = request.user
             user_system = UserSystem.objects.filter(user=user).first()
             if not user_system:
-                return create_response(success=False, message=mt[403])
+                return create_response(success=False, message=mt[403], status=status.HTTP_401_UNAUTHORIZED)
 
             config = self.load_config(self.config_file)
             data = {}

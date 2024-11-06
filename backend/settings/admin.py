@@ -1,7 +1,5 @@
 from django.contrib import admin
 
-from .models import UserSystem, APIEndpoint, UserPermission
+from .models import UserSystem
 
 admin.site.register(UserSystem)
-admin.site.register(APIEndpoint)
-admin.site.register(UserPermission)
