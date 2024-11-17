@@ -22,12 +22,10 @@ class SignupSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
 
-        print(1111)
         UserSystem.objects.create(
             user=user,
             user_type="admin"
         )
-        print(2222)
         return user
 
 
@@ -129,3 +127,26 @@ class UpdateZabbixSettingsSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class SignupSubUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        Model = User
+        fields = ['username', 'passwords']
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            password=validated_data['password'],
+        )
+
+        admin = self.context['request'].user.usersystem
+
+        UserSystem.objects.create(
+            user=user,
+            user_type="user",
+            admin=admin
+        )
+
+        return user

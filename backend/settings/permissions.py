@@ -35,3 +35,11 @@ class IsSuperAdmin(permissions.BasePermission):
             return request.user.is_superuser
         except:
             return False
+
+class IsAdmin(permissions.BasePermission):
+    def has_permission(self, request, view):
+        print(request.user)
+        if request.user.usersystem.user_type == 'admin':
+            return True
+        else:
+            raise ex.PermissionDenied(mt[432])
