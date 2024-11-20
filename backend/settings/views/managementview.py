@@ -56,6 +56,9 @@ class LoginUserView(APIView):
             password = serializer.validated_data['password']
             user = authenticate(username=username, password=password)
             if user:
+                if not user.usersystem.active:
+                    return create_response(success=False, status=status.HTTP_401_UNAUTHORIZED, message=mt[435])
+
                 data = {
                     "refresh": str(RefreshToken.for_user(user)),
                     "access": str(AccessToken.for_user(user))
@@ -127,4 +130,4 @@ class UpdateZabbixSettingsView(APIView):
                                    message=mt[200])
 
         return create_response(success=False, status=status.HTTP_400_BAD_REQUEST, data=serializer.errors,
-                               message=mt[404])
+                               message=mt[414])

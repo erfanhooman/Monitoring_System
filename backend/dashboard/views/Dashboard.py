@@ -161,10 +161,10 @@ class SystemDetailView(APIView):
         return formatted_history
 
     def get_data(self, general_items, metric_items, config, user_system):
-        zabbix_helper = ZabbixHelper(url=user_system.zabbix_server_url,
-                                     user=user_system.zabbix_username,
-                                     password=user_system.zabbix_password,
-                                     host_name=user_system.zabbix_host_name
+        zabbix_helper = ZabbixHelper(url=user_system.zabbix_details['url'],
+                                     user=user_system.zabbix_details['username'],
+                                     password=user_system.zabbix_details['password'],
+                                     host_name=user_system.zabbix_details['host_name']
                                      )
 
         general_data = {item: zabbix_helper.get_item_data(item) for item in general_items}
@@ -455,10 +455,10 @@ class DiskDetailView(SystemDetailView):
 
     def get_disks(self, user_system):
         """Dynamically detect available disk partitions using Zabbix API"""
-        zabbix_helper = ZabbixHelper(url=user_system.zabbix_server_url,
-                                     user=user_system.zabbix_username,
-                                     password=user_system.zabbix_password,
-                                     host_name=user_system.zabbix_host_name
+        zabbix_helper = ZabbixHelper(url=user_system.zabbix_details['url'],
+                                     user=user_system.zabbix_details['username'],
+                                     password=user_system.zabbix_details['password'],
+                                     host_name=user_system.zabbix_details['host_name']
                                      )
         host_id = zabbix_helper.host_id
 
@@ -521,10 +521,10 @@ class NetworkInterfaceDetailView(SystemDetailView):
 
     def get_interfaces(self, user_system):
         """Dynamically detect available network interfaces"""
-        zabbix_helper = ZabbixHelper(url=user_system.zabbix_server_url,
-                                     user=user_system.zabbix_username,
-                                     password=user_system.zabbix_password,
-                                     host_name=user_system.zabbix_host_name
+        zabbix_helper = ZabbixHelper(url=user_system.zabbix_details['url'],
+                                     user=user_system.zabbix_details['username'],
+                                     password=user_system.zabbix_details['password'],
+                                     host_name=user_system.zabbix_details['host_name']
                                      )
         host_id = zabbix_helper.host_id
 

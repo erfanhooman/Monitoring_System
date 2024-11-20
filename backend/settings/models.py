@@ -32,10 +32,21 @@ class UserSystem(models.Model):
 
     @property
     def is_detail_available(self):
+        if self.user_type == UserType.USER:
+            return all([self.admin.zabbix_server_url, self.admin.zabbix_username, self.admin.zabbix_password, self.admin.zabbix_host_name])
+
         return all([self.zabbix_server_url, self.zabbix_username, self.zabbix_password, self.zabbix_host_name])
 
     @property
     def zabbix_details(self):
+        if self.user_type == UserType.USER:
+            return {
+                'url': self.admin.zabbix_server_url,
+                'username': self.admin.zabbix_username,
+                'password': self.admin.zabbix_password,
+                'host_name': self.admin.zabbix_host_name
+            }
+
         return {
             'url': self.zabbix_server_url,
             'username': self.zabbix_username,

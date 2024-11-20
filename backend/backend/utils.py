@@ -36,18 +36,19 @@ def create_response(success: bool, status,
 def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
 
-    if isinstance(exc, PermissionDenied):
-        return create_response(
-            success=False,
-            status=403,
-            message=str(exc)
-        )
-
-    if isinstance(exc, AuthenticationFailed):
-        return create_response(
-            success=False,
-            status=401,
-            message=str(exc)
-        )
+    # if isinstance(exc, PermissionDenied):
+    #     return create_response(
+    #         success=False,
+    #         status=403,
+    #         message=str(exc)
+    #     )
+    #
+    # if isinstance(exc, AuthenticationFailed):
+    #     return create_response(
+    #         success=False,
+    #         status=401,
+    #         message=mt[401],
+    #         data=str(exc)
+    #     )
 
     return response
