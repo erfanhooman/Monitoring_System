@@ -10,7 +10,7 @@ from .views.managementview import UpdateZabbixSettingsView, LoginUserView
 from .views.superadminviews import (
     AdminManagementView, AdminSignupView
 )
-from .views.adminviews import UserSignup, UserManagementView
+from .views.adminviews import UserSignup, UserManagementView, ModifyUserPermissionsView
 
 urlpatterns = [
     path('login/', LoginUserView.as_view(), name='login'),
@@ -19,4 +19,6 @@ urlpatterns = [
     path('settings/update/', UpdateZabbixSettingsView.as_view(), name='update'),
     path('admin/user-signup/', UserSignup.as_view(), name='user-signup'),
     path('admin/user-managment/', UserManagementView.as_view(), name='user-management'),
+    path('admin/user-managment/permission/', ModifyUserPermissionsView.as_view(), name='modify-subuser-permissions'),
+
 ]

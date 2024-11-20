@@ -13,7 +13,7 @@ from ..serializers import SignupSerializer, UserSystemSerializer
 class AdminSignupView(APIView):
     permission_classes = [IsSuperAdmin]
 
-    @swagger_auto_schema(
+    @swagger_auto_schema(  # TODO: complete the swagger documentation
         operation_summary="Sign up a new user by Super Admin",
         operation_description="Allows the Super Admin to create new users by providing the required details.",
         request_body=SignupSerializer,
@@ -43,16 +43,15 @@ class AdminManagementView(APIView):
             "Fetch user details based on `user_id` provided in the request body. "
             "If no `user_id` is provided, fetch a list of all admins and the total admin count."
         ),
-        request_body=openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
-                "user_id": openapi.Schema(
-                    type=openapi.TYPE_INTEGER,
-                    description="ID of the user to retrieve details for (optional for fetching all admins)."
-                ),
-            },
-            required=[],
-        ),
+        manual_parameters=[
+            openapi.Parameter(
+                "user_id",
+                openapi.IN_QUERY,
+                description="ID of the user to retrieve details for (optional for fetching all sub-users)",
+                type=openapi.TYPE_INTEGER,
+                required=False,
+            ),
+        ],
         responses={
             200: openapi.Response(
                 description="User information retrieved successfully",
@@ -98,7 +97,45 @@ class AdminManagementView(APIView):
                     type=openapi.TYPE_INTEGER,
                     description="ID of the user to update (required).",
                 ),
-                **UserSystemSerializer().fields
+                "user": openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={
+                        "username": openapi.Schema(
+                            type=openapi.TYPE_STRING,
+                            description="The username of the user.",
+                        ),
+                        "password": openapi.Schema(
+                            type=openapi.TYPE_STRING,
+                            description="Password of the user.",
+                            write_only=True
+                        ),
+                    }
+                ),
+                "zabbix_server_url": openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description="zabbix server url",
+                ),
+                "zabbix_username": openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description="zabbix username",
+                ),
+                "zabbix_password": openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description="zabbix password",
+                ),
+                "zabbix_host_name": openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description="zabbix host name",
+                ),
+
+                "user_type": openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description="Type of user. Should be 'user' or 'admin'.",
+                ),
+                "active": openapi.Schema(
+                    type=openapi.TYPE_BOOLEAN,
+                    description="Is the user active?",
+                ),
             },
             required=["user_id"],
         ),

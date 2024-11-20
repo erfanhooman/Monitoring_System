@@ -11,6 +11,7 @@ from rest_framework import exceptions as ex
 from rest_framework import permissions
 
 from backend.messages import mt
+from settings.models import UserType
 
 
 class IsAuthenticated(permissions.IsAuthenticated):
@@ -18,8 +19,6 @@ class IsAuthenticated(permissions.IsAuthenticated):
         if request.user and request.user.is_authenticated and request.user.usersystem.active:
             return True
         raise ex.AuthenticationFailed(mt[433])
-
-
 
 class IsDetailAvailable(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -36,9 +35,18 @@ class IsSuperAdmin(permissions.BasePermission):
         except:
             return False
 
-class IsAdmin(permissions.BasePermission):
+
+class HasPermissionForView(permissions.BasePermission):
+    required_permission = None
+
     def has_permission(self, request, view):
-        if request.user.usersystem.user_type == 'admin':
+        if request.user.usersystem.user_type == UserType.ADMIN:
             return True
-        else:
-            raise ex.PermissionDenied(mt[432])
+
+        user_system = request.user.usersystem
+        if not user_system.active:
+            return False
+
+        if self.required_permission is None:
+            raise ValueError("HasPermissionForView requires 'required_permission' to be set.")
+        return user_system.permissions.filter(codename=self.required_permission).exists()

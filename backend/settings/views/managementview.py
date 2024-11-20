@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
 from backend.messages import mt
-from backend.utils import create_response
+from backend.utils import create_response, permission_for_view
 from ..models import UserSystem
 from ..serializers import LoginSerializer
 from ..serializers import UpdateZabbixSettingsSerializer
@@ -68,7 +68,7 @@ class LoginUserView(APIView):
         return create_response(status=status.HTTP_401_UNAUTHORIZED, success=False, data=serializer.errors)
 
 class UpdateZabbixSettingsView(APIView):
-    permission_classes = [IsAuthenticated] # TODO: add the HasPermission after the user permission added
+    permission_classes = [IsAuthenticated, permission_for_view('SETTINGS'),]
 
     @swagger_auto_schema(
         operation_summary="Update Zabbix Settings",

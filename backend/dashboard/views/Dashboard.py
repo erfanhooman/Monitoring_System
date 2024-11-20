@@ -14,7 +14,7 @@ from rest_framework.views import APIView
 
 from backend.messages import mt
 from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
-from backend.utils import create_response
+from backend.utils import create_response, permission_for_view
 from settings.models import UserSystem
 from settings.permissions import IsDetailAvailable, IsAuthenticated
 from ..utils import statuses_calculator as sc
@@ -22,7 +22,7 @@ from ..utils.utils import humanize_bytes
 
 
 class DashboardView(APIView):
-    permission_classes = [IsAuthenticated, IsDetailAvailable]
+    permission_classes = [IsAuthenticated, permission_for_view("DASHBOARD"), IsDetailAvailable]
 
     @swagger_auto_schema(
         operation_summary="Get system metrics like CPU, RAM, Disk, and Network",
@@ -296,7 +296,7 @@ class SystemDetailView(APIView):
 
 
 class CPUDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated, IsDetailAvailable]
+    permission_classes = [IsAuthenticated, permission_for_view('CPU'), IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         'system.cpu.load[all,avg15]': sc.status_per_core,
@@ -340,7 +340,7 @@ class CPUDetailView(SystemDetailView):
 
 
 class RamDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated, IsDetailAvailable]
+    permission_classes = [IsAuthenticated, permission_for_view('RAM'), IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         'vm.memory.size[pavailable]': sc.main_status_reverse,
@@ -369,7 +369,7 @@ class RamDetailView(SystemDetailView):
 
 
 class FileSystemDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated, IsDetailAvailable]
+    permission_classes = [IsAuthenticated, permission_for_view('FS'), IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         "vfs.fs.inode[/,pfree]": sc.main_status_reverse,
@@ -414,7 +414,7 @@ class FileSystemDetailView(SystemDetailView):
 
 
 class GeneralDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated, IsDetailAvailable]
+    permission_classes = [IsAuthenticated, permission_for_view('GENERAL'), IsDetailAvailable]
 
     config_file = 'general_config.json'
 
@@ -440,7 +440,7 @@ class GeneralDetailView(SystemDetailView):
 
 
 class DiskDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated, IsDetailAvailable]
+    permission_classes = [IsAuthenticated, permission_for_view('DISK'), IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         'vfs.dev.queue_size': sc.main_status,
@@ -508,7 +508,7 @@ class DiskDetailView(SystemDetailView):
 
 
 class NetworkInterfaceDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated, IsDetailAvailable]
+    permission_classes = [IsAuthenticated,  permission_for_view('NETWORK'), IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         'net.if.in.dropped': sc.main_status,

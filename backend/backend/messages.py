@@ -26,6 +26,7 @@ mt = {
     433: "Authentication failed. Please provide a valid credential",
     434: "unAuthorize, Token is Not Valid",
     435: "You are not active, please contact Admin",
+    436: "You don't have a permission to access this page",
 
     500: "A not expected internal error occurred, check log file for more info",
     501: "An internal error occurred during login, check log file for more info",

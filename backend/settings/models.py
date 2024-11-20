@@ -10,6 +10,12 @@ Remember one thing,
 from django.contrib.auth.models import User
 from django.db import models
 
+class Permissions(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    codename = models.CharField(max_length=15, unique=True)
+
+    def __str__(self):
+        return self.name
 
 class UserType(models.TextChoices):
     ADMIN = 'admin', 'Admin'
@@ -29,6 +35,7 @@ class UserSystem(models.Model):
         default=UserType.USER
     )
     admin = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='subusers')
+    permissions = models.ManyToManyField(Permissions, related_name='system_permissions', blank=True)
 
     @property
     def is_detail_available(self):

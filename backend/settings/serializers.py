@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
-from .models import UserSystem
+from .models import UserSystem, Permissions
 
 
 class LoginSerializer(serializers.Serializer):
@@ -92,13 +92,19 @@ class UserSystemSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class PermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Permissions
+        fields = ['id', 'name']
+
 class SubUserSystemSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+    permissions = PermissionSerializer(many=True, read_only=True)
 
     class Meta:
         model = UserSystem
         fields = [
-            'user', 'id', 'user_type', 'active'
+            'user', 'id', 'user_type', 'active', 'permissions'
         ]
         extra_kwargs = {
             'user_type': {'read_only': True},
@@ -107,13 +113,19 @@ class SubUserSystemSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         user_data = validated_data.pop('user', None)
+        permissions_data = validated_data.pop('permissions', None)
+
         if user_data:
             user_serializer = UserSerializer(instance.user, data=user_data, partial=True)
             if user_serializer.is_valid(raise_exception=True):
                 user_serializer.save()
 
+        if permissions_data:
+            instance.permissions.set(permissions_data)
+
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
+
         instance.save()
         return instance
 
