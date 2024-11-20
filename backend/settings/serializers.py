@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
-from .models import UserSystem
+from .models import UserSystem, Permissions
 
 
 class LoginSerializer(serializers.Serializer):
@@ -57,6 +57,10 @@ class UserSystemSerializer(serializers.ModelSerializer):
             'user', 'id', 'zabbix_server_url', 'zabbix_username',
             'zabbix_password', 'zabbix_host_name', 'user_type', 'active'
         ]
+        extra_kwargs = {
+            'user_type': {'read_only': True},
+            'id': {'read_only': True},
+        }
 
     def validate(self, data):
         zabbix_server_url = data.get('zabbix_server_url') or self.instance.zabbix_server_url
@@ -65,12 +69,13 @@ class UserSystemSerializer(serializers.ModelSerializer):
         zabbix_host_name = data.get('zabbix_host_name') or self.instance.zabbix_host_name
 
         try:
-            ZabbixHelper(
-                url=zabbix_server_url,
-                user=zabbix_username,
-                password=zabbix_password,
-                host_name=zabbix_host_name
-            )
+            if zabbix_server_url and zabbix_username and zabbix_password and zabbix_host_name:
+                ZabbixHelper(
+                    url=zabbix_server_url,
+                    user=zabbix_username,
+                    password=zabbix_password,
+                    host_name=zabbix_host_name
+                )
             return data
         except ValueError as e:
             raise serializers.ValidationError({"zabbix_credentials": str(e)})
@@ -84,6 +89,43 @@ class UserSystemSerializer(serializers.ModelSerializer):
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
+        instance.save()
+        return instance
+
+class PermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Permissions
+        fields = ['id', 'name']
+
+class SubUserSystemSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    permissions = PermissionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = UserSystem
+        fields = [
+            'user', 'id', 'user_type', 'active', 'permissions'
+        ]
+        extra_kwargs = {
+            'user_type': {'read_only': True},
+            'id': {'read_only': True},
+        }
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user', None)
+        permissions_data = validated_data.pop('permissions', None)
+
+        if user_data:
+            user_serializer = UserSerializer(instance.user, data=user_data, partial=True)
+            if user_serializer.is_valid(raise_exception=True):
+                user_serializer.save()
+
+        if permissions_data:
+            instance.permissions.set(permissions_data)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
         instance.save()
         return instance
 
@@ -131,8 +173,8 @@ class UpdateZabbixSettingsSerializer(serializers.ModelSerializer):
 
 class SignupSubUserSerializer(serializers.ModelSerializer):
     class Meta:
-        Model = User
-        fields = ['username', 'passwords']
+        model = User
+        fields = ['username', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):

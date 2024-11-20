@@ -4,12 +4,9 @@ Before You embark on a journey of revenge, die two grave
 """
 
 from django.http import JsonResponse
-from rest_framework.exceptions import PermissionDenied
 from rest_framework.views import exception_handler
-from rest_framework_simplejwt.exceptions import TokenError
-from rest_framework.exceptions import AuthenticationFailed
 
-from backend.messages import mt
+from settings.permissions import HasPermissionForView
 
 
 def create_response(success: bool, status,
@@ -32,22 +29,29 @@ def create_response(success: bool, status,
     return JsonResponse(response, status=status)
 
 
+def permission_for_view(permission_name):
+    class DynamicPermission(HasPermissionForView):
+        required_permission = permission_name
+
+    return DynamicPermission
+
 
 def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
 
-    if isinstance(exc, PermissionDenied):
-        return create_response(
-            success=False,
-            status=403,
-            message=str(exc)
-        )
-
-    if isinstance(exc, AuthenticationFailed):
-        return create_response(
-            success=False,
-            status=401,
-            message=str(exc)
-        )
+    # if isinstance(exc, PermissionDenied):
+    #     return create_response(
+    #         success=False,
+    #         status=403,
+    #         message=str(exc)
+    #     )
+    #
+    # if isinstance(exc, AuthenticationFailed):
+    #     return create_response(
+    #         success=False,
+    #         status=401,
+    #         message=mt[401],
+    #         data=str(exc)
+    #     )
 
     return response
