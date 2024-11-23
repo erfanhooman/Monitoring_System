@@ -1,0 +1,54 @@
+{
+  "system.hostname": {
+    "name": "Number of CPUs",
+    "description": "The name assigned to the system on the network."
+  },
+  "system.sw.os": {
+    "name": "Operating System",
+    "description": "The name and version of the operating system running on the machine."
+  },
+  "system.sw.arch": {
+    "name": "System Architecture",
+    "description": "The CPU architecture (e.g., x86, x64, ARM) of the system."
+  },
+  "system.uptime": {
+    "name": "System Uptime",
+    "description": "The duration the system has been running since the last boot."
+  },
+  "system.boottime": {
+    "name": "System Boot Time",
+    "description": "The exact time and date when the system was last booted."
+  },
+  "system.localtime": {
+    "name": "System Local Time",
+    "description": "The current local time of the system based on its time zone settings."
+  },
+  "system.users.num": {
+    "name": "Number of Logged-in Users",
+    "description": "The current number of users logged into the system."
+  },
+  "proc.num": {
+    "name": "Number of Processes",
+    "description": "The total number of processes currently running on the system."
+  },
+  "proc.num[,,run]": {
+    "name": "Number of Running Processes",
+    "description": "The number of processes currently in the running state."
+  },
+  "system.sw.packages": {
+    "name": "Installed Software",
+    "description": "A list of all software packages installed on the system."
+  },
+  "kernel.maxfiles": {
+    "name": "Maximum Open File Descriptors",
+    "description": "The maximum number of file descriptors that can be opened simultaneously by the system."
+  },
+  "kernel.maxproc": {
+    "name": "Maximum Number of Processess",
+    "description": "The maximum number of processes that can be created by the system."
+  },
+  "vfs.file.cksum[/etc/passwd,sha256]": {
+    "name": "Checksum of /etc/passwd",
+    "description": "A checksum value of the /etc/passwd file, which contains user account information."
+  }
+}
