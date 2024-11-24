@@ -9,7 +9,7 @@ db = SqliteDatabase('user_alert_preferences.db')
 class UserAlertPreference(Model):
     item_key = CharField()
     enabled = BooleanField()
-    alert_level = CharField()  # 'warning' or 'critical'
+    alert_level = CharField()
 
     class Meta:
         database = db
@@ -29,7 +29,6 @@ def sync_preferences(server_url, monitored_computer_id):
     response = requests.get(f"{server_url}/api/alert_preferences/{monitored_computer_id}/")
     if response.status_code == 200:
         preferences = response.json()
-        # Update local database
         UserAlertPreference.delete().execute()
         for pref in preferences:
             UserAlertPreference.create(
