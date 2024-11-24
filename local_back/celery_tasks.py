@@ -109,3 +109,5 @@ def report_to_server(item_key, status, value, username, password):
 
 
 # TODO: refactor the code to best practice
+# TODO: handle the unexpected times
+# TODO(Bug): when two are in databases only work with one

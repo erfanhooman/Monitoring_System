@@ -34,4 +34,5 @@ mt = {
     503: "An internal error occurred during get item, check log file for more info",
     504: "An internal error occurred during get item history, check log file for more info",
     505: "An internal error occurred during logout, check log file for more info",
+    506: "Error on LocalServer for sync new changes, check local log file for more info"
 }
