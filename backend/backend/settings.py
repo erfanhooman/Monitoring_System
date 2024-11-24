@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_yasg',
     'dashboard',
-    'settings'
+    'settings',
+    'alerting'
 ]
 
 REST_FRAMEWORK = {

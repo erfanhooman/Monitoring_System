@@ -381,7 +381,6 @@ class FileSystemDetailView(SystemDetailView):
         "vfs.fs.size[/boot,pused]": sc.main_status,
         "vfs.fs.inode[/home,pfree]": sc.main_status_reverse,
         "vfs.fs.size[/home,pused]": sc.main_status,
-
     }
 
     config_file = 'filesystem_config.json'
