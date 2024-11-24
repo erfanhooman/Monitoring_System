@@ -31,7 +31,7 @@ def load_configurations(config_dir="shared/configs"):
 
 
 # TODO: for security reason find good way to connect to zabbix
-@app.task
+@app.task(name='celery_tasks.check_and_report')
 def check_and_report():
     zabbix = ZabbixHelper(
         url="localhost",
@@ -41,7 +41,6 @@ def check_and_report():
     )
     config = load_configurations()
     preferences = UserAlertPreference.select().where(UserAlertPreference.enabled == True)
-    print("********celery working*************")
     for pref in preferences:
         try:
             metric_key = pref.item_key
@@ -109,4 +108,4 @@ def report_to_server(item_key, status, value, username, password):
         print(f"Error reporting to server: {e}")
 
 
-check_and_report()
+# TODO: refactor the code to best practice
