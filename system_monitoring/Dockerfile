@@ -1,15 +1,16 @@
-FROM node:18.17.0
+FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm install --frozen-lockfile --verbose
 
 COPY . .
 
 RUN npm run build
 
-EXPOSE 3000
+RUN npm install -g serve
 
-CMD ["npm", "run", "dev"]
+EXPOSE 5000
 
+CMD ["serve", "-s", "build", "-l", "5000"]

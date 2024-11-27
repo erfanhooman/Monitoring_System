@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend  # Path to your Django backend project
+    container_name: django_backend
+    env_file:
+      - ./backend/.env  # Ensure your .env file is in the backend folder
+    ports:
+      - "8000:8000"  # Expose port 8000 to host
+
+  frontend:
+    build:
+      context: ./system_monitoring  # Path to your React frontend project
+    container_name: react_frontend
+    ports:
+      - "5000:5000"  # Expose port 5000 to host
+    command: serve -s dist -l 5000
+    environment:
+      - REACT_APP_API_URL=http://backend:8000  # API URL pointing to the backend
+    depends_on:
+      - backend  # Wait for the backend to start
