@@ -2,3 +2,8 @@
 .idea/
 
 identifier.sqlite
+
+local_back/.idea
+local_back/local_ms.log
+
+backend/road.txt
