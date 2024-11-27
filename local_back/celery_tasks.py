@@ -71,6 +71,7 @@ def check_and_report():
     for pref in preferences:
         try:
             metric_key = pref.item_key
+            logging.info(f"check status for {metric_key}")
             if metric_key not in config:
                 logging.warning(f"Config for {metric_key} not found!")
                 continue

@@ -1,6 +1,7 @@
 mt = {
     200: "success",
     201: "user created, successfully",
+    202: "Preference deleted successfully",
 
     400: "ZabbixHelper Initialization Error",
     401: "Error fetching item data for",
@@ -34,5 +35,7 @@ mt = {
     503: "An internal error occurred during get item, check log file for more info",
     504: "An internal error occurred during get item history, check log file for more info",
     505: "An internal error occurred during logout, check log file for more info",
-    506: "Error on LocalServer for sync new changes, check local log file for more info"
+    506: "Error on LocalServer for sync new changes, check local log file for more info",
+
+    700: "Problem Syncing with local alert preference, make sure local server is running and check the local server log"
 }

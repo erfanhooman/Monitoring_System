@@ -1,6 +1,8 @@
 import logging
 
 import requests
+from backend.messages import mt
+from backend.utils import create_response, permission_for_view
 from rest_framework import status as st
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -38,19 +40,19 @@ class ProblemReportView(APIView):
         return Response({"message": "Report received"}, status=st.HTTP_200_OK)
 
 
+# TODO: send notification after one time constantly, change to send the notification if its one time not constantly
 def send_user_notification(user, item_key, status, value):
     message = f"Alert: {item_key} is in {status} status. Current value: {value}."
     try:
         logging.info(f"Sending notification: {user} - {message}")
-        # Implement email or other notification logic here.
+        # TODO: Implement email or other notification logic here.
     except Exception as e:
         logging.error(f"Failed to send notification: {e}")
         raise RuntimeError(f"Failed to send notification: {e}")
 
 
-#TODO: add a permission_for_view also to this one
 class AlertPreferenceView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, permission_for_view('ALERT')]
 
     def post(self, request):
         user = request.user
@@ -59,34 +61,35 @@ class AlertPreferenceView(APIView):
         enabled = request.data.get("enabled", True)
 
         if not item_key:
-            logger.error("item_key is required but not provided.")
-            return Response({"error": "item_key is required"}, status=st.HTTP_400_BAD_REQUEST)
+            return create_response(success=True, status=st.HTTP_400_BAD_REQUEST, message=mt[414],
+                                   data={"item_key": "item_key is required"})
 
         local_server_url = f"http://{user.usersystem.zabbix_server_url}:5000/internal/update_preferences/"
+        logger.info(f"Sending alert for {item_key} preferences sync to Local Server")
         payload = {
             "item_key": item_key,
             "enabled": enabled,
             "alert_level": alert_level,
         }
-        headers = {"Authorization": "Bearer YOUR_SECURE_TOKEN"}
 
         try:
-            response = requests.post(local_server_url, json=payload, headers=headers, timeout=5)
+            response = requests.post(local_server_url, json=payload, timeout=5)
             if response.status_code == 200:
                 preference, created = UserAlertPreference.objects.update_or_create(
                     user=user.usersystem,
                     item_key=item_key,
                     defaults={"enabled": enabled, "alert_level": alert_level},
                 )
-                logger.info(f"Preference successfully updated for user {user} and item {item_key}.")
+                logger.info(f"Preference successfully updated for user {user} and item {item_key}")
             else:
-                logger.error(f"Local server error: {response.status_code} - {response.text}")
-                return Response({"error": "Internal Server Error"}, status=st.HTTP_500_INTERNAL_SERVER_ERROR)
+                logger.error(f"Local server error-{response.status_code} while trying to sync {item_key}")
+                return create_response(success=False, status=st.HTTP_500_INTERNAL_SERVER_ERROR,
+                                       message=mt[700])
         except requests.exceptions.RequestException as e:
-            logger.exception("Error communicating with the local server.")
-            return Response({"error": "Internal Server Error"}, status=st.HTTP_500_INTERNAL_SERVER_ERROR)
+            logger.error(f"Error communicating with the local server while trying to sync {item_key}")
+            return create_response(success=False, status=st.HTTP_500_INTERNAL_SERVER_ERROR, message=mt[700])
 
-        return Response({"message": "Preference updated successfully"}, status=st.HTTP_200_OK)
+        return create_response(success=True, status=st.HTTP_200_OK, message=mt[200], data={"item_key": item_key})
 
     def get(self, request):
         try:
@@ -100,43 +103,39 @@ class AlertPreferenceView(APIView):
                 for pref in preferences
             ]
             logger.info(f"Retrieved {len(data)} preferences for user {request.user}.")
-            return Response(data, status=st.HTTP_200_OK)
+            return create_response(success=True, data=data, message=mt[200], status=st.HTTP_200_OK)
         except Exception as e:
-            logger.exception("Error retrieving preferences.")
-            return Response({"error": "Internal Server Error"}, status=st.HTTP_500_INTERNAL_SERVER_ERROR)
+            logger.exception(f"Error retrieving Alert preferences: {e}")
+            create_response(success=False, status=st.HTTP_500_INTERNAL_SERVER_ERROR, message=mt[500])
 
     def delete(self, request):
         user = request.user
         item_key = request.data.get("item_key")
 
         if not item_key:
-            logger.error("item_key is required but not provided for deletion.")
-            return Response({"error": "item_key is required"}, status=st.HTTP_400_BAD_REQUEST)
+            return create_response(success=True, status=st.HTTP_400_BAD_REQUEST, message=mt[414],
+                                   data={"item_key": "item_key is required"})
 
         local_server_url = f"http://{user.usersystem.zabbix_server_url}:5000/internal/delete_preferences/"
         payload = {"item_key": item_key}
-        headers = {"Authorization": "Bearer YOUR_SECURE_TOKEN"}
 
         try:
-            # Send delete request to the local server
-            response = requests.post(local_server_url, json=payload, headers=headers, timeout=5)
+            response = requests.post(local_server_url, json=payload, timeout=5)
             if response.status_code == 200:
-                # Remove the item from the Django database
                 deleted_count, _ = UserAlertPreference.objects.filter(user=user.usersystem, item_key=item_key).delete()
 
                 if deleted_count > 0:
                     logger.info(f"Deleted preference {item_key} for user {user}.")
-                    return Response({"message": "Preference deleted successfully"}, status=st.HTTP_200_OK)
+                    return create_response(success=True, status=st.HTTP_200_OK, message=mt[200],
+                                           data={"deleted_item": item_key})
                 else:
                     logger.warning(f"Preference {item_key} not found in database for user {user}.")
-                    return Response({"error": "Preference not found"}, status=st.HTTP_404_NOT_FOUND)
+                    return create_response(success=False, status=st.HTTP_400_BAD_REQUEST, message=mt[400],
+                                           data={item_key: "Preference not found in database"})
             else:
                 logger.error(f"Local server error during deletion: {response.status_code} - {response.text}")
-                return Response({"error": "Internal Server Error"}, status=st.HTTP_500_INTERNAL_SERVER_ERROR)
+                return create_response(success=False, status=st.HTTP_500_INTERNAL_SERVER_ERROR, message=mt[700])
 
         except requests.exceptions.RequestException as e:
             logger.exception("Error communicating with the local server for deletion.")
-            return Response({"error": "Internal Server Error"}, status=st.HTTP_500_INTERNAL_SERVER_ERROR)
-
-# TODO: Test the Application and logging feature of it
-# TODO: Test the Delete functionality
+            return create_response(success=False, status=st.HTTP_500_INTERNAL_SERVER_ERROR, message=mt[700])

@@ -15,4 +15,4 @@ class UserAlertPreference(models.Model):
         unique_together = ('user', 'item_key')
 
     def __str__(self):
-        return f"{self.user.username} - {self.item_key} - {self.enabled}"
+        return f"{self.user} - {self.item_key} - {self.enabled}"
