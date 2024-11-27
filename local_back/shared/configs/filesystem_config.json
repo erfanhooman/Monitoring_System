@@ -1,0 +1,108 @@
+{
+  "vfs.fs.inode[/,pfree]": {
+    "name": "Free Inodes in root / (%)",
+    "description": "The percentage of available inodes on the root filesystem. Inodes store metadata about files and directories.",
+    "value": {
+      "normal": 20,
+      "warning": 5
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Investigate what files are consuming inodes; consider cleaning up unnecessary files or directories.",
+      "critical": "Take immediate action; identify and delete unnecessary files, or consider resizing the filesystem or migrating to a filesystem that better suits your needs."
+    }
+  },
+  "vfs.fs.size[/,pused]": {
+    "name": "Space Utilization for root / (%)",
+    "description": "The percentage of disk space currently used on root /",
+    "value": {
+      "normal": 80,
+      "warning": 90
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Start cleaning up old files or consider increasing disk space on root /",
+      "critical": "Immediate action required; delete unnecessary files, archive old data, or expand the filesystem on root / to avoid data loss."
+    }
+  },
+  "vfs.fs.size[/,total]": {
+    "name": "Total Space on /",
+    "description": "The total size of the filesystem on root /"
+  },
+  "vfs.fs.size[/,used]": {
+    "name": "Used Space on /",
+    "description": "The total amount of space currently used on the root / filesystem."
+  },
+
+
+  "vfs.fs.inode[/boot,pfree]": {
+    "name": "Free Inodes in /boot (%)",
+    "description": "The percentage of available inodes on the boot filesystem. Inodes store metadata about files and directories.",
+    "value": {
+      "normal": 20,
+      "warning": 5
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Investigate what files are consuming inodes; consider cleaning up unnecessary files or directories.",
+      "critical": "Take immediate action; identify and delete unnecessary files, or consider resizing the filesystem or migrating to a filesystem that better suits your needs."
+    }
+  },
+  "vfs.fs.size[/boot,pused]": {
+    "name": "Space Utilization for /boot (%)",
+    "description": "The percentage of disk space currently used on boot /boot",
+    "value": {
+      "normal": 80,
+      "warning": 90
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Start cleaning up old files or consider increasing disk space on /boot",
+      "critical": "Immediate action required; delete unnecessary files, archive old data, or expand the filesystem on /boot to avoid data loss."
+    }
+  },
+  "vfs.fs.size[/boot,total]": {
+    "name": "Total Space on /boot",
+    "description": "The total size of the filesystem on /boot"
+  },
+  "vfs.fs.size[/boot,used]": {
+    "name": "Used Space on /boot",
+    "description": "The total amount of space currently used on the /boot filesystem."
+  },
+
+
+  "vfs.fs.inode[/home,pfree]": {
+    "name": "Free Inodes in /home (%)",
+    "description": "The percentage of available inodes on the home filesystem. Inodes store metadata about files and directories.",
+    "value": {
+      "normal": 20,
+      "warning": 5
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Investigate what files are consuming inodes; consider cleaning up unnecessary files or directories.",
+      "critical": "Take immediate action; identify and delete unnecessary files, or consider resizing the filesystem or migrating to a filesystem that better suits your needs."
+    }
+  },
+  "vfs.fs.size[/home,pused]": {
+    "name": "Space Utilization for /home (%)",
+    "description": "The percentage of disk space currently used on /home",
+    "value": {
+      "normal": 80,
+      "warning": 90
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Start cleaning up old files or consider increasing disk space on /home",
+      "critical": "Immediate action required; delete unnecessary files, archive old data, or expand the filesystem on /home to avoid data loss."
+    }
+  },
+  "vfs.fs.size[/home,total]": {
+    "name": "Total Space on /home",
+    "description": "The total size of the filesystem on /home"
+  },
+  "vfs.fs.size[/home,used]": {
+    "name": "Used Space on /home",
+    "description": "The total amount of space currently used on the /home filesystem."
+  }
+}

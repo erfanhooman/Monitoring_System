@@ -1,10 +1,16 @@
-# from rest_framework.response import Response
+"""
+Before You embark on a journey of revenge, die two grave
+    -Kong Qiu
+"""
+
 from django.http import JsonResponse
-from rest_framework import status
+from rest_framework.views import exception_handler
+
+from settings.permissions import HasPermissionForView
 
 
-def create_response(success: bool,
-                    data: dict = None, message: str = ''):
+def create_response(success: bool, status,
+                    data = None, message: str = ''):
     """
     Create a JSON response with the given parameters.
     Args:
@@ -20,8 +26,32 @@ def create_response(success: bool,
         'message': message,
         'data': data,
     }
-    if success:
-        st = status.HTTP_200_OK
-    else:
-        st = status.HTTP_500_INTERNAL_SERVER_ERROR
-    return JsonResponse(response, status=st)
+    return JsonResponse(response, status=status)
+
+
+def permission_for_view(permission_name):
+    class DynamicPermission(HasPermissionForView):
+        required_permission = permission_name
+
+    return DynamicPermission
+
+
+def custom_exception_handler(exc, context):
+    response = exception_handler(exc, context)
+
+    # if isinstance(exc, PermissionDenied):
+    #     return create_response(
+    #         success=False,
+    #         status=403,
+    #         message=str(exc)
+    #     )
+    #
+    # if isinstance(exc, AuthenticationFailed):
+    #     return create_response(
+    #         success=False,
+    #         status=401,
+    #         message=mt[401],
+    #         data=str(exc)
+    #     )
+
+    return response

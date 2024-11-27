@@ -96,7 +96,6 @@ class ZabbixPackage(ZabbixAPIBase):
 class ZabbixHelper:
     def __init__(self, url=ZABBIX_URL, user=ZABBIX_USER, password=ZABBIX_PASSWORD, host_name=ZABBIX_HOST_NAME):
         try:
-            print("url",url, "user", user, "password", password, "host_name", host_name)
             self.zabbix = ZabbixPackage(f'http://{url}/zabbix/api_jsonrpc.php')
             self.zabbix.login(user, password)
             self.host_id = self.zabbix.get_host_id(host_name)

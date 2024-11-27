@@ -1,0 +1,214 @@
+{
+  "system.cpu.num": {
+    "name": "Number of CPUs",
+    "description": "Total number of logical CPUs, This includes both physical cores and virtual cores (if hyperthreading or similar technologies are enabled)."
+  },
+  "system.cpu.load[all,avg15]": {
+    "name": "CPU Load (15m average)",
+    "description": "the average number of processes that were actively running or waiting to run during the past 15 minutes",
+    "value": {
+      "normal": 1,
+      "warning": 1.5
+    },
+    "recommendations": {
+      "normal": "",
+      "warning": "CPU load is high, consider closing unnecessary processes.",
+      "critical": "CPU load is critical, investigate running processes immediately, Identify and terminate non-essential processes or applications."
+    }
+  },
+  "system.cpu.load[all,avg5]": {
+    "name": "CPU Load (5m average)",
+    "description": "the average number of processes that were actively running or waiting to run during the past 5 minutes",
+    "value": {
+      "normal": 1,
+      "warning": 1.5
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "CPU load is high, consider closing unnecessary processes.",
+      "critical": "CPU load is critical, investigate running processes immediately, Identify and terminate non-essential processes or applications."
+    }
+  },
+  "system.cpu.load[all,avg1]": {
+    "name": "CPU Load (1m average)",
+    "description": "the average number of processes that were actively running or waiting to run during the past minute",
+    "value": {
+      "normal": 1,
+      "warning": 1.5
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "CPU load is high, consider closing unnecessary processes.",
+      "critical": "CPU load is critical, investigate running processes immediately, Identify and terminate non-essential processes or applications."
+    }
+  },
+  "system.cpu.util": {
+    "name": "Overall CPU utilization",
+    "description": "provides a comprehensive view of the CPU's performance, reflecting the total percentage of CPU time spent across all states: user processes, system processes, idle time, and other categories",
+    "value": {
+      "normal": 70,
+      "warning": 85
+    },
+    "recommendations": {
+      "normal": "No immediate action required.",
+      "warning": "Investigate processes contributing to high CPU utilization, Review application performance and resource allocation to ensure they are optimized.",
+      "critical": "Identify specific processes or workloads consuming excessive CPU resources, Determine if applications can be optimized, workloads redistributed, or if additional resources are needed, Consider terminating or adjusting less critical processes to free up CPU capacity"
+    }
+  },
+  "system.cpu.switches": {
+    "name": "Context switches per second",
+    "description": "the frequency at which the operating system switches between different processes or threads executing on a CPU core.",
+    "value": {
+      "normal": 1000,
+      "warning": 5000
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Investigate potential causes for the increased context switches, Investigate processes with high context switch rates,  Review threading models of applications; too many threads can lead to overhead",
+      "critical": "Take immediate action to address the high context switch rate. Identify and terminate problematic processes, optimize system resources, or investigate potential system failures,  Check for system bottlenecks, such as I/O waits or locking issues."
+    }
+  },
+  "system.cpu.intr": {
+    "name": "Interrupts per second",
+    "description": "metric represents the number of hardware interrupts handled by the CPU per second.",
+    "value": {
+      "normal": 1000,
+      "warning": 3000
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Investigate potential causes for the increased interrupt rate. Check for network congestion, inefficient I/O operations, or hardware problems. Consider optimizing network settings, adjusting I/O parameters, or updating hardware drivers if needed.",
+      "critical": "Take immediate action to address the high interrupt rate. Identify and resolve network issues, replace faulty hardware, or investigate system failures, Look for hardware issues, misconfigured drivers, or other anomalies that may be causing excessive interrupts."
+    }
+  },
+  "system.cpu.util[,guest_nice]": {
+    "name": "Guest nice time",
+    "description": "CPU utilization of guest nice processes. Guest nice processes are processes that have been assigned a lower priority by the guest operating system. This means they are less likely to be scheduled for execution compared to processes with higher priorities.",
+    "value": {
+      "normal": 5,
+      "warning": 15
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Investigate the virtual machines (VMs) or processes consuming significant CPU time, Review VM resource allocation and performance. It may be necessary to adjust CPU limits or shares.",
+      "critical": "Take immediate action to reduce guest nice utilization, review the workload running on these VMs; consider whether they need more CPU resources or if they can be optimized, Adjust resource allocation, consider balancing workloads across more VMs, or adjust priority settings for less critical processes."
+    }
+  },
+  "system.cpu.util[,guest]": {
+    "name": "Guest time",
+    "description": "CPU utilization of guest processes represent how much CPU time is being utilized by virtual machines (VMs) in a virtualized environment, This metric indicates the percentage of CPU time consumed by guest operating systems (the VMs) relative to the total available CPU time",
+    "value": {
+      "normal": 10,
+      "warning": 20
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Investigate the VMs consuming significant guest time. Tools like hypervisor management interfaces (e.g., VMware vSphere, KVM, etc.) can help identify resource-heavy VMs, Evaluate the resource allocation of the VMs. It might be necessary to adjust CPU limits or shares if some VMs are hogging resources.",
+      "critical": "Take immediate action to reduce guest utilization, Determine if those VMs require more resources or if they can be optimized, Consider redistributing workloads, adjusting CPU allocation, or implementing performance tuning measures for the VMs in question."
+    }
+  },
+  "system.cpu.util[,idle]": {
+    "name": "Idle time",
+    "description": "CPU idle time. It indicates the percentage of time that a CPU core is not actively executing any processes.",
+    "value": {
+      "normal": 30,
+      "warning": 15
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "A low idle time suggests that the CPU core is under heavy load and is actively executing processes, Investigate processes consuming significant CPU resources, Review application performance and resource allocation to ensure they are optimized.",
+      "critical": "A low idle time suggests that the CPU core is under heavy load and is actively executing processes, Take immediate action identify specific processes or workloads that are consuming excessive CPU resources."
+    }
+  },
+  "system.cpu.util[,interrupt]": {
+    "name": "Interrupt time",
+    "description": "CPU utilization caused by interrupts. Interrupts are events that cause the CPU to stop its current task and switch to handle the event, A high interrupt utilization indicates that interrupts are consuming a significant portion of the CPU resources. This could potentially impact the performance of other processes or the system as a whole",
+    "value": {
+      "normal": 5,
+      "warning": 10
+    },
+    "recommendations": {
+      "normal": "No action is necessary,",
+      "warning": "Investigate sources of interrupts, Review hardware configurations, device drivers, or network settings that might contribute to higher interrupt rates.",
+      "critical": "Take immediate action, Identify specific hardware or devices generating excessive interrupts, This could involve checking logs or using diagnostic tools, Determine if there are hardware issues or if certain processes can be optimized, Consider implementing interrupt moderation or adjusting device configurations to reduce interrupt load."
+    }
+  },
+  "system.cpu.util[,iowait]": {
+    "name": "Iowait time",
+    "description": "CPU utilization caused by I/O wait. This occurs when a CPU core is waiting for I/O operations (such as reading from or writing to disk) to complete.",
+    "value": {
+      "normal": 10,
+      "warning": 20
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "A high I/O wait indicates that the CPU is spending a significant amount of time waiting for I/O operations. This could be due to factors like slow storage devices, excessive I/O requests, or inefficient I/O handling, Monitor I/O wait closely and consider taking steps to optimize I/O operations or increase I/O resources.",
+      "critical": "A high I/O wait indicates that the CPU is spending a significant amount of time waiting for I/O operations. This could be due to factors like slow storage devices, excessive I/O requests, or inefficient I/O handling, Take immediate action to address the high I/O wait, such as upgrading storage devices, optimizing I/O settings, or increasing I/O resources."
+    }
+  },
+  "system.cpu.util[,nice]": {
+    "name": "Nice time",
+    "description": "CPU utilization of nice processes. Nice processes are processes that have been assigned a lower priority by the operating system. This means they are less likely to be scheduled for execution compared to processes with higher priorities.",
+    "value": {
+      "normal": 50,
+      "warning": 60
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "A low nice utilization suggests that nice processes are not using many CPU resources. This could be due to a lack of workload for these processes or because they are being effectively scheduled by the operating system, Monitor nice utilization closely and consider taking steps to reduce the load on nice processes, such as optimizing applications or adjusting priorities.",
+      "critical": "Evaluate whether these processes can be re-prioritized or optimized to reduce their CPU usage, Consider adjusting the priority of the niced processes if they are not essential or if they can be temporarily deprioritized further."
+    }
+  },
+  "system.cpu.util[,softirq]": {
+    "name": "Softirq time",
+    "description": "the percentage of CPU time spent handling soft interrupts. Soft interrupts are a type of interrupt that is managed by the CPU and are typically used for tasks such as network packet processing, timers, and other system tasks that are not as urgent as hard interrupts.",
+    "value": {
+      "normal": 5,
+      "warning": 15
+    },
+    "recommendations": {
+      "normal": "No immediate action required.",
+      "warning": "Investigate potential causes of increased softirq time, Check for high network activity or other processes generating significant soft interrupts, Consider optimizing applications or services that may be contributing to softirq load.",
+      "critical": "Immediate investigation required, Identify which processes are generating high softirq time, Analyze network traffic patterns and adjust configurations or limits as necessary, Consider offloading certain tasks to dedicated hardware (e.g., using network interface cards that support offloading), Evaluate system configuration and tune parameters related to networking, such as increasing the size of the receive buffer."
+    }
+  },
+  "system.cpu.util[,steal]": {
+    "name": "Steal time",
+    "description": "the percentage of CPU time that a virtual machine (VM) is unable to use because the hypervisor is servicing other VMs. This metric is crucial in a virtualized environment, as it helps assess how effectively CPU resources are being allocated among multiple VMs.",
+    "value": {
+      "normal": 2,
+      "warning": 5
+    },
+    "recommendations": {
+      "normal": "No immediate action required.",
+      "warning": "Investigate CPU allocation settings in the hypervisor, Review resource allocation and consider redistributing workloads if certain VMs are underperforming.",
+      "critical": "Identify specific VMs that are contributing to high steal time and analyze their resource usage, Determine if the hypervisor settings need adjustment,  Consider scaling out by adding more VMs or reallocating resources to ensure that critical applications have the necessary CPU availability."
+    }
+  },
+  "system.cpu.util[,system]": {
+    "name": "System time",
+    "description": "Monitoring system time measures the percentage of CPU time spent in the kernel space, handling system-level tasks such as I/O operations, device management, and other core functionalities. This metric helps you understand how much CPU capacity is being utilized for system operations versus user processes",
+    "value": {
+      "normal": 20,
+      "warning": 30
+    },
+    "recommendations": {
+      "normal": "No immediate action required.",
+      "warning": "Identify specific processes or services contributing to high system time, Check for misconfigured services, excessive logging, or resource-heavy background tasks that may be impacting system time.",
+      "critical": "Review logs and system activity to determine if there are hardware issues, such as disk or network bottlenecks, or if specific applications need optimization, Consider tuning system parameters, optimizing application performance, or redistributing workloads if needed."
+    }
+  },
+  "system.cpu.util[,user]": {
+    "name": "User time",
+    "description": "Monitoring user time (system.cpu.util[,user]) measures the percentage of CPU time spent executing user-level processes, excluding system-level tasks handled by the kernel. This metric is essential for understanding how much CPU capacity is being utilized by applications and user processes",
+    "value": {
+      "normal": 80,
+      "warning": 90
+    },
+    "recommendations": {
+      "normal": "No immediate action required.",
+      "warning": "Investigate which user processes are consuming significant CPU time, Review application performance and see if any optimizations can be made",
+      "critical": "Identify specific user processes contributing to high CPU usage, nvestigate logs and performance metrics to determine if applications are functioning as intended or if there are underlying issues, Consider optimizing or scaling applications, redistributing workloads, or even upgrading hardware if necessary."
+    }
+  }
+}

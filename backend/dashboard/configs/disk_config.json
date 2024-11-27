@@ -17,7 +17,7 @@
     "description": "Represents the average wait time for read operations on devices, It measures how long I/O operations are waiting in the queue before being processed by the storage device.",
     "value": {
       "normal": 10,
-      "warning": 50
+      "warning": 50s
     },
     "recommendations": {
       "normal": "No action is necessary",

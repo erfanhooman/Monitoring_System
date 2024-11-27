@@ -9,19 +9,23 @@ import time
 from django.conf import settings
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 from rest_framework.views import APIView
 
 from backend.messages import mt
 from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
-from backend.utils import create_response
+from backend.utils import create_response, permission_for_view
 from settings.models import UserSystem
+from settings.permissions import IsDetailAvailable, IsAuthenticated
 from ..utils import statuses_calculator as sc
 from ..utils.utils import humanize_bytes
 
 
+# TODO: Ensure JSON files have proper schema validation using tools like jsonschema to catch misconfigurations early.
+# TODO: Instead of hardcoding STATUS_FUNCTIONS, you could automatically map metrics to functions by parsing the configuration file.
+
 class DashboardView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, permission_for_view("DASHBOARD"), IsDetailAvailable]
 
     @swagger_auto_schema(
         operation_summary="Get system metrics like CPU, RAM, Disk, and Network",
@@ -75,22 +79,20 @@ class DashboardView(APIView):
     )
     def get(self, request):
         try:
-            user = request.user
-            user_system = UserSystem.objects.get(user=user)
-            if not user_system:
-                return create_response(success=False, message=mt[403])
+            user_system = request.user.usersystem
+            zabbix_details = user_system.zabbix_details
 
-            zabbix_helper = ZabbixHelper(url=user_system.zabbix_server_url,
-                                         user=user_system.zabbix_username,
-                                         password=user_system.zabbix_password,
-                                         host_name=user_system.zabbix_host_name
-                                         )
+            zabbix_helper = ZabbixHelper(
+                url=zabbix_details['url'],
+                user=zabbix_details['username'],
+                password=zabbix_details['password'],
+                host_name=zabbix_details['host_name']
+            )
 
             # Fetch General Metric
             cpu = zabbix_helper.get_item_data('system.cpu.load[all,avg15]')
             ram = zabbix_helper.get_item_data('vm.memory.size[available]')
             disk = zabbix_helper.get_item_data('vfs.fs.size[/,total]')
-            network = zabbix_helper.get_item_data('net.if.in["nekoray-tun"]')  # TODO: don't hardcode it
 
             data = {
                 'CPU': {
@@ -111,22 +113,15 @@ class DashboardView(APIView):
                     'pre_value': disk[0].get('prevvalue', None),
                     'lastclock': time.strftime('%Y-%m-%d %H:%M:%S',
                                                time.localtime(int(disk[0].get('lastclock', None)))),
-                },
-                'Network': {
-                    'description': 'Incoming traffic on the network interface',
-                    'last_value': network[0].get('lastvalue', None),
-                    'pre_value': network[0].get('prevvalue', None),
-                    'lastclock': time.strftime('%Y-%m-%d %H:%M:%S',
-                                               time.localtime(int(network[0].get('lastclock', None)))),
                 }
             }
-            return create_response(success=True, data=data, message=mt[200])
+            return create_response(success=True, status=status.HTTP_200_OK, data=data, message=mt[200])
         except ValueError as e:
-            return create_response(success=False, message=str(e))
+            return create_response(success=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e))
 
 
 class SystemDetailView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsDetailAvailable]
 
     STATUS_FUNCTIONS = {}
     bytes_data = []
@@ -169,10 +164,10 @@ class SystemDetailView(APIView):
         return formatted_history
 
     def get_data(self, general_items, metric_items, config, user_system):
-        zabbix_helper = ZabbixHelper(url=user_system.zabbix_server_url,
-                                     user=user_system.zabbix_username,
-                                     password=user_system.zabbix_password,
-                                     host_name=user_system.zabbix_host_name
+        zabbix_helper = ZabbixHelper(url=user_system.zabbix_details['url'],
+                                     user=user_system.zabbix_details['username'],
+                                     password=user_system.zabbix_details['password'],
+                                     host_name=user_system.zabbix_details['host_name']
                                      )
 
         general_data = {item: zabbix_helper.get_item_data(item) for item in general_items}
@@ -294,17 +289,17 @@ class SystemDetailView(APIView):
         user = request.user
         user_system = UserSystem.objects.get(user=user)
         if not user_system:
-            return create_response(success=False, message=mt[403])
+            return create_response(success=False, status=status.HTTP_401_UNAUTHORIZED, message=mt[403])
         try:
             config = self.load_config(self.config_file)
             data = self.get_data(self.general_items, self.metric_items, config, user_system)
-            return create_response(success=True, data=data, message=mt[200])
+            return create_response(success=True, data=data, status=status.HTTP_200_OK, message=mt[200])
         except ValueError as e:
-            return create_response(success=False, message=str(e))
+            return create_response(success=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e))
 
 
 class CPUDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, permission_for_view('CPU'), IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         'system.cpu.load[all,avg15]': sc.status_per_core,
@@ -348,7 +343,7 @@ class CPUDetailView(SystemDetailView):
 
 
 class RamDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, permission_for_view('RAM'), IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         'vm.memory.size[pavailable]': sc.main_status_reverse,
@@ -377,7 +372,7 @@ class RamDetailView(SystemDetailView):
 
 
 class FileSystemDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, permission_for_view('FS'), IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         "vfs.fs.inode[/,pfree]": sc.main_status_reverse,
@@ -386,7 +381,6 @@ class FileSystemDetailView(SystemDetailView):
         "vfs.fs.size[/boot,pused]": sc.main_status,
         "vfs.fs.inode[/home,pfree]": sc.main_status_reverse,
         "vfs.fs.size[/home,pused]": sc.main_status,
-
     }
 
     config_file = 'filesystem_config.json'
@@ -422,7 +416,7 @@ class FileSystemDetailView(SystemDetailView):
 
 
 class GeneralDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, permission_for_view('GENERAL'), IsDetailAvailable]
 
     config_file = 'general_config.json'
 
@@ -448,7 +442,7 @@ class GeneralDetailView(SystemDetailView):
 
 
 class DiskDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, permission_for_view('DISK'), IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         'vfs.dev.queue_size': sc.main_status,
@@ -461,16 +455,38 @@ class DiskDetailView(SystemDetailView):
 
     config_file = 'disk_config.json'
 
-    def get_disks(self):
-        """Dynamically detect available disks"""
-        return ["nvme0n1"]
+    def get_disks(self, user_system):
+        """Dynamically detect available disk partitions using Zabbix API"""
+        zabbix_helper = ZabbixHelper(url=user_system.zabbix_details['url'],
+                                     user=user_system.zabbix_details['username'],
+                                     password=user_system.zabbix_details['password'],
+                                     host_name=user_system.zabbix_details['host_name']
+                                     )
+        host_id = zabbix_helper.host_id
+
+        items = zabbix_helper.zabbix.zabbix.item.get(hostids=host_id, output=["key_"])
+
+        disks = []
+        for item in items:
+            if item['key_'].startswith("vfs.dev."):
+                disk_name = item['key_'].split('[')[1].rstrip(']')  # Get the name inside brackets
+                if disk_name not in disks:
+                    disks.append(disk_name)
+
+        return disks
 
     def get(self, request):
         try:
+            user = request.user
+            user_system = UserSystem.objects.filter(user=user).first()
+            if not user_system:
+                return create_response(success=False, message=mt[403], status=status.HTTP_401_UNAUTHORIZED)
+
+
             config = self.load_config(self.config_file)
             data = {}
 
-            disks = self.get_disks()
+            disks = self.get_disks(user_system)
             for disk in disks:
                 general_items = [
                     f'vfs.dev.read.rate[{disk}]',
@@ -485,16 +501,16 @@ class DiskDetailView(SystemDetailView):
                     f'vfs.dev.util[{disk}]'
                 ]
 
-                disk_data = self.get_data(general_items, metric_items, config)
+                disk_data = self.get_data(general_items, metric_items, config, user_system)
                 data[disk] = disk_data
 
-            return create_response(success=True, data=data, message=mt[200])
+            return create_response(success=True, status=status.HTTP_200_OK, data=data, message=mt[200])
         except ValueError as e:
-            return create_response(success=False, message=str(e))
+            return create_response(success=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e))
 
 
 class NetworkInterfaceDetailView(SystemDetailView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,  permission_for_view('NETWORK'), IsDetailAvailable]
 
     STATUS_FUNCTIONS = {
         'net.if.in.dropped': sc.main_status,
@@ -505,16 +521,38 @@ class NetworkInterfaceDetailView(SystemDetailView):
 
     config_file = 'networkinterface_config.json'
 
-    def get_interfaces(self):
+    def get_interfaces(self, user_system):
         """Dynamically detect available network interfaces"""
-        return ["wlp0s20f3"]
+        zabbix_helper = ZabbixHelper(url=user_system.zabbix_details['url'],
+                                     user=user_system.zabbix_details['username'],
+                                     password=user_system.zabbix_details['password'],
+                                     host_name=user_system.zabbix_details['host_name']
+                                     )
+        host_id = zabbix_helper.host_id
+
+        items = zabbix_helper.zabbix.zabbix.item.get(hostids=host_id, output=["key_"])
+
+        interfaces = []
+        for item in items:
+            if item['key_'].startswith("net.if."):
+                interface_name = item['key_'].split('"')[1] if '"' in item['key_'] else \
+                    item['key_'].split('[')[1].split(']')[0]
+                if interface_name not in interfaces:
+                    interfaces.append(interface_name)
+
+        return interfaces
 
     def get(self, request):
         try:
+            user = request.user
+            user_system = UserSystem.objects.filter(user=user).first()
+            if not user_system:
+                return create_response(success=False, message=mt[403], status=status.HTTP_401_UNAUTHORIZED)
+
             config = self.load_config(self.config_file)
             data = {}
 
-            interfaces = self.get_interfaces()
+            interfaces = self.get_interfaces(user_system)
             for interface in interfaces:
                 general_items = [
                     f'net.if.in["{interface}"]',
@@ -527,9 +565,9 @@ class NetworkInterfaceDetailView(SystemDetailView):
                     f'net.if.out["{interface}",errors]',
                 ]
 
-                interface_data = self.get_data(general_items, metric_items, config)
+                interface_data = self.get_data(general_items, metric_items, config, user_system)
                 data[interface] = interface_data
 
-            return create_response(success=True, data=data, message=mt[200])
+            return create_response(success=True, status=status.HTTP_200_OK, data=data, message=mt[200])
         except ValueError as e:
-            return create_response(success=False, message=str(e))
+            return create_response(success=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e))
