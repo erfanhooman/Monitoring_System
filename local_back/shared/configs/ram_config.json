@@ -1,0 +1,57 @@
+{
+  "vm.memory.size[available]": {
+    "name": "Available memory",
+    "description": "Available memory (RAM) in gigabytes (GB)"
+  },
+  "vm.memory.size[total]": {
+    "name": "Total memory",
+    "description": "Total memory (RAM) in gigabytes (GB)"
+  },
+  "vm.memory.size[pavailable]": {
+    "name": "Available memory Percentage",
+    "description": "Available memory (RAM) in Percentage",
+    "value": {
+      "normal": 20,
+      "warning": 10
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Assess running applications and services. Consider optimizing memory usage, reducing unnecessary workloads, or increasing VM memory if feasible",
+      "critical": "Immediately check memory usage details to identify any processes consuming excessive memory, Consider terminating non-essential applications or services."
+    }
+  },
+  "vm.memory.utilization": {
+    "name": "Memory utilization",
+    "description": "The percentage of memory (RAM) being used by a system",
+    "value": {
+      "normal": 70,
+      "warning": 85
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Review running services and applications, Optimize or configure applications to use less memory",
+      "critical": "Immediately check memory usage details to identify any processes consuming excessive memory, Consider terminating non-essential applications or services."
+    }
+  },
+  "system.swap.size[,free]": {
+    "name": "Free swap space",
+    "description": "The amount of swap space currently free and available for use."
+  },
+  "system.swap.size[,total]": {
+    "name": "Total swap space",
+    "description": "The amount of swap space currently free and available for use."
+  },
+    "system.swap.size[,pfree]": {
+    "name": "Free Swap Space in %",
+    "description": "The percentage of total swap space that is free",
+    "value": {
+      "normal": 20,
+      "warning": 10
+    },
+    "recommendations": {
+      "normal": "No action is necessary",
+      "warning": "Review running services and applications, Optimize or configure applications to use less memory",
+      "critical": "Immediately check memory usage details to identify any processes consuming excessive memory, Consider terminating non-essential applications or services."
+    }
+  }
+}

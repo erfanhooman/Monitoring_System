@@ -56,12 +56,18 @@ class LoginUserView(APIView):
             password = serializer.validated_data['password']
             user = authenticate(username=username, password=password)
             if user:
-                if not user.usersystem.active:
+                if not user.is_superuser and not user.usersystem.active:
                     return create_response(success=False, status=status.HTTP_401_UNAUTHORIZED, message=mt[435])
 
+                refresh = RefreshToken.for_user(user)
+                access = AccessToken.for_user(user)
+
+                access['usertype'] = 'admin' if user.is_superuser else 'user'
+                refresh['usertype'] = 'admin' if user.is_superuser else 'user'
+
                 data = {
-                    "refresh": str(RefreshToken.for_user(user)),
-                    "access": str(AccessToken.for_user(user))
+                    "refresh": str(refresh),
+                    "access": str(access)
                 }
                 return create_response(success=True, status=status.HTTP_200_OK, data=data)
             return create_response(success=False, status=status.HTTP_401_UNAUTHORIZED, message=mt[431])

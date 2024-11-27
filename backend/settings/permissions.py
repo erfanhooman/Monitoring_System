@@ -16,7 +16,7 @@ from settings.models import UserType
 
 class IsAuthenticated(permissions.IsAuthenticated):
     def has_permission(self, request, view):
-        if request.user and request.user.is_authenticated and request.user.usersystem.active:
+        if not request.user.is_superuser and request.user and request.user.is_authenticated and request.user.usersystem.active:
             return True
         raise ex.AuthenticationFailed(mt[433])
 

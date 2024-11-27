@@ -1,0 +1,5 @@
+# pip install requirement.txt --> redis / celery / flask
+# sudo dnf install redis
+# python user_alert_prefrence.py
+# celery -A celery_app worker --loglevel=info
+# celery -A celery_app beat --loglevel=info

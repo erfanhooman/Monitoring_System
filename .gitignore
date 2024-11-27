@@ -4,3 +4,4 @@ local_back/local_ms.log
 local_back/.idea
 
 identifier.sqlite
+local_back/user_alert_prefrence.py

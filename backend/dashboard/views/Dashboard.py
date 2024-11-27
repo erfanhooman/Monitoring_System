@@ -21,6 +21,9 @@ from ..utils import statuses_calculator as sc
 from ..utils.utils import humanize_bytes
 
 
+# TODO: Ensure JSON files have proper schema validation using tools like jsonschema to catch misconfigurations early.
+# TODO: Instead of hardcoding STATUS_FUNCTIONS, you could automatically map metrics to functions by parsing the configuration file.
+
 class DashboardView(APIView):
     permission_classes = [IsAuthenticated, permission_for_view("DASHBOARD"), IsDetailAvailable]
 
@@ -378,7 +381,6 @@ class FileSystemDetailView(SystemDetailView):
         "vfs.fs.size[/boot,pused]": sc.main_status,
         "vfs.fs.inode[/home,pfree]": sc.main_status_reverse,
         "vfs.fs.size[/home,pused]": sc.main_status,
-
     }
 
     config_file = 'filesystem_config.json'
