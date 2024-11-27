@@ -1,4 +1,6 @@
 .idea
 .idea/
+local_back/local_ms.log
+local_back/.idea
 
 identifier.sqlite
