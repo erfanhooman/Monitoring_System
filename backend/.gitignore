@@ -3,7 +3,6 @@ __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-
 # Virtual environment
 venv/
 .env
@@ -28,3 +27,5 @@ db.sqlite3
 test.py
 
 identifier.sqlite
+
+road.txt
