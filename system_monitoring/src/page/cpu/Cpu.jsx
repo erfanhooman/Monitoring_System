@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
-import {CpuApi, DashboardApi, RefreshAccessToken} from "../../api.js";
+import {CpuApi, RefreshAccessToken} from "../../api.js";
+import {ActivationModal} from '../../modal/ActivationModal.jsx';
 
 export default function Cpu() {
     const [data, setData] = useState([])
@@ -20,7 +21,7 @@ export default function Cpu() {
 
 
     return (
-        <div className="relative grid grid-cols-3 gap-4 h-dvh overflow-auto">
+        <div className="relative grid grid-cols-3 gap-4 h-dvh overflow-auto ">
             {
                 data.map((item, index) => (
                     <div className="relative p-5 bg-gray-100 rounded-lg flex flex-col justify-between gap-5 shadow-sm
@@ -38,11 +39,12 @@ export default function Cpu() {
                                     p-2 w-fit text-white rounded-lg`}>{item.status}</p>
                             }
                         </div>
-
-                        {/*<ActivationModal data={item?.history}/>*/}
+                        <div className="flex justify-center items-center">
+                            <ActivationModal data={item?.history}/>
+                        </div>
+                        </div>
+                        ))
+                        }
                     </div>
-                ))
+                );
             }
-        </div>
-    );
-}
