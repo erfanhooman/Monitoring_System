@@ -38,12 +38,12 @@ class UserSignup(APIView):
                 examples={
                     "application/json": {
                         "success": True,
+                        "message": "User created successfully.",
                         "status": 201,
                         "data": {
-                            "id": 123,
                             "username": "new_subuser",
+                            "id": 123,
                         },
-                        "message": "User created successfully."
                     }
                 }
             ),
@@ -67,6 +67,7 @@ class UserSignup(APIView):
         serializer = SignupSubUserSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
+            data = serializer.data
             return create_response(success=True, status=status.HTTP_201_CREATED, data=serializer.data, message=mt[201])
         return create_response(success=False, status=status.HTTP_400_BAD_REQUEST, data=serializer.errors,
                                message=mt[414])
@@ -149,19 +150,10 @@ class UserManagementView(APIView):
                         ),
                     }
                 ),
-                "user_type": openapi.Schema(
-                    type=openapi.TYPE_STRING,
-                    description="Type of user. Should be 'user' or 'admin'.",
-                ),
                 "active": openapi.Schema(
                     type=openapi.TYPE_BOOLEAN,
                     description="Is the user active?",
-                ),
-                "permissions": openapi.Schema(
-                    type=openapi.TYPE_ARRAY,
-                    description="List of permissions that the user can access.",
-                    items=openapi.Schema(type=openapi.TYPE_OBJECT),
-                ),
+                )
             },
             required=["user_id"],
         ),

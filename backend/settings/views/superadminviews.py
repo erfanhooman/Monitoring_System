@@ -62,6 +62,41 @@ class AdminManagementView(APIView):
                         "users": openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_OBJECT)),
                     },
                 ),
+                examples={
+                    "application/json": {
+                        "success": False,
+                        "message": "success",
+                        "data": {
+                            "total_users": 2,
+                            "users": [
+                                {
+                                    "user": {
+                                        "username": "erfan3"
+                                    },
+                                    "id": 1,
+                                    "zabbix_server_url": "localhost",
+                                    "zabbix_username": "Admin",
+                                    "zabbix_password": "zabbix",
+                                    "zabbix_host_name": "Zabbix server",
+                                    "user_type": "admin",
+                                    "active": 1
+                                },
+                                {
+                                    "user": {
+                                        "username": "erfan"
+                                    },
+                                    "id": 2,
+                                    "zabbix_server_url": "localhost",
+                                    "zabbix_username": "Admin",
+                                    "zabbix_password": "zabbix",
+                                    "zabbix_host_name": "Zabbix server",
+                                    "user_type": "admin",
+                                    "active": 1
+                                }
+                            ]
+                        }
+                    }
+                }
             ),
             404: openapi.Response(description="User not found"),
         },
