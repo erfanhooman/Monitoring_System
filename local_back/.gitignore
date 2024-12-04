@@ -4,7 +4,7 @@ local_ms.log
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*.pyo
+*.pyo2
 *.pyd
 # Virtual environment
 venv/

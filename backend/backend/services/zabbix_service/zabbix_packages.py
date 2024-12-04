@@ -71,7 +71,7 @@ class ZabbixPackage(ZabbixAPIBase):
             logger.error(f"{str(e)}")
             raise ConnectionError(f"{mt[503]}: '{item}'")  # internal get item error
 
-    def get_item_history(self, item_id, history=0, limit=10):
+    def get_item_history(self, item_id, history=0, limit=30):
         try:
             item = self.zabbix.history.get(itemids=item_id, history=history, limit=limit, sortfield="clock",
                                            sortorder="DESC")

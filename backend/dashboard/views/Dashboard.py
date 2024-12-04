@@ -506,7 +506,7 @@ class DiskDetailView(SystemDetailView):
 
             return create_response(success=True, status=status.HTTP_200_OK, data=data, message=mt[200])
         except ValueError as e:
-            return create_response(success=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e))
+            return create_response(success=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR, message=mt[500], data=e)
 
 
 class NetworkInterfaceDetailView(SystemDetailView):

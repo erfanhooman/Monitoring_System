@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from rest_framework.views import exception_handler
 
 from settings.permissions import HasPermissionForView
-
+from rest_framework import status as st
 
 def create_response(success: bool, status,
                     data = None, message: str = ''):
@@ -26,7 +26,7 @@ def create_response(success: bool, status,
         'message': message,
         'data': data,
     }
-    return JsonResponse(response, status=status)
+    return JsonResponse(response, status=st.HTTP_200_OK)
 
 
 def permission_for_view(permission_name):
