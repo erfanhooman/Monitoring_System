@@ -1,2 +1,34 @@
 user_alert_prefrence.py
 local_ms.log
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+# Virtual environment
+venv/
+.env
+.env/
+
+# SQLite database
+db.sqlite3
+
+# Logs
+*.log
+
+# Django static files
+/static/
+/media/
+
+# Python Egg metadata
+*.egg-info/
+
+.idea
+.idea/
+
+test.py
+
+identifier.sqlite
+
+road.txt
