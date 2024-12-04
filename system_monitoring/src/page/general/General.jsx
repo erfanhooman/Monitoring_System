@@ -14,10 +14,15 @@ export default function General() {
         RefreshAccessToken().then(() => {
             GeneralApi()
                 .then((res) => {
-                    if (res.data.success) {
-                        setData(res.data.data); // Set the fetched CPU data
+                    if (res.status === 403) {
+                        // Show permission error for 403
+                        setError("You do not have permission");
+                    } else if (res.data.success !== true) {
+                        // If data success is not true, show error
+                        setError(res.data.message);
                     } else {
-                        setError(res.data.message); // Set the error message if success is false
+                        // Success case, update state with data
+                        setData(res.data.data);
                     }
                 })
                 .catch((err) => {
@@ -32,8 +37,9 @@ export default function General() {
 
     useEffect(() => {
         getData();
-    },[])
+    }, []); // Fetch data on component mount
 
+    // Loading spinner component
     const LoadingSpinner = () => (
         <div className="flex justify-center items-center h-full">
             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
@@ -44,13 +50,17 @@ export default function General() {
         return <LoadingSpinner/>; // Display loading spinner while fetching data
     }
 
-return (
-    <div className="relative h-screen">
-        {error && (
-            <div className="text-center text-lg text-red-600 bg-red-100 p-4 rounded-md w-full">
+    if (error) {
+        return (
+            <div className="text-center text-lg text-red-600 mt-8">
+                {/* Display the permission error or other errors */}
                 <p>{error}</p>
             </div>
-        )}
+        );
+    }
+
+return (
+    <div className="relative h-screen">
         <div
             className="relative grid grid-cols-3 gap-6 p-4 bg-gray-50 h-screen overflow-auto cursor-default select-none">
             {

@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react";
-import { DiskApi, RefreshAccessToken } from "../../api.js";
-import { ActivationModal } from '../../modal/ActivationModal.jsx';
+import {useEffect, useState} from "react";
+import {DiskApi, RefreshAccessToken} from "../../api.js";
+import {ActivationModal} from '../../modal/ActivationModal.jsx';
 
 export default function Disk() {
     const [data, setData] = useState({}); // Initialize as an empty object
     const [loading, setLoading] = useState(true); // Track loading state
+    const [error, setError] = useState(""); // Track error state for permissions or other issues
 
     const getData = () => {
         setLoading(true); // Start loading when fetching data
+        setError(""); // Clear previous errors
         RefreshAccessToken().then(() => {
             DiskApi()
                 .then((res) => {
-                    console.log(res);
-                    if (res.data.success && res.data.data) {
+                    console.log(res, 1111111111111)
+                    if (res.status === 403) {
+                        // If the response status is 403, it means permission is denied
+                        setError("You do not have permission");
+                    } else if (res.data.success && res.data.data) {
                         setData(res.data.data); // Set the data (object with disks)
                     } else {
                         console.error('Error: Invalid data structure');
@@ -20,6 +25,7 @@ export default function Disk() {
                 })
                 .catch((err) => {
                     console.error('Error fetching disk data:', err);
+                    setError("An error occurred while fetching disk data.");
                 })
                 .finally(() => {
                     setLoading(false); // Set loading to false when data is fetched
@@ -41,6 +47,15 @@ export default function Disk() {
     // JSX rendering
     if (loading) {
         return <LoadingSpinner/>; // Show the spinner when loading
+    }
+
+    if (error) {
+        return (
+            <div className="text-center text-lg text-red-600 mt-8">
+                {/* Display the permission error or other errors */}
+                <p>{error}</p>
+            </div>
+        );
     }
 
     return (

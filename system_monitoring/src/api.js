@@ -4,33 +4,43 @@ const route = import.meta.env.VITE_API_URL;
 
 const url = axios.create({
     baseURL: route,
-})
+});
 
-url.interceptors.response.use((response) => {
-    return response;
-}, (res) => {
-    if(!res) {
-        if (res.response.status === 401) {
-            const origin = new URL(location.href).origin;
+// Response interceptor to handle errors and still return data
+url.interceptors.response.use(
+    (response) => {
+        return response; // Pass successful responses
+    },
+    (error) => {
+        // Check if response exists and handle 401 (unauthorized) errors
+        if (error.response) {
+            const { status } = error.response;
 
-            if (origin + '/' === window.location.href)
-                return;
+            // Handle 401 error (Unauthorized)
+            if (status === 401) {
+                const origin = new URL(location.href).origin;
 
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
+                if (origin + '/' === window.location.href) return;
 
-            window.location.href = origin;
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+
+                window.location.href = origin;
+            }
+
+            // For 400, 403, and 500 errors, just return the error response
+            if ([400, 403, 500].includes(status)) {
+                return Promise.resolve(error.response); // Resolve with the error response
+            }
         }
 
-        return Promise.reject(res);
+        // If no response, just reject
+        return Promise.reject(error);
     }
-})
-
-// if (localStorage.getItem("token"))
-//     url.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("tokenAccess");
+);
 
 export function LoginApi(value) {
-    return url.post('/auth/login/', value)  // Add return here
+    return url.post('/auth/login/', value)
         .then(res => {
             const accessToken = res.data.data.access;
             const refreshToken = res.data.data.refresh;
@@ -44,7 +54,7 @@ export function LoginApi(value) {
         })
         .catch(() => {
             throw "Connection error!";
-        })
+        });
 }
 
 export function RefreshAccessToken() {

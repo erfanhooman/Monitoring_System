@@ -1,28 +1,36 @@
-import { useEffect, useState } from "react";
-import { NetworkApi, RefreshAccessToken } from "../../api.js";
-import { ActivationModal } from '../../modal/ActivationModal.jsx';
+import {useEffect, useState} from "react";
+import {NetworkApi, RefreshAccessToken} from "../../api.js";
+import {ActivationModal} from '../../modal/ActivationModal.jsx';
 
 export default function Network() {
-    const [data, setData] = useState({}); // Initialize as an empty object
+    const [data, setData] = useState([]); // State for storing CPU data
     const [loading, setLoading] = useState(true); // Track loading state
+    const [error, setError] = useState(null); // Track any errors
 
     const getData = () => {
-        setLoading(true); // Start loading when fetching data
+        setLoading(true); // Start loading
+        setError(null); // Clear any previous errors
+
         RefreshAccessToken().then(() => {
             NetworkApi()
                 .then((res) => {
-                    console.log(res);
-                    if (res.data.success && res.data.data) {
-                        setData(res.data.data); // Set the data (object with disks)
+                    if (res.status === 403) {
+                        // Show permission error for 403
+                        setError("You do not have permission");
+                    } else if (res.data.success !== true) {
+                        // If data success is not true, show error
+                        setError(res.data.message);
                     } else {
-                        console.error('Error: Invalid data structure');
+                        // Success case, update state with data
+                        setData(res.data.data);
                     }
                 })
                 .catch((err) => {
-                    console.error('Error fetching disk data:', err);
+                    console.error("Error fetching CPU data:", err);
+                    setError("Server is down. Please wait and try again."); // Handle API errors (server down)
                 })
                 .finally(() => {
-                    setLoading(false); // Set loading to false when data is fetched
+                    setLoading(false); // Stop loading when data is fetched or error occurs
                 });
         });
     };
@@ -38,11 +46,18 @@ export default function Network() {
         </div>
     );
 
-    // JSX rendering
     if (loading) {
-        return <LoadingSpinner/>; // Show the spinner when loading
+        return <LoadingSpinner/>; // Display loading spinner while fetching data
     }
 
+    if (error) {
+        return (
+            <div className="text-center text-lg text-red-600 mt-8">
+                {/* Display the permission error or other errors */}
+                <p>{error}</p>
+            </div>
+        );
+    }
     return (
         <div className="relative h-screen p-4 bg-gray-50 overflow-auto">
             {/* Check if data is available */}
