@@ -1,5 +1,6 @@
 from datetime import timedelta
 from pathlib import Path
+import os
 
 import environ
 
@@ -12,6 +13,9 @@ environ.Env.read_env(Path(BASE_DIR) / '.env')
 SECRET_KEY = 'django-insecure-sm&f#0gpxz_jad^voe2z9pg*)_6f_^+kqj78qb1kv40&zr9^i7'
 
 DEBUG = True
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ALLOWED_HOSTS = ["*"]
 

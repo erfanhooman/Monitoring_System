@@ -1,8 +1,14 @@
-from django.contrib.auth.models import User
-from rest_framework import serializers
+import os
 
 from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
+from django.contrib.auth.models import User
+from django.contrib.messages import success
+from django.core.files import File
+from kombu.utils import retry_over_time
+from rest_framework import serializers
+
 from .models import UserSystem, Permissions
+from .utils import create_openvpn_client
 
 
 class LoginSerializer(serializers.Serializer):
@@ -17,16 +23,33 @@ class SignupSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            password=validated_data['password']
-        )
 
-        UserSystem.objects.create(
-            user=user,
-            user_type="admin"
-        )
-        return user
+        success, bundle_path = create_openvpn_client(validated_data['username'])
+
+        if success:
+            user = User.objects.create_user(
+                username=validated_data['username'],
+                password=validated_data['password']
+            )
+
+
+            user_system = UserSystem.objects.create(
+                user=user,
+                user_type="admin"
+            )
+
+            with open(bundle_path, 'rb') as bundle_file:
+                user_system.script_file.save(f"{validated_data['username']}_bundle.tar.gz", File(bundle_file))
+
+            print("created,,,,")
+            os.remove(bundle_path)
+
+            return user
+        else:
+            print("#### unable to create a bundle #####")
+            raise serializers.ValidationError("Unable to create a bundle")
+
+
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -184,7 +207,6 @@ class SignupSubUserSerializer(serializers.ModelSerializer):
         )
 
         admin = self.context['request'].user.usersystem
-
         UserSystem.objects.create(
             user=user,
             user_type="user",

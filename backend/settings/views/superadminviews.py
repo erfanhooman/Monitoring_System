@@ -1,7 +1,9 @@
+from django.contrib.messages import success
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.serializers import ValidationError
 
 from backend.messages import mt
 from backend.utils import create_response
@@ -28,8 +30,11 @@ class AdminSignupView(APIView):
         """
         serializer = SignupSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return create_response(success=True, status=status.HTTP_201_CREATED, data=serializer.data, message=mt[201])
+            try:
+                serializer.save()
+                return create_response(success=True, status=status.HTTP_201_CREATED, data=serializer.data, message=mt[201])
+            except ValidationError:
+                return create_response(success=False, status=status.HTTP_500_INTERNAL_SERVER_ERROR, message=mt[507])
         return create_response(success=False, status=status.HTTP_400_BAD_REQUEST, data=serializer.errors,
                                message=mt[414])
 

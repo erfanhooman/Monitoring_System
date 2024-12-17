@@ -24,6 +24,7 @@ class UserType(models.TextChoices):
 
 class UserSystem(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='usersystem')
+
     zabbix_server_url = models.CharField(max_length=255, null=True, blank=True)
     zabbix_username = models.CharField(max_length=255, null=True, blank=True)
     zabbix_password = models.CharField(max_length=255, null=True, blank=True)
@@ -36,6 +37,7 @@ class UserSystem(models.Model):
     )
     admin = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='subusers')
     permissions = models.ManyToManyField(Permissions, related_name='system_permissions', blank=True)
+    script_file = models.FileField(upload_to='scripts', blank=True, null=True)
 
     @property
     def is_detail_available(self):

@@ -7,7 +7,8 @@ from backend.messages import mt
 from backend.utils import create_response, permission_for_view
 from ..models import UserSystem, UserType, Permissions
 from ..serializers import SignupSubUserSerializer, SubUserSystemSerializer
-
+# from ...backend.services.zabbix_service.zabbix_packages import logger
+from ..utils import create_openvpn_client
 
 class UserSignup(APIView):
     permission_classes = [permission_for_view('USER')]
@@ -67,10 +68,10 @@ class UserSignup(APIView):
         serializer = SignupSubUserSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            data = serializer.data
             return create_response(success=True, status=status.HTTP_201_CREATED, data=serializer.data, message=mt[201])
         return create_response(success=False, status=status.HTTP_400_BAD_REQUEST, data=serializer.errors,
                                message=mt[414])
+
 
 
 class UserManagementView(APIView):

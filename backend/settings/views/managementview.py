@@ -168,6 +168,15 @@ class UpdateZabbixSettingsView(APIView):
                                    message=mt[404])
 
         serializer = UpdateZabbixSettingsSerializer(user_system)
+
+        data = serializer.data
+
+        #TODO: security bug: every one can easily download it without auth detail
+        if user_system.script_file:
+            download_url = request.build_absolute_uri(user_system.script_file.url)
+            data['bundle_download'] = download_url
+
+
         return create_response(success=True, status=status.HTTP_200_OK,
-                               data=serializer.data,
+                               data=data,
                                message=mt[200])
