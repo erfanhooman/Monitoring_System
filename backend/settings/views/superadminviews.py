@@ -15,7 +15,7 @@ from ..serializers import SignupSerializer, UserSystemSerializer
 class AdminSignupView(APIView):
     permission_classes = [IsSuperAdmin]
 
-    @swagger_auto_schema(  # TODO: complete the swagger documentation
+    @swagger_auto_schema(
         operation_summary="Sign up a new user by Super Admin",
         operation_description="Allows the Super Admin to create new users by providing the required details.",
         request_body=SignupSerializer,

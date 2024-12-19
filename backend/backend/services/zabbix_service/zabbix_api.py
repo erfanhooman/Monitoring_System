@@ -3,8 +3,8 @@ import json
 import requests
 
 
-class ZabbixBuiltinAPI(ZabbixAPIBase):  # TODO: Error Handling
-    def __init__(self, url): #TODO: Test its
+class ZabbixBuiltinAPI(ZabbixAPIBase):
+    def __init__(self, url):
         super().__init__(url)
         self.token = None
         self.headers = {"Content-Type": "application/json-rpc"}

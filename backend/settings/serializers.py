@@ -1,14 +1,15 @@
+import logging
 import os
 
 from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
 from django.contrib.auth.models import User
-from django.contrib.messages import success
 from django.core.files import File
-from kombu.utils import retry_over_time
 from rest_framework import serializers
 
 from .models import UserSystem, Permissions
-from .utils import create_openvpn_client
+from .utils.client_setup import create_openvpn_client
+
+logger = logging.getLogger("ms")
 
 
 class LoginSerializer(serializers.Serializer):
@@ -41,12 +42,10 @@ class SignupSerializer(serializers.ModelSerializer):
             with open(bundle_path, 'rb') as bundle_file:
                 user_system.script_file.save(f"{validated_data['username']}_bundle.tar.gz", File(bundle_file))
 
-            print("created,,,,")
             os.remove(bundle_path)
 
             return user
         else:
-            print("#### unable to create a bundle #####")
             raise serializers.ValidationError("Unable to create a bundle")
 
 

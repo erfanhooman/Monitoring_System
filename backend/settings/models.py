@@ -7,8 +7,11 @@ Remember one thing,
                     AND HANDLE IT.
 """
 
+import uuid
+
 from django.contrib.auth.models import User
 from django.db import models
+
 
 class Permissions(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -37,7 +40,8 @@ class UserSystem(models.Model):
     )
     admin = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='subusers')
     permissions = models.ManyToManyField(Permissions, related_name='system_permissions', blank=True)
-    script_file = models.FileField(upload_to='scripts', blank=True, null=True)
+    # TODO: use Minio for storing files
+    script_file = models.FileField(upload_to=uuid.uuid4().hex, blank=True, null=True)
 
     @property
     def is_detail_available(self):

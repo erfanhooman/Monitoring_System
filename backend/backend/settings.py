@@ -1,6 +1,6 @@
+import os
 from datetime import timedelta
 from pathlib import Path
-import os
 
 import environ
 
@@ -146,8 +146,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import os
-
+#TODO: check logger over system works fine
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -187,3 +186,8 @@ LOGGING = {
         },
     },
 }
+
+# Server Infrastructure Details
+EASY_RSA_PATH = env('EASY_RSA_PATH')
+TA_KEY_PATH = env('TA_KEY_PATH')
+PUBLIC_KEY = env('PUBLIC_KEY')

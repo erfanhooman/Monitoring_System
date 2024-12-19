@@ -1,14 +1,14 @@
+from backend.messages import mt
+from backend.utils import create_response, permission_for_view
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.views import APIView
 
-from backend.messages import mt
-from backend.utils import create_response, permission_for_view
-from ..models import UserSystem, UserType, Permissions
+from ..models import UserSystem, Permissions
 from ..serializers import SignupSubUserSerializer, SubUserSystemSerializer
-# from ...backend.services.zabbix_service.zabbix_packages import logger
-from ..utils import create_openvpn_client
+
+
 
 class UserSignup(APIView):
     permission_classes = [permission_for_view('USER')]

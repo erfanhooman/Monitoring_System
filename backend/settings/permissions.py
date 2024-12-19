@@ -39,17 +39,17 @@ class HasPermissionForView(permissions.BasePermission):
     required_permission = None
 
     def has_permission(self, request, view):
-        #TODO: bug/ access using the superadmin to this pages cause an error
-        try:
-            if request.user.usersystem.user_type == UserType.ADMIN:
-                return True
+        user_system = request.user.usersystem
+        if request.user.is_superuser:
+            return False
 
-            user_system = request.user.usersystem
-            if not user_system.active:
-                return False
+        elif not user_system.active:
+            return False
 
-            if self.required_permission is None:
-                raise ValueError("HasPermissionForView requires 'required_permission' to be set.")
-        except Exception as e:
-            raise ValueError("Don't have permission to perform this action")
+        elif request.user.usersystem.user_type == UserType.ADMIN:
+            return True
+
+        elif self.required_permission is None:
+            raise ValueError("HasPermissionForView requires 'required_permission' to be set.")
+
         return user_system.permissions.filter(codename=self.required_permission).exists()

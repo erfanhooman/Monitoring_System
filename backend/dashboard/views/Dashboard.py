@@ -6,23 +6,21 @@ import json
 import os
 import time
 
+from backend.messages import mt
+from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
+from backend.utils import create_response, permission_for_view
 from django.conf import settings
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.views import APIView
-
-from backend.messages import mt
-from backend.services.zabbix_service.zabbix_packages import ZabbixHelper
-from backend.utils import create_response, permission_for_view
 from settings.models import UserSystem
 from settings.permissions import IsDetailAvailable, IsAuthenticated
+
+from ..configs.schema import validate_json_config
 from ..utils import statuses_calculator as sc
 from ..utils.utils import humanize_bytes
 
-
-# TODO: Ensure JSON files have proper schema validation using tools like jsonschema to catch misconfigurations early.
-# TODO: Instead of hardcoding STATUS_FUNCTIONS, you could automatically map metrics to functions by parsing the configuration file.
 
 class DashboardView(APIView):
     permission_classes = [IsAuthenticated, permission_for_view("DASHBOARD"), IsDetailAvailable]
@@ -132,8 +130,14 @@ class SystemDetailView(APIView):
 
     def load_config(self, configfile):
         config_path = os.path.join(settings.BASE_DIR, 'dashboard', f'configs/{configfile}')
+
         with open(config_path, 'r') as file:
-            return json.load(file)
+            config_data = json.load(file)
+
+        if not validate_json_config(config_data):
+            raise ValueError(f"Invalid JSON format in {configfile}")
+
+        return config_data
 
     def get_status(self, item_key, last_value, normal_value, warning_value):
         if item_key in self.STATUS_FUNCTIONS:

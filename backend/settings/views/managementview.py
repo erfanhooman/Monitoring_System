@@ -1,3 +1,5 @@
+from backend.messages import mt
+from backend.utils import create_response, permission_for_view
 from django.contrib.auth import authenticate
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -7,8 +9,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
-from backend.messages import mt
-from backend.utils import create_response, permission_for_view
 from ..models import UserSystem
 from ..serializers import LoginSerializer
 from ..serializers import UpdateZabbixSettingsSerializer
@@ -152,7 +152,8 @@ class UpdateZabbixSettingsView(APIView):
                             "zabbix_server_url": "https://your-zabbix-server-url.com",
                             "zabbix_username": "new_username",
                             "zabbix_password": "new_password",
-                            "zabbix_host_name": "new_host_name"
+                            "zabbix_host_name": "new_host_name",
+                            "bundle_download": "http://download-init-script-bundle-url.com"
                         }
                     }
                 }
@@ -171,7 +172,6 @@ class UpdateZabbixSettingsView(APIView):
 
         data = serializer.data
 
-        #TODO: security bug: every one can easily download it without auth detail
         if user_system.script_file:
             download_url = request.build_absolute_uri(user_system.script_file.url)
             data['bundle_download'] = download_url
