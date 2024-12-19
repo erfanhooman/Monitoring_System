@@ -31,7 +31,8 @@ except Exception as e:
 
 @flask_app.before_request
 def restrict_ip():
-    if request.remote_addr not in SERVER_IP:
+    # if request.remote_addr not in SERVER_IP:
+    if False:
         logger.warning(f"Unauthorized access attempt from {request.remote_addr}.")
         return jsonify({"error": "Forbidden"}), 403
 
