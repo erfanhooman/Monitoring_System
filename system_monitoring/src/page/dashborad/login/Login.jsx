@@ -1,10 +1,11 @@
 import Swal from "sweetalert2";
+import swal from "sweetalert2";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useNavigate} from "react-router-dom";
-import {LoginApi} from "../../api.js";
+import {LoginApi} from "../../../api.js";
 import * as yup from "yup";
-import swal from "sweetalert2";
+import {jwtDecode} from "jwt-decode";
 
 export const LoginYup = yup.object().shape({
     username: yup.string()
@@ -17,6 +18,10 @@ export const LoginYup = yup.object().shape({
 export default function Login() {
     const navigate = useNavigate();
     const {register, handleSubmit, formState: {errors}} = useForm({resolver: yupResolver(LoginYup)});
+
+    const token = localStorage.getItem('accessToken');
+    const decoded = jwtDecode(token);
+    const userType = decoded['usertype'];
 
     const loginHandler = (value) => {
         LoginApi(value).then(res => {
@@ -46,7 +51,9 @@ export default function Login() {
                     timer: 2000,
                     position: "bottom-start",
                     timerProgressBar: true,
-                }).then(() => navigate('/dashboard'));
+                }).then(() => {
+                    userType === 'admin' ? navigate('/admin') :navigate('/dashboard')
+                });
             }
         }).catch((error) => {
             swal.fire({
@@ -59,6 +66,7 @@ export default function Login() {
             })
         })
     }
+
 
     return (
         <form onSubmit={handleSubmit(loginHandler)}
@@ -82,7 +90,7 @@ export default function Login() {
                 <small className="text-red-700">{errors.username?.message}</small>
             </div>
 
-            <button className="px-6 py-2 bg-green-500 hover:bg-green-700 w-fit rounded-lg mt-2">Login</button>
+                <button className="px-6 py-2 bg-green-500 hover:bg-green-700 w-fit rounded-lg mt-2">Login</button>
         </form>
     );
 }
