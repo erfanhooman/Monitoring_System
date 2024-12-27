@@ -1,15 +1,17 @@
 import {createBrowserRouter} from "react-router-dom";
-import Login from "./page/login/Login.jsx";
-import Dashboard from "./dashborad/Dashboard.jsx";
-import Ram from "./page/ram/Ram.jsx";
+import Login from "./page/dashborad/login/Login.jsx";
+import Dashboard from "./page/dashborad/dashboard.jsx";
+import Ram from "./page/dashborad/ram/Ram.jsx";
 import React from "react";
-import Home from "./page/home/Home.jsx";
-import FS from "./page/fs/FS.jsx";
-import Cpu from "./page/cpu/Cpu.jsx";
-import Disk from "./page/disk/Disk.jsx";
-import Network from "./page/netwrok/Network.jsx";
-import Setting from "./page/setting/Setting.jsx";
-import General from "./page/general/General.jsx";
+import Home from "./page/dashborad/home/Home.jsx";
+import FS from "./page/dashborad/fs/FS.jsx";
+import Cpu from "./page/dashborad/cpu/Cpu.jsx";
+import Disk from "./page/dashborad/disk/Disk.jsx";
+import Network from "./page/dashborad/netwrok/Network.jsx";
+import Setting from "./page/dashborad/setting/Setting.jsx";
+import General from "./page/dashborad/general/General.jsx";
+import ListOfUser from "./page/admin/users/ListOfUser.jsx";
+import Admin from "./page/admin/Admin.jsx";
 
 const router = createBrowserRouter([
     {
@@ -52,6 +54,16 @@ const router = createBrowserRouter([
                 path: '/dashboard/setting',
                 element: <Setting/>
             }
+        ]
+    },
+    {
+        path: '/admin',
+        element: <Admin />,
+        children: [
+            {
+                path: '/admin',
+                element: <ListOfUser/>,
+            },
         ]
     }
 ]);

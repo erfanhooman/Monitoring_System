@@ -55,10 +55,9 @@ export default function Modal({ isOpen, onClose, data }) {
                 },
                 ticks: {
                     callback: function (value) {
-                        return value.toFixed(2); // Display only two decimal places
+                        return value.toFixed(2);
                     },
-                    // You can also control the step size of the ticks if needed
-                    stepSize: 0.1, // Adjust step size to fit your data
+                    stepSize: 0.1,
                 },
             },
         },
@@ -74,7 +73,6 @@ export default function Modal({ isOpen, onClose, data }) {
         <div
             className="fixed z-50 top-0 left-0 w-screen h-screen flex justify-center items-center bg-[rgba(200,200,200,.7)]">
             <div className="flex flex-col p-6 bg-white rounded-lg shadow-lg w-3/4 h-3/4">
-                {/* Description and Recommendation */}
                 <div className="mb-4">
                     <h2 className="text-lg font-bold">{data.name}</h2>
                     <p className="text-gray-600 mb-2">
@@ -92,12 +90,10 @@ export default function Modal({ isOpen, onClose, data }) {
                     )}
                 </div>
 
-                {/* Chart */}
-                <div className="mb-4 h-64">   {/* Adjusted height */}
+                <div className="mb-4 h-64">
                     <Line data={chartData} options={chartOptions}/>
                 </div>
 
-                {/* History Table */}
                 <div className="overflow-y-auto flex-grow">
                     <h3 className="text-md font-bold mb-4">History</h3>
                     <table className="table-auto w-full border-collapse border border-gray-300">
@@ -120,7 +116,6 @@ export default function Modal({ isOpen, onClose, data }) {
                     </table>
                 </div>
 
-                {/* Close Button */}
                 <button
                     onClick={onClose}
                     className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-800 text-white rounded-lg self-end"
