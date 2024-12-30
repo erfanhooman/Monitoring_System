@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {FsApi, RefreshAccessToken} from "../../api.js";
-import {ActivationModal} from '../../modal/ActivationModal.jsx';
+import {FsApi, RefreshAccessToken} from "../../../api.js";
+import {ActivationModal} from '../../../modal/ActivationModal.jsx';
 
 export default function FS() {
     const [data, setData] = useState([]); // State for storing CPU data

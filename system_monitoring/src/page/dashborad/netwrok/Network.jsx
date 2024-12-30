@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {NetworkApi, RefreshAccessToken} from "../../api.js";
-import {ActivationModal} from '../../modal/ActivationModal.jsx';
+import {NetworkApi, RefreshAccessToken} from "../../../api.js";
+import {ActivationModal} from '../../../modal/ActivationModal.jsx';
 
 export default function Network() {
     const [data, setData] = useState([]); // State for storing CPU data

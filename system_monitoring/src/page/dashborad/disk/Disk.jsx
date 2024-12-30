@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {DiskApi, RefreshAccessToken} from "../../api.js";
-import {ActivationModal} from '../../modal/ActivationModal.jsx';
+import {DiskApi, RefreshAccessToken} from "../../../api.js";
+import {ActivationModal} from '../../../modal/ActivationModal.jsx';
 
 export default function Disk() {
     const [data, setData] = useState({}); // Initialize as an empty object

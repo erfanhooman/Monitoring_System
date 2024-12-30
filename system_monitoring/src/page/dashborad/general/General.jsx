@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import {RamApi, RefreshAccessToken} from "../../api.js";
-import {ActivationModal} from '../../modal/ActivationModal.jsx';
+import {GeneralApi, RefreshAccessToken} from "../../../api.js";
+import {ActivationModal} from '../../../modal/ActivationModal.jsx';
 
-export default function Ram() {
+export default function General() {
     const [data, setData] = useState([]); // State for storing CPU data
     const [loading, setLoading] = useState(true); // Track loading state
     const [error, setError] = useState(null); // Track any errors
@@ -12,7 +12,7 @@ export default function Ram() {
         setError(null); // Clear any previous errors
 
         RefreshAccessToken().then(() => {
-            RamApi()
+            GeneralApi()
                 .then((res) => {
                     if (res.status === 403) {
                         // Show permission error for 403
@@ -59,45 +59,42 @@ export default function Ram() {
         );
     }
 
-    return (
-        <div className="relative h-screen">
-            {error && (
-                <div className="text-center text-lg text-red-600 bg-red-100 p-4 rounded-md w-full">
-                    <p>{error}</p>
-                </div>
-            )}
-            <div
-                className="relative grid grid-cols-3 gap-6 p-4 bg-gray-50 h-screen overflow-auto cursor-default select-none">
-
-                {
-                    data.map((item, index) => (
-                        <div className="relative p-6 bg-white rounded-lg flex flex-col justify-between gap-4
+return (
+    <div className="relative h-screen">
+        <div
+            className="relative grid grid-cols-3 gap-6 p-4 bg-gray-50 h-screen overflow-auto cursor-default select-none">
+            {
+                data.map((item, index) => (
+                    <div
+                        className="relative p-6 bg-white rounded-lg flex flex-col justify-between gap-4
                         shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200"
-                             key={index}>
-                            <h1 className="text-xl font-semibold text-gray-800 cursor-default">{item.name}</h1>
+                        key={index}
+                    >
+                        <h1 className="text-xl font-semibold text-gray-800 cursor-default break-words max-w-full">{item.name}</h1>
 
-
-                            <div className="flex items-center justify-between">
-                                <p className="text-gray-700 text-lg">{item.value}</p>
-                                {item.status && (
-                                    <p
-                                        className={`${
-                                            item.status === "normal"
-                                                ? "bg-green-500"
-                                                : "bg-red-600"
-                                        } text-sm px-3 py-1 text-white rounded-full`}
-                                    >
-                                        {item.status}
-                                    </p>
-                                )}
-                            </div>
-                            <div className="flex justify-center items-center">
-                                <ActivationModal data={item}/>
-                            </div>
+                        <div className="flex items-center justify-between">
+                            <p className="text-gray-700 text-lg break-words max-w-full">{item.value}</p>
+                            {item.status && (
+                                <p
+                                    className={`${
+                                        item.status === "normal"
+                                            ? "bg-green-500"
+                                            : "bg-red-600"
+                                    } text-sm px-3 py-1 text-white rounded-full`}
+                                >
+                                    {item.status}
+                                </p>
+                            )}
                         </div>
-                    ))
-                }
-            </div>
+
+                        <div className="flex justify-center items-center">
+                            <ActivationModal data={item}/>
+                        </div>
+                    </div>
+                ))
+            }
         </div>
-    );
+    </div>
+);
+
 }

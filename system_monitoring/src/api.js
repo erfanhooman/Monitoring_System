@@ -1,43 +1,40 @@
 import axios from "axios";
 
-const route = import.meta.env.VITE_API_URL;
+const route = import.meta.env.VITE_API_BASE_URL;
+console.log(route)
 
 const url = axios.create({
     baseURL: route,
 });
 
-// Response interceptor to handle errors and still return data
-url.interceptors.response.use(
-    (response) => {
-        return response; // Pass successful responses
-    },
-    (error) => {
-        // Check if response exists and handle 401 (unauthorized) errors
-        if (error.response) {
-            const { status } = error.response;
 
-            // Handle 401 error (Unauthorized)
-            if (status === 401) {
-                const origin = new URL(location.href).origin;
-
-                if (origin + '/' === window.location.href) return;
-
-                localStorage.removeItem("accessToken");
-                localStorage.removeItem("refreshToken");
-
-                window.location.href = origin;
-            }
-
-            // For 400, 403, and 500 errors, just return the error response
-            if ([400, 403, 500].includes(status)) {
-                return Promise.resolve(error.response); // Resolve with the error response
-            }
-        }
-
-        // If no response, just reject
-        return Promise.reject(error);
-    }
-);
+// url.interceptors.response.use(
+//     (response) => {
+//         return response;
+//     },
+//     (error) => {
+//         if (error.response) {
+//             const {status} = error.response;
+//
+//             if (status === 401) {
+//                 const origin = new URL(location.href).origin;
+//
+//                 if (origin + '/' === window.location.href) return;
+//
+//                 localStorage.removeItem("accessToken");
+//                 localStorage.removeItem("refreshToken");
+//
+//                 window.location.href = origin;
+//             }
+//
+//             if ([400, 403, 500].includes(status)) {
+//                 return Promise.resolve(error.response);
+//             }
+//         }
+//
+//         return Promise.reject(error);
+//     }
+// );
 
 export function LoginApi(value) {
     return url.post('/auth/login/', value)
@@ -115,4 +112,16 @@ export function GeneralApi() {
 
 export function FsApi() {
     return url.get('/dashboard/fs/');
+}
+
+export function ListOfUsersApi() {
+    return url.get('/auth/super-admin/admin-management/');
+}
+
+export function GetUserApi(user_id) {
+    return url.post('/auth/super-admin/admin-management/', {user_id});
+}
+
+export function EditUserApi(data) {
+    return url.post('/auth/super-admin/admin-management/', data);
 }
