@@ -21,8 +21,7 @@ export default function Dashboard() {
                     }
                 })
                 .catch((err) => {
-                    console.error("Error fetching CPU data:", err);
-                    setError("Server is down. Please wait and try again.");
+                    setError(err.response.data.detail);
                 })
                 .finally(() => {
                     setLoading(false);
@@ -45,7 +44,11 @@ export default function Dashboard() {
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return (
+            <div className="text-center text-lg text-red-600 mt-8">
+                <p>{error}</p>
+            </div>
+        );
     }
 
     if (!data) {

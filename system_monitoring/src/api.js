@@ -1,40 +1,10 @@
 import axios from "axios";
 
-const route = import.meta.env.VITE_API_BASE_URL;
-console.log(route)
+const route = import.meta.env.VITE_API_URL;
 
 const url = axios.create({
-    baseURL: route,
+    baseURL: route
 });
-
-
-// url.interceptors.response.use(
-//     (response) => {
-//         return response;
-//     },
-//     (error) => {
-//         if (error.response) {
-//             const {status} = error.response;
-//
-//             if (status === 401) {
-//                 const origin = new URL(location.href).origin;
-//
-//                 if (origin + '/' === window.location.href) return;
-//
-//                 localStorage.removeItem("accessToken");
-//                 localStorage.removeItem("refreshToken");
-//
-//                 window.location.href = origin;
-//             }
-//
-//             if ([400, 403, 500].includes(status)) {
-//                 return Promise.resolve(error.response);
-//             }
-//         }
-//
-//         return Promise.reject(error);
-//     }
-// );
 
 export function LoginApi(value) {
     return url.post('/auth/login/', value)
@@ -110,6 +80,14 @@ export function GeneralApi() {
     return url.get('/dashboard/general/');
 }
 
+export function SettingsApi() {
+    return url.get('/auth/settings/update/');
+}
+
+export function UpdateSettingsApi(data) {
+    return url.post('/auth/settings/update/', data);
+}
+
 export function FsApi() {
     return url.get('/dashboard/fs/');
 }
@@ -125,3 +103,28 @@ export function GetUserApi(user_id) {
 export function EditUserApi(data) {
     return url.post('/auth/super-admin/admin-management/', data);
 }
+
+export function SignUpUserApi(data) {
+    return url.post('/auth/super-admin/admin-signup/', data)
+}
+
+export function UserManagementApi() {
+    return url.get('/auth/admin/user-management/', );
+}
+
+export function ModifyUserManagementDetailApi(user_id, activeStatus) {
+    return url.post('/auth/admin/user-management/', { user_id, active: activeStatus });
+}
+
+export function AddNewSubUsers(data){
+    return url.post('/auth/admin/user-signup/', data)
+}
+
+export function GetUserPermissionsApi(user_id){
+    return url.post('/auth/admin/user-management/', {user_id})
+}
+
+export function ModifyPermissionsApi(data) {
+    return url.post('/auth/admin/user-management/permission/', data);
+}
+

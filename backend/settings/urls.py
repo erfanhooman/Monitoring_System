@@ -18,7 +18,7 @@ urlpatterns = [
     path('super-admin/admin-management/', AdminManagementView.as_view(), name='admin-management'),
     path('settings/update/', UpdateZabbixSettingsView.as_view(), name='update'),
     path('admin/user-signup/', UserSignup.as_view(), name='user-signup'),
-    path('admin/user-managment/', UserManagementView.as_view(), name='user-management'),
-    path('admin/user-managment/permission/', ModifyUserPermissionsView.as_view(), name='modify-subuser-permissions'),
+    path('admin/user-management/', UserManagementView.as_view(), name='user-management'),
+    path('admin/user-management/permission/', ModifyUserPermissionsView.as_view(), name='modify-subuser-permissions'),
 
 ]

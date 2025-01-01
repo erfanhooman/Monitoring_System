@@ -12,6 +12,9 @@ import Setting from "./page/dashborad/setting/Setting.jsx";
 import General from "./page/dashborad/general/General.jsx";
 import ListOfUser from "./page/admin/users/ListOfUser.jsx";
 import Admin from "./page/admin/Admin.jsx";
+import SignUpNewUsers from "./page/admin/users/SignUpNewUsers.jsx";
+import UserManagement from "./page/dashborad/usermanagement/UserManagement.jsx"
+
 
 const router = createBrowserRouter([
     {
@@ -23,47 +26,55 @@ const router = createBrowserRouter([
         element: <Dashboard/>,
         children: [
             {
-                path: '/dashboard',
+                path: '',
                 element: <Home/>
             },
             {
-                path: '/dashboard/ram',
+                path: 'ram',
                 element: <Ram/>
             },
             {
-                path: '/dashboard/cpu',
+                path: 'cpu',
                 element: <Cpu/>
             },
             {
-                path: '/dashboard/fs',
+                path: 'fs',
                 element: <FS/>
             },
             {
-                path: '/dashboard/disk',
+                path: 'disk',
                 element: <Disk/>
             },
             {
-                path: '/dashboard/network',
+                path: 'network',
                 element: <Network/>
             },
             {
-                path: '/dashboard/general',
+                path: 'general',
                 element: <General/>
             },
             {
-                path: '/dashboard/setting',
+                path: 'setting',
                 element: <Setting/>
+            },
+            {
+                path: 'users',
+                element: <UserManagement/>
             }
         ]
     },
     {
         path: '/admin',
-        element: <Admin />,
+        element: <Admin/>,
         children: [
             {
-                path: '/admin',
+                path: '',
                 element: <ListOfUser/>,
             },
+            {
+                path: 'signup',
+                element: <SignUpNewUsers/>
+            }
         ]
     }
 ]);

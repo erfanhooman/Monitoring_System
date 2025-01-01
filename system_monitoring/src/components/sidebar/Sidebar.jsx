@@ -9,6 +9,7 @@ import NetworkSvg from "../svg/NetworkSvg.jsx";
 import GeneralSvg from "../svg/GeneralSvg.jsx";
 import SettingSvg from "../svg/SettingSvg.jsx";
 import UserManagmentSvg from "../svg/UserManagmentSvg.jsx";
+import SignupNewUsersSvg from "../svg/SignupNewUsers.jsx";
 
 export default function Sidebar({type}) {
     const address = window.location.href.split('/');
@@ -19,7 +20,13 @@ export default function Sidebar({type}) {
             name: 'User Management',
             svg: <UserManagmentSvg/>,
             isActive: address[address.length - 1] === 'admin',
-        }
+        },
+        {
+            address: '/admin/signup',
+            name: 'Sign up new Users',
+            svg: <UserManagmentSvg/>,
+            isActive: address[address.length - 1] === 'signup',
+        },
     ] : [
         {
             address: '/dashboard',
@@ -68,6 +75,12 @@ export default function Sidebar({type}) {
             name: 'Setting',
             svg: <SettingSvg/>,
             isActive: address[address.length - 1] === 'setting',
+        },
+        {
+            address: '/dashboard/users',
+            name: 'Users Management',
+            svg: <UserManagmentSvg/>,
+            inActive: address[address.length - 1] === 'user'
         }
     ]);
 

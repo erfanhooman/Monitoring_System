@@ -135,8 +135,8 @@ class UpdateZabbixSettingsView(APIView):
             return create_response(success=True, status=status.HTTP_200_OK, data=serializer.validated_data,
                                    message=mt[200])
 
-        return create_response(success=False, status=status.HTTP_400_BAD_REQUEST, data=serializer.errors,
-                               message=mt[414])
+        return create_response(success=False, status=status.HTTP_400_BAD_REQUEST,
+                               message=serializer.errors['zabbix_credentials'])
 
     @swagger_auto_schema(
         operation_summary="Update Zabbix Settings",

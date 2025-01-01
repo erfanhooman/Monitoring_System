@@ -117,7 +117,7 @@ class UserSystemSerializer(serializers.ModelSerializer):
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Permissions
-        fields = ['id', 'name']
+        fields = ['codename']
 
 class SubUserSystemSerializer(serializers.ModelSerializer):
     user = UserSerializer()

@@ -26,11 +26,10 @@ export default function Ram() {
                     }
                 })
                 .catch((err) => {
-                    console.error("Error fetching CPU data:", err);
-                    setError("Server is down. Please wait and try again."); // Handle API errors (server down)
+                    setError(err.response.data.detail); // Handle API errors (server down)
                 })
                 .finally(() => {
-                    setLoading(false); // Stop loading when data is fetched or error occurs
+                    setLoading(false);
                 });
         });
     };

@@ -24,8 +24,7 @@ export default function Disk() {
                     }
                 })
                 .catch((err) => {
-                    console.error('Error fetching disk data:', err);
-                    setError("An error occurred while fetching disk data.");
+                    setError(err.response.data.detail);
                 })
                 .finally(() => {
                     setLoading(false); // Set loading to false when data is fetched

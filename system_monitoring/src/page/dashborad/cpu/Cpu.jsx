@@ -23,8 +23,7 @@ export default function Cpu() {
                     }
                 })
                 .catch((err) => {
-                    console.error("Error fetching CPU data:", err);
-                    setError("Server is down. Please wait and try again.");
+                    setError(err.response.data.detail);
                 })
                 .finally(() => {
                     setLoading(false);
