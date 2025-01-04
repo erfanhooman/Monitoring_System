@@ -181,7 +181,7 @@ class SystemDetailView(APIView):
 
         # Process general items
         for item, item_info in general_data.items():
-            value = item_info[0]['lastvalue']
+            value = item_info[0].get('lastvalue', 0)
             if item in self.bytes_data:
                 value = humanize_bytes(value)
             elif item in self.date_data:
@@ -210,6 +210,7 @@ class SystemDetailView(APIView):
 
         # Process metric items
         for item, item_info in metric_data.items():
+            print(item_info[0], 1212121)
             last_value = float(item_info[0]['lastvalue'])
 
             if item.split(".")[1] in ['dev']:

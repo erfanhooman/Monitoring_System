@@ -8,6 +8,7 @@ import logging
 from pyzabbix import ZabbixAPI, ZabbixAPIException
 from requests.exceptions import ConnectionError as RequestsConnectionError
 from django.conf import settings
+import requests
 
 from .base import ZabbixAPIBase
 from backend.messages import mt
@@ -19,12 +20,14 @@ ZABBIX_HOST_NAME = settings.ZABBIX_HOST_NAME
 
 logger = logging.getLogger("ms")
 
+session = requests.Session()
+session.trust_env = False
 
 class ZabbixPackage(ZabbixAPIBase):
     def __init__(self, url):
         self.url = url
         try:
-            self.zabbix = ZabbixAPI(url)
+            self.zabbix = ZabbixAPI(url, session=session)
         except Exception as e:
             logger.info(f"{mt[420]}: {str(e)}")
             raise ConnectionError(f"{mt[420]}:{url}")  # connection error
@@ -35,12 +38,12 @@ class ZabbixPackage(ZabbixAPIBase):
         except ZabbixAPIException as e:  # login error
             logger.warning(f"{mt[421]}: {str(e)}")
             raise PermissionError(f"{mt[421]}")
-        except RequestsConnectionError as e:  # Wrong Url Error
-            logger.info(f"{mt[428]}: {self.url}")
-            raise ConnectionError(f"{mt[428]}")
-        except Exception as e:
-            logger.error(f"{str(e)}")
-            raise ConnectionError(f"{mt[501]}")  # Internal Login error
+        # except RequestsConnectionError as e:  # Wrong Url Error
+        #     logger.info(f"{mt[428]}: {self.url}")
+        #     raise ConnectionError(f"{mt[428]}")
+        # except Exception as e:
+        #     logger.error(f"{str(e)}")
+        #     raise ConnectionError(f"{mt[501]}")  # Internal Login error
 
     def get_host_id(self, host_name):
         try:

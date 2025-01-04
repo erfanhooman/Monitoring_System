@@ -1,0 +1,12 @@
+[Unit]
+Description=Celery Worker Service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/zabbix_helper/local_back
+ExecStart=/opt/zabbix_helper/venv3.12/bin/celery -A celery_app worker --loglevel=info --logfile=/opt/zabbix_helper/logs/celery_worker.log
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

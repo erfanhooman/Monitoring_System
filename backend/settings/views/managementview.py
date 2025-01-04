@@ -1,6 +1,15 @@
+import os
+import subprocess
+from datetime import datetime
+from http.client import responses
+from pyexpat.errors import messages
+from venv import create
+
 from backend.messages import mt
 from backend.utils import create_response, permission_for_view
+from django.conf import settings
 from django.contrib.auth import authenticate
+from django.contrib.messages import success
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
@@ -180,3 +189,78 @@ class UpdateZabbixSettingsView(APIView):
         return create_response(success=True, status=status.HTTP_200_OK,
                                data=data,
                                message=mt[200])
+
+
+class SetupSystemView(APIView):
+    def post(self, request):
+        ip_address = request.data.get('ip_address')
+        if not ip_address:
+            return create_response(success=True, message="IP address is required", status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            ping_response = subprocess.run(
+                ["ping", "-c", "1", ip_address],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                timeout=5,
+            )
+            if ping_response.returncode != 0:
+                return create_response(success=False, message=mt[410], status=status.HTTP_400_BAD_REQUEST,
+                                       data={"problem": f"IP address {ip_address} is not reachable. Ping failed."})
+        except subprocess.TimeoutExpired:
+            return create_response(success=False, message=mt[410], status=status.HTTP_400_BAD_REQUEST,
+                                   data={"error": f"Ping to {ip_address} timed out."})
+
+        inventory_path = os.path.join(settings.BASE_DIR, "settings/utils/ansible-setup/inventory")
+        try:
+            with open(inventory_path, "a") as inventory_file:
+                inventory_file.write(f"\n{ip_address}")
+
+        except IOError as e:
+
+            return create_response(
+                {"error": f"Failed to update inventory: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+        playbook_path = os.path.join(settings.BASE_DIR, "settings/utils/ansible-setup/setup_client.yml")
+        ansible_cfg_path = os.path.join(settings.BASE_DIR, "settings/utils/ansible-setup/ansible.cfg")
+        log_file_path = os.path.join(settings.BASE_DIR,
+                                     f"settings/utils/ansible-setup/ansible-logs/{ip_address}_{datetime.now().strftime('%Y%m%d%H%M%S')}.log")
+
+        try:
+            os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
+            with open(log_file_path, "w") as log_file:
+                ansible_command = [
+                    "ansible-playbook",
+                    playbook_path,
+                    "--inventory", inventory_path,
+                    "-e", f"target={ip_address}"
+                ]
+                process = subprocess.run(
+                    ansible_command,
+                    env={"ANSIBLE_CONFIG": ansible_cfg_path},
+                    stdout=log_file,
+                    stderr=log_file,
+                    check=True,
+                )
+        except subprocess.CalledProcessError as e:
+            data = {
+                    "error": f"Ansible playbook failed for {ip_address}.",
+                    "details": f"See log file: {log_file_path}",
+                    "debug": f"{e}"
+                }
+            return create_response(success=False, message=mt[410], status=status.HTTP_400_BAD_REQUEST,
+                                   data=data)
+
+        except Exception as e:
+            data = {"error": f"Unexpected error: {str(e)}"}
+            return create_response(success=False, message=mt[410], status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                   data=data)
+
+        user_system = UserSystem.objects.get(user=request.user)
+
+        user_system.zabbix_server_url = ip_address
+        user_system.save()
+
+        return create_response(success=True, status=status.HTTP_200_OK, message=mt[210])

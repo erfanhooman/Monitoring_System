@@ -2,6 +2,7 @@ mt = {
     200: "success",
     201: "user created, successfully",
     202: "Preference deleted successfully",
+    210: "system setup completed",
 
     400: "ZabbixHelper Initialization Error",
     401: "Error fetching item data for",
@@ -28,6 +29,7 @@ mt = {
     434: "unAuthorize, Token is Not Valid",
     435: "You are not active, please contact Admin",
     436: "You don't have a permission to access this page",
+    410: "ansible setup failed, solve the problem or contact support",
 
     500: "A not expected internal error occurred, check log file for more info",
     501: "An internal error occurred during login, check log file for more info",

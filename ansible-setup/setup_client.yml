@@ -53,7 +53,7 @@
         name: redis
         state: present
 
-    - name: Stop Redis service
+    - name: Stop Redis systemd-service
       ansible.builtin.service:
         name: redis
         state: stopped

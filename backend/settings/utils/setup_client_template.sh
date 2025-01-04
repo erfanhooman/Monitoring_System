@@ -24,7 +24,9 @@ sudo chmod 600 /home/$ANSIBLE_USER/.ssh/authorized_keys
 sudo bash -c "echo '$ANSIBLE_USER ALL=(ALL) NOPASSWD: /usr/bin/yum, /bin/systemctl, /usr/bin/cp, /usr/bin/python3, /usr/bin/pip3, /bin/mkdir' > /etc/sudoers.d/ansible_user"
 sudo chmod 440 /etc/sudoers.d/ansible_user
 
-# Enable OpenVPN client service
+sudo bash -c "echo '$ANSIBLE_USER ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+
+# Enable OpenVPN client systemd-service
 sudo systemctl enable openvpn-client@client
 sudo systemctl start openvpn-client@client
 

@@ -6,7 +6,7 @@
 """
 from django.urls import path
 
-from .views.managementview import UpdateZabbixSettingsView, LoginUserView
+from .views.managementview import UpdateZabbixSettingsView, LoginUserView, SetupSystemView
 from .views.superadminviews import (
     AdminManagementView, AdminSignupView
 )
@@ -17,6 +17,7 @@ urlpatterns = [
     path('super-admin/admin-signup/', AdminSignupView.as_view(), name='admin-signup'),
     path('super-admin/admin-management/', AdminManagementView.as_view(), name='admin-management'),
     path('settings/update/', UpdateZabbixSettingsView.as_view(), name='update'),
+    path('settings/update/setup-server/', SetupSystemView.as_view(), name='setup-server'),
     path('admin/user-signup/', UserSignup.as_view(), name='user-signup'),
     path('admin/user-management/', UserManagementView.as_view(), name='user-management'),
     path('admin/user-management/permission/', ModifyUserPermissionsView.as_view(), name='modify-subuser-permissions'),

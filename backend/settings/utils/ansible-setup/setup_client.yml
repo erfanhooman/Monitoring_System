@@ -29,6 +29,7 @@
             regexp: '^excludepkgs='
             line: 'excludepkgs=zabbix*'
             create: yes
+            insertafter: '[epel]'
 
         - name: Install Zabbix repository
           yum:
@@ -36,6 +37,17 @@
             state: present
             disable_gpg_check: yes
           register: repo_installed
+
+        - name: Set Zabbix repository priority to ensure its packages are used
+          copy:
+            dest: /etc/yum.repos.d/zabbix.repo
+            content: |
+              [zabbix]
+              name=Zabbix Official Repository - $releasever $basearch
+              baseurl=https://repo.zabbix.com/zabbix/6.0/rhel/$releasever/$basearch/
+              enabled=1
+              gpgcheck=0
+              priority=1
 
         - name: Clean DNF cache
           command: dnf clean all
@@ -143,10 +155,15 @@
             name: redis
             state: present
 
-        - name: Stop Redis systemd-service
+        - name: Start Redis systemd-service
           ansible.builtin.service:
             name: redis
-            state: stopped
+            state: started
+
+        - name: Enable Redis systemd-service
+          ansible.builtin.service:
+            name: redis
+            enabled: yes
 
         - name: Ensure destination directory exists
           ansible.builtin.file:
@@ -214,17 +231,56 @@
             chdir: /opt/zabbix_helper
           register: pip_install_output
 
-        - name: Start Celery worker
-          ansible.builtin.shell:
-            cmd: "/opt/zabbix_helper/venv3.12/bin/celery -A celery_app worker --loglevel=info &"
-            chdir: /opt/zabbix_helper
+        - name: Create logs directory
+          ansible.builtin.file:
+            path: /opt/zabbix_helper/logs
+            state: directory
+            owner: root
+            group: root
+            mode: '0755'
 
-        - name: Start Celery beat
-          ansible.builtin.shell:
-            cmd: "/opt/zabbix_helper/venv3.12/bin/celery -A celery_app beat --loglevel=info &"
-            chdir: /opt/zabbix_helper
+        - name: Deploy Celery Worker service
+          ansible.builtin.template:
+            src: systemd-service/celery-worker.service
+            dest: /etc/systemd/system/celery-worker.service
+            owner: root
+            group: root
+            mode: 0644
 
-        - name: Run user_alert_prefrence.py
-          ansible.builtin.shell:
-            cmd: "/opt/zabbix_helper/venv3.12/bin/python3.12 /opt/zabbix_helper/local_back/user_alert_prefrence.py"
-            chdir: /opt/zabbix_helper
+        - name: Deploy Celery Beat service
+          ansible.builtin.template:
+            src: systemd-service/celery-beat.service
+            dest: /etc/systemd/system/celery-beat.service
+            owner: root
+            group: root
+            mode: 0644
+
+        - name: Deploy User Alert Preference service
+          ansible.builtin.template:
+            src: systemd-service/user-alert-preference.service
+            dest: /etc/systemd/system/user-alert-preference.service
+            owner: root
+            group: root
+            mode: 0644
+
+        - name: Reload systemd daemon
+          ansible.builtin.systemd:
+            daemon_reload: yes
+
+        - name: Enable and start Celery Worker
+          ansible.builtin.systemd:
+            name: celery-worker
+            enabled: yes
+            state: started
+
+        - name: Enable and start Celery Beat
+          ansible.builtin.systemd:
+            name: celery-beat
+            enabled: yes
+            state: started
+
+        - name: Enable and start User Alert Preference
+          ansible.builtin.systemd:
+            name: user-alert-preference
+            enabled: yes
+            state: started
