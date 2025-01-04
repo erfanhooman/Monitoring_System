@@ -11,13 +11,14 @@ logger = logging.getLogger("ms")
 EASY_RSA_PATH = settings.EASY_RSA_PATH
 TA_KEY_PATH = settings.TA_KEY_PATH
 PUBLIC_KEY = settings.PUBLIC_KEY
+SERVER_IP_ADDR = settings.SERVER_IP_ADDR
 
 def generate_client_conf(client_name):
     return f"""
 client
 dev tun
 proto udp
-remote 192.168.6.144 1194
+remote {SERVER_IP_ADDR} 1194
 resolv-retry infinite
 nobind
 persist-key

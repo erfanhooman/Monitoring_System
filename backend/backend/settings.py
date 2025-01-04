@@ -19,6 +19,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ALLOWED_HOSTS = ["*"]
 
+SERVER_IP_ADDR = env('SERVER_IP_ADDR')
+
 # ZABBIX Detail
 
 ZABBIX_SERVER = env('ZABBIX_SERVER', default='localhost')
