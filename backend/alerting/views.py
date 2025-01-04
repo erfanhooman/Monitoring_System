@@ -73,7 +73,7 @@ class AlertPreferenceView(APIView):
         }
 
         try:
-            response = requests.post(local_server_url, json=payload, timeout=5)
+            response = requests.post(local_server_url, json=payload, timeout=5, proxies={})
             if response.status_code == 200:
                 preference, created = UserAlertPreference.objects.update_or_create(
                     user=user.usersystem,
@@ -86,6 +86,7 @@ class AlertPreferenceView(APIView):
                 return create_response(success=False, status=st.HTTP_500_INTERNAL_SERVER_ERROR,
                                        message=mt[700])
         except requests.exceptions.RequestException as e:
+            print(e)
             logger.error(f"Error communicating with the local server while trying to sync {item_key}")
             return create_response(success=False, status=st.HTTP_500_INTERNAL_SERVER_ERROR, message=mt[700])
 

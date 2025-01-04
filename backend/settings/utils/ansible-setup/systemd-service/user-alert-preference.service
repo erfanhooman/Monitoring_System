@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/opt/zabbix_helper/local_back
-ExecStart=/opt/zabbix_helper/venv3.12/bin/python3.12 /opt/zabbix_helper/local_back/user_alert_prefrence.py >> /opt/zabbix_helper/logs/user_alert_preference.log 2>&1
+ExecStart=/opt/zabbix_helper/venv3.12/bin/python3.12 /opt/zabbix_helper/local_back/user_alert_prefrence.py --host=0.0.0.0 >> /opt/zabbix_helper/logs/user_alert_preference.log 2>&1
 Restart=always
 
 [Install]

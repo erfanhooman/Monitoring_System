@@ -99,4 +99,4 @@ def delete_preferences():
 
 if __name__ == '__main__':
     logger.info("Starting Flask application.")
-    flask_app.run()
+    flask_app.run(host='0.0.0.0', port=5000)
