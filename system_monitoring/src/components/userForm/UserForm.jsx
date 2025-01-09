@@ -16,7 +16,7 @@ export const EditUserYup = yup.object().shape({
     zabbix_host_name: yup.string()
 });
 
-export default function     UserForm({ onClose, data, getData }) {
+export default function UserForm({ onClose, data, getData }) {
     const { handleSubmit, register, reset, formState: { errors }} = useForm({resolver: yupResolver(EditUserYup)})
 
     if (!data) {
@@ -45,7 +45,6 @@ export default function     UserForm({ onClose, data, getData }) {
     }
 
     useEffect(() => {
-        console.log(data)
         reset({
             user_id: data.id,
             username: data.user.username,

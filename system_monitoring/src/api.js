@@ -128,3 +128,15 @@ export function ModifyPermissionsApi(data) {
     return url.post('/auth/admin/user-management/permission/', data);
 }
 
+export function GetAlert() {
+    return url.get('/prefalert/');
+}
+
+export function DeleteAlert(data) {
+    return url.delete('prefalert', data);
+}
+
+export function AddAlert(data) {
+    return url.post('/prefalert/', data);
+}
+
