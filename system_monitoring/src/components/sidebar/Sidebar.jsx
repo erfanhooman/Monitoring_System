@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import HomeSvg from "../svg/HomeSvg.jsx";
 import RamSvg from "../svg/RamSvg.jsx";
@@ -13,6 +13,7 @@ import SignupNewUsersSvg from "../svg/SignupNewUsers.jsx";
 
 export default function Sidebar({type}) {
     const address = window.location.href.split('/');
+    const navigate = useNavigate();
 
     const [urls, setUrls] = useState(type === 'admin' ? [
         {
@@ -113,6 +114,7 @@ export default function Sidebar({type}) {
                     ))
                 }
             </ul>
+            <button className="absolute bottom-10 left-64 px-4 py-2 bg-blue-600 hover:bg-blue-700 w-fit rounded-lg mt-2 text-white" onClick={() => navigate('/')}>Log out</button>
         </aside>
     );
 }
