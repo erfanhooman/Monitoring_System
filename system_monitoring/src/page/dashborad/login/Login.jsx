@@ -33,6 +33,7 @@ export default function Login() {
                     timer: 2000,
                     position: "bottom-start",
                     timerProgressBar: true,
+                    toast: true,
                 });
             } else if (res.status === 500) {
                 Swal.fire({
@@ -42,6 +43,7 @@ export default function Login() {
                     timer: 2000,
                     position: "bottom-start",
                     timerProgressBar: true,
+                    toast: true,
                 });
             } else {
                 Swal.fire({
@@ -51,6 +53,7 @@ export default function Login() {
                     timer: 2000,
                     position: "bottom-start",
                     timerProgressBar: true,
+                    toast: true,
                 }).then(() => {
                     userType === 'admin' ? navigate('/admin') :navigate('/dashboard')
                 });
@@ -63,6 +66,7 @@ export default function Login() {
                 timer: 2000,
                 position: "bottom-start",
                 timerProgressBar: true,
+                toast: true,
             })
         })
     }

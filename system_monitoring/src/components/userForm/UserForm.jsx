@@ -3,30 +3,20 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {useEffect} from "react";
 import {EditUserApi, RefreshAccessToken} from "../../api.js";
+import swal from "sweetalert2";
 
 export const EditUserYup = yup.object().shape({
     user_id: yup.number().required(),
     username: yup.string()
         .required("Username is required."),
-    password: yup.string()
-        .required("Password is required."),
-    confirm_password: yup
-        .string()
-        .required("Confirm Password is required.")
-        .oneOf([yup.ref("password"), null], "Passwords must match."),
-    active: yup.boolean()
-        .required(),
-    zabbix_server_url: yup.string()
-        .required('zabbix_server_url is required.'),
-    zabbix_username: yup.string()
-        .required("Zabbix Username is required."),
-    zabbix_password: yup.string()
-        .required("Zabbix Password is required."),
+    active: yup.boolean(),
+    zabbix_server_url: yup.string(),
+    zabbix_username: yup.string(),
+    zabbix_password: yup.string(),
     zabbix_host_name: yup.string()
-        .required("Zabbix Host Name is required."),
 });
 
-export default function UserForm({ onClose, data }) {
+export default function     UserForm({ onClose, data, getData }) {
     const { handleSubmit, register, reset, formState: { errors }} = useForm({resolver: yupResolver(EditUserYup)})
 
     if (!data) {
@@ -34,19 +24,31 @@ export default function UserForm({ onClose, data }) {
     }
 
     const onsubmit = (value) => {
+        value['user'] = {
+            username: value.username,
+        }
         RefreshAccessToken().then(() => {
-            EditUserApi().then(res => {
-                console.log(res)
+            EditUserApi(value).then(() => {
+                getData();
+                onClose();
+                swal.fire({
+                    icon: "success",
+                    title: "User edited",
+                    timer: 2500,
+                    position: "bottom-start",
+                    toast: true,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                })
             })
         })
     }
 
     useEffect(() => {
+        console.log(data)
         reset({
-            user_id: data.user_id,
+            user_id: data.id,
             username: data.user.username,
-            password: data.user.password,
-            confirm_password: data.user.password,
             active: data.active,
             zabbix_server_url: data.zabbix_server_url,
             zabbix_username: data.zabbix_username,
@@ -78,27 +80,6 @@ export default function UserForm({ onClose, data }) {
                         <option value={false}>Not Active</option>
                     </select>
                     <small className="text-red-700">{errors.active?.message}</small>
-                </div>
-            </div>
-
-            <div className="flex gap-2">
-                <div className="flex flex-col gap-2 w-1/2">
-                    <label htmlFor="">Password</label>
-                    <input
-                        {...register("password")}
-                        className="rounded-md p-2 px-10 bg-white"
-                        type="password"
-                    />
-                    <small className="text-red-700">{errors.password?.message}</small>
-                </div>
-                <div className="flex flex-col gap-2 w-1/2">
-                    <label htmlFor="">Confirm Password</label>
-                    <input
-                        {...register("confirm_password")}
-                        className="rounded-md p-2 px-10 bg-white"
-                        type="password"
-                    />
-                    <small className="text-red-700">{errors.confirm_password?.message}</small>
                 </div>
             </div>
 
@@ -144,11 +125,11 @@ export default function UserForm({ onClose, data }) {
                 </div>
             </div>
 
-            <div className="">
+            <div className="hidden">
                 <input
                     {...register("user_id")}
                     className="rounded-md p-2 px-10 bg-white"
-                    type="text"
+                    type="number"
                 />
             </div>
 

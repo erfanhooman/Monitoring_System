@@ -27,7 +27,6 @@ export default function ListOfUser() {
                     }
                 })
                 .catch((err) => {
-                    console.error("Error fetching CPU data:", err);
                     setError("Server is down. Please wait and try again.");
                 })
                 .finally(() => {
@@ -73,7 +72,7 @@ export default function ListOfUser() {
 
     return (
         <>
-            { openModal && <UserEditModal data={user} isOpen={openModal} onClose={setModalClose} />}
+            { openModal && <UserEditModal data={user} isOpen={openModal} onClose={setModalClose} getData={getData}/>}
             <div className="h-dvh flex items-center px-20">
                 <table className="w-full border-8 p-8 rounded-4xl">
                     <thead className='rounded-4xl'>
